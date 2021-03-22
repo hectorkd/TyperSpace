@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/Avatar.scss';
 const Avatar: React.FC = () => {
-  return <div></div>;
+  return <div>This is avatar</div>;
 };
 
 export default Avatar;
