@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import Landing from './containers/Landing/Landing';
 import Lobby from './containers/Lobby/Lobby';
 import Avatar from './containers/Avatar/Avatar';

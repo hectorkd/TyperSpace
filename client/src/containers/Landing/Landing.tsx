@@ -1,6 +1,6 @@
 import React from 'react';
-import './styles/Landing.scss';
 import { useHistory } from 'react-router-dom';
+import './styles/Landing.scss';
 
 const Landing: React.FC = () => {
   const history = useHistory();
@@ -16,7 +16,6 @@ const Landing: React.FC = () => {
     return outString;
   }
   //generate random roomID and redirect to avatar page
-
   function handleClick(): void {
     const roomId = makeString();
     history.push(`/${roomId}/avatar`);
@@ -28,5 +27,4 @@ const Landing: React.FC = () => {
     </div>
   );
 };
-
 export default Landing;
