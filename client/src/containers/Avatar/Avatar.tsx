@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import SocketIOCLient from 'socket.io-client';
@@ -25,6 +26,7 @@ const Avatar: React.FC<RouteComponentProps<MatchParams>> = (props) => {
   // console.log('created socket', socketRef);
 
   return <div>Hello Avatar</div>;
+
 };
 
 export default Avatar;
