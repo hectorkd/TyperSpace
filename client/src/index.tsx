@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Landing from './containers/Landing /Landing';
+import Landing from './containers/Landing/Landing';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
