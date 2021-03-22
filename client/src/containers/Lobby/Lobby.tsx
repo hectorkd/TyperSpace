@@ -1,7 +1,15 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
+
 import './styles/Lobby.scss';
 
-const Lobby: React.FC = () => {
+type Props = {
+  socket: any, 
+  setSocket: any, 
+  children?: ReactNode
+};
+
+const Lobby: React.FC<Props> = (props) => {
+  console.log(props);
   return <div></div>;
 };
 

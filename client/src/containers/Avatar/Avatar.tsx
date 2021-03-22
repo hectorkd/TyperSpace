@@ -1,32 +1,48 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router';
+import React, { useRef, useEffect, useState, ReactNode } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import SocketIOCLient from 'socket.io-client';
-// import useSocket from '../../useSocket';
-
-interface MatchParams {
-  roomId: string;
-}
 
 const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 
-const Avatar: React.FC<RouteComponentProps<MatchParams>> = (props) => {
+type Props = {
+  socket: any, 
+  setSocket: any, 
+  children?: ReactNode
+};
 
-  // console.log('inside component with props', props);
-  const roomId = props.match.params.roomId;
+const Avatar: React.FC<Props> = (props) => {
+  const history = useHistory();
+  const { roomId } = useParams<Record<string, string | undefined>>();
+  console.log('roomid', roomId);
   const socketRef = useRef<SocketIOClient.Socket>();
-  const [socket, setSocket] = useState(useRef<SocketIOClient.Socket>());
+  // const [socket, setSocket] = useState(useRef<SocketIOClient.Socket>());
 
   useEffect(() => {
     // const socketRef = useRef<SocketIOClient.Socket>();
     socketRef.current = SocketIOCLient(SOCKET_SERVER_URL, {
       query: {roomId}
     });
-    setSocket(socketRef);
+    props.setSocket(socketRef);
   }, [roomId]);
 
-  console.log('created socket', socket);
+  console.log('created socket', props.socket);
 
-  return <div>Hello Avatar</div>;
+  function handleClick(): void {
+    //TODO: get input info about username and color
+    //TODO: emit event userName
+    //go to lobby
+    history.push({
+      pathname: `/${roomId}/lobby`,
+      // state: {socket: props.socket}
+    });
+  }
+
+  return (
+    <div>
+      <div>Hello Avatar</div>
+      <button onClick={handleClick}> Click me </button>
+    </div>
+  );
 
 };
 

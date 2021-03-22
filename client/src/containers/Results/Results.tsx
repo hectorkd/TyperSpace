@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import './styles/Results.scss';
 
-const Results: React.FC = () => {
+type Props = {
+  socket: any, 
+  setSocket: any, 
+  children?: ReactNode
+};
+
+const Results: React.FC<Props> = (props) => {
   return <div>Hello Results</div>;
 };
 
