@@ -6,7 +6,9 @@ const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 
 type Props = {
   socket: any, 
-  setSocket: any, 
+  setSocket: any,
+  text: string,
+  setText: any, 
   children?: ReactNode
 };
 
@@ -30,6 +32,10 @@ const Avatar: React.FC<Props> = (props) => {
   function handleClick(): void {
     //TODO: get input info about username and color
     //TODO: emit event userName
+    props.socket.current.emit('userInfo', {
+      userName: 'userName',
+      color: 'red'
+    });
     //go to lobby
     history.push({
       pathname: `/${roomId}/lobby`,

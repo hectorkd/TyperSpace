@@ -3,7 +3,9 @@ import './styles/Results.scss';
 
 type Props = {
   socket: any, 
-  setSocket: any, 
+  setSocket: any,
+  text: string,
+  setText: any, 
   children?: ReactNode
 };
 
