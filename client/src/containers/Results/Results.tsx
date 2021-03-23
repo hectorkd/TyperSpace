@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import rocket2 from '../../assets/icons/rocket2yellow.png';
+import PlayerPlacementItem from '../../components/PlayerPlacementItem/PlayerPlacementItem';
 import './styles/Results.scss';
 
 type Props = {
@@ -11,6 +12,8 @@ type Props = {
 };
 
 const Results: React.FC<Props> = (props) => {
+  const players = [0, 1, 2, 3];
+
   return (
     <div className="results-bg-container">
       <div className="room-id-display-box">
@@ -42,7 +45,11 @@ const Results: React.FC<Props> = (props) => {
             </div>
           </div>
         </div>
-        <div className="placement-info-container"></div>
+        <div className="placement-info-container">
+          {players.map((element) => {
+            return <PlayerPlacementItem key={element} />;
+          })}
+        </div>
       </div>
     </div>
   );
