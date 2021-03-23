@@ -1,8 +1,8 @@
 import IgameData from './IGameData';
 
-export interface IPlayer {
-  userName: string,
-  color: string,
-  isHost: boolean,
-  gameData: IgameData
+export default interface IPlayer {
+  userName: string;
+  color: string;
+  isHost: boolean;
+  gameData: IgameData;
 }

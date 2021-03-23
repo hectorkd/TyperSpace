@@ -6,10 +6,12 @@ import Lobby from './containers/Lobby/Lobby';
 import Avatar from './containers/Avatar/Avatar';
 import Race from './containers/Race/Race';
 import Results from './containers/Results/Results';
+import IPlayer from './interfaces/Player';
 
 const App: React.FC = () => {
   const [socket, setSocket] = useState();
   const [text, setText] = useState('');
+  const [players, setPlayers] = useState<IPlayer[]>([]);
 
   return (
     <div>
@@ -25,6 +27,8 @@ const App: React.FC = () => {
               setSocket={setSocket}
               text={text}
               setText={setText}
+              players={players}
+              setPlayers={setPlayers}
             />
           )}
         />
@@ -38,6 +42,8 @@ const App: React.FC = () => {
               setSocket={setSocket}
               text={text}
               setText={setText}
+              players={players}
+              setPlayers={setPlayers}
             />
           )}
         />

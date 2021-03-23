@@ -35,12 +35,14 @@ const Race: React.FC<RaceProps> = (props) => {
     actions: { insertTyping, deleteTyping },
   } = useTypingGame(props.text);
 
-  // useEffect(() => {
+  useEffect(() => {
+    console.log(positions);
+  }, [positions]);
+
   props.socket.current.on('startTime', (startTime: number) => {
     console.log('received startTime! ', startTime);
     setStart(startTime);
   });
-  // }, [props.socket]);
 
   const handleKey = (key: any) => {
     if (key === 'Backspace') {
@@ -56,7 +58,6 @@ const Race: React.FC<RaceProps> = (props) => {
 
   props.socket.current.on('positions', (data: IpositionData) => {
     setPositions(data);
-    console.log(positions);
   });
 
   function handleClickFinish(): void {

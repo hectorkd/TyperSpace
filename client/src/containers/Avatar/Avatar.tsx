@@ -18,6 +18,8 @@ type AvatarProps = {
   text: string;
   setText: any;
   children?: ReactNode;
+  players: any;
+  setPlayers: any;
 };
 
 const Avatar: React.FC<AvatarProps> = (props) => {
@@ -26,7 +28,6 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const socketRef = useRef<SocketIOClient.Socket>();
   const [userName, setUserName] = useState('');
   const [color, setColor] = useState('');
-
   useEffect(() => {
     socketRef.current = SocketIOCLient(SOCKET_SERVER_URL, {
       query: { roomId },
@@ -46,6 +47,11 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       pathname: `/${roomId}/lobby`,
     });
   }
+
+  const handleClick = (e: any) => {
+    const id = e.target.id;
+    setColor(id);
+  };
 
   //TODO: rocket selection: make it clear for user that he chose the rocket
   return (
@@ -76,32 +82,37 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         />
       </div>
       <div className="avatar-container">
-        <h2 className="avatar-select-h1">select colour</h2>
+        <h2 className="avatar-select-h1 ">select colour</h2>
         <div className="avatar-list">
           <img
             src={blueRocket}
-            className="avatar-images"
-            onClick={() => setColor('blue')}
+            id="blue"
+            className={`avatar-images ${color === 'blue' ? 'selected' : ''}`}
+            onClick={handleClick}
           />
           <img
             src={yellowRocket}
-            className="avatar-images"
-            onClick={() => setColor('yellow')}
+            id="yellow"
+            className={`avatar-images ${color === 'yellow' ? 'selected' : ''}`}
+            onClick={handleClick}
           />
           <img
             src={orangeRocket}
-            className="avatar-images"
-            onClick={() => setColor('orange')}
+            id="orange"
+            className={`avatar-images ${color === 'orange' ? 'selected' : ''}`}
+            onClick={handleClick}
           />
           <img
             src={pinkRocket}
-            className="avatar-images"
-            onClick={() => setColor('pink')}
+            id="pink"
+            className={`avatar-images ${color === 'pink' ? 'selected' : ''}`}
+            onClick={handleClick}
           />
           <img
             src={violetRocket}
-            className="avatar-images"
-            onClick={() => setColor('violet')}
+            id="violet"
+            className={`avatar-images ${color === 'violet' ? 'selected' : ''}`}
+            onClick={handleClick}
           />
         </div>
       </div>
