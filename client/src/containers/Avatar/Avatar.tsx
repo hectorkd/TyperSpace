@@ -1,31 +1,50 @@
-import React, { useRef, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
+import React, { useRef, useEffect, useState, ReactNode } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import SocketIOCLient from 'socket.io-client';
+
+const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 
 import './styles/Avatar.scss';
 
-interface MatchParams {
-  roomId: string;
-}
+type Props = {
+  socket: any, 
+  setSocket: any,
+  text: string,
+  setText: any, 
+  children?: ReactNode
+};
 
-const SOCKET_SERVER_URL = 'http://localhost:3001';
+const Avatar: React.FC<Props> = (props) => {
+  const history = useHistory();
+  const { roomId } = useParams<Record<string, string | undefined>>();
+  //console.log('roomid', roomId);
+  const socketRef = useRef<SocketIOClient.Socket>();
+  // const [socket, setSocket] = useState(useRef<SocketIOClient.Socket>());
 
-const Avatar: React.FC<RouteComponentProps<MatchParams>> = (props) => {
-  // const socketRef = useRef();
-  const roomId = props.match.params.roomId;
+  useEffect(() => {
+    // const socketRef = useRef<SocketIOClient.Socket>();
+    socketRef.current = SocketIOCLient(SOCKET_SERVER_URL, {
+      query: {roomId}
+    });
+    props.setSocket(socketRef);
+  }, [roomId]);
 
-  const socket = SocketIOCLient(SOCKET_SERVER_URL, {
-    query: { roomId },
-  });
+  //console.log('created socket', props.socket);
 
-  // socket.on('connection', () => {
-  //   console.log(socket.id);
-  // })
-
-  console.log('created socket', socket);
-
-  // console.log('created socket', socketRef);
-
+  function handleClick(): void {
+    //TODO: get input info about username and color
+    //TODO: emit event userName
+    props.socket.current.emit('userInfo', {
+      userName: 'userName',
+      color: 'red'
+    });
+    //go to lobby
+    history.push({
+      pathname: `/${roomId}/lobby`,
+      // state: {socket: props.socket}
+    });
+  }
+  
   return (
     <div className="avatar-bg-container">
       <div className="room-id-input input">
@@ -50,7 +69,7 @@ const Avatar: React.FC<RouteComponentProps<MatchParams>> = (props) => {
         <h2 className="avatar-select-h1">select colour</h2>
         <div className="avatar-selection"></div>
       </div>
-      <button className="btn-ready">Ready</button>
+      <button className="btn-ready" onClick={handleClick}>Ready</button>
     </div>
   );
 };
