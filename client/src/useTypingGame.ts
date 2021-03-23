@@ -235,7 +235,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       // if (currIndex === length - 2 && !charsState.some((el) => el === 2)) {
       if (currIndex === length - 2) {
         // if text is finished
-        newEndTime = new Date().getTime(); //set finishtime
+        newEndTime = Date.now(); //set finishtime
         newPhase = 2; // set finish state
       }
       const currChar = currIndex >= 0 ? chars[currIndex] : ''; //go to next letter

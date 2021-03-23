@@ -65,12 +65,11 @@ const Race: React.FC<RaceProps> = (props) => {
       endTime,
       correctChar,
       errorChar,
+      length,
     });
     props.socket.current.emit('finishRace', {
       endTime: endTime,
       startTime: startTime,
-      correctChar: correctChar,
-      errorChar: errorChar,
       allKeyPresses: allKeyPresses,
       length: length,
     });

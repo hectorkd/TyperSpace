@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { IPlayer } from '../../interfaces/Player';
 import rocket2 from '../../assets/icons/rocket2yellow.png';
 import PlayerPlacementItem from '../../components/PlayerPlacementItem/PlayerPlacementItem';
 import './styles/Results.scss';
@@ -12,7 +13,16 @@ type Props = {
 };
 
 const Results: React.FC<Props> = (props) => {
-  const players = [0, 1, 2, 3];
+  const testPlayers = [0, 1, 2, 3];
+  const [players, setPlayers] = useState<IPlayer[]>([]);
+
+  useEffect(() => {
+    //get results
+    props.socket.current.on('results', (players: IPlayer[]) => {
+      console.log('received from server for room ', players);
+      setPlayers(players);
+    });
+  }, []);
 
   return (
     <div className="results-bg-container">
@@ -46,7 +56,7 @@ const Results: React.FC<Props> = (props) => {
           </div>
         </div>
         <div className="placement-info-container">
-          {players.map((element) => {
+          {testPlayers.map((element) => {
             return <PlayerPlacementItem key={element} />;
           })}
         </div>
