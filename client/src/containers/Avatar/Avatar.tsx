@@ -31,8 +31,9 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     socketRef.current = SocketIOCLient(SOCKET_SERVER_URL, {
       query: { roomId },
     });
+    console.log('connection to server!');
     props.setSocket(socketRef);
-  }, [props, roomId]);
+  }, [roomId]); //don't add props to array, useEffect runs twice when it's [props, roomId] and creates websocket twice
 
   function handleClickReady(): void {
     //get useinfo from form and send to server
@@ -46,6 +47,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     });
   }
 
+  //TODO: rocket selection: make it clear for user that he chose the rocket
   return (
     <div className="avatar-bg-container">
       <div className="room-id-input input">
@@ -57,7 +59,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           name=""
           id=""
           className="input-field room-id-input"
-          value={roomId}
+          value={roomId} //TODO: disable field
         />
       </div>
       <div className="name-field-input input">
