@@ -1,0 +1,10 @@
+.player-list-element {
+  display: flex;
+  // border: 2px solid red;
+}
+
+.player-avatar-mid {
+  width: 4vw;
+  height: 8vh;
+  transform: rotate(90deg);
+}

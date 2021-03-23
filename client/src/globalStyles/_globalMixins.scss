@@ -1,0 +1,33 @@
+@import '../globalStyles/fonts';
+
+@mixin bg-container {
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+}
+
+@mixin button {
+  font-family: $atariFont;
+  font-size: 2.2vw;
+  width: 35vw;
+  height: 8vh;
+  margin: 1vh;
+  //below is getting rid of all default button styles
+  border: none;
+  margin: 1vh;
+  padding: 1vw;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+@mixin label-font {
+  font-family: $sanchezRegular;
+  font-size: 4vh;
+  font-weight: 700;
+  color: white;
+}
