@@ -21,9 +21,14 @@ const Landing: React.FC = () => {
     history.push(`/${roomId}/avatar`);
   }
   return (
-    <div className="landing-container">
-      <div> Hello</div>
-      <button onClick={handleClick}> Click me </button>
+    <div className="landing-bg-container">
+      <h1 className="landing-main-title"> TyperSpace </h1>
+      <div className="landing-buttons">
+        <button onClick={handleClick} className=" landing-buttons create-btn">
+          Create Room
+        </button>
+        <button className="landing-buttons join-btn"> Join Room</button>
+      </div>
     </div>
   );
 };

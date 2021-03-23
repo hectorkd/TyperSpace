@@ -4,6 +4,8 @@ import SocketIOCLient from 'socket.io-client';
 
 const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 
+import './styles/Avatar.scss';
+
 type Props = {
   socket: any, 
   setSocket: any,
@@ -15,7 +17,7 @@ type Props = {
 const Avatar: React.FC<Props> = (props) => {
   const history = useHistory();
   const { roomId } = useParams<Record<string, string | undefined>>();
-  console.log('roomid', roomId);
+  //console.log('roomid', roomId);
   const socketRef = useRef<SocketIOClient.Socket>();
   // const [socket, setSocket] = useState(useRef<SocketIOClient.Socket>());
 
@@ -27,7 +29,7 @@ const Avatar: React.FC<Props> = (props) => {
     props.setSocket(socketRef);
   }, [roomId]);
 
-  console.log('created socket', props.socket);
+  //console.log('created socket', props.socket);
 
   function handleClick(): void {
     //TODO: get input info about username and color
@@ -42,14 +44,34 @@ const Avatar: React.FC<Props> = (props) => {
       // state: {socket: props.socket}
     });
   }
-
+  
   return (
-    <div>
-      <div>Hello Avatar</div>
-      <button onClick={handleClick}> Click me </button>
+    <div className="avatar-bg-container">
+      <div className="room-id-input input">
+        <label htmlFor="" className="input-label">
+          enter room id
+        </label>
+        <input
+          type="text"
+          name=""
+          id=""
+          className="input-field room-id-input"
+          value="room-id"
+        />
+      </div>
+      <div className="name-field-input input">
+        <label htmlFor="" className="input-label">
+          enter name
+        </label>
+        <input type="text" name="" id="" className="input-field" />
+      </div>
+      <div className="avatar-container">
+        <h2 className="avatar-select-h1">select colour</h2>
+        <div className="avatar-selection"></div>
+      </div>
+      <button className="btn-ready" onClick={handleClick}>Ready</button>
     </div>
   );
-
 };
 
 export default Avatar;

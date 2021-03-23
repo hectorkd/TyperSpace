@@ -2,6 +2,7 @@ import React, {ReactNode} from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import { Player } from '../../interfaces/Player';
+import PlayersList from '../../components/PlayerList /PlayerList';
 
 import './styles/Lobby.scss';
 
@@ -14,7 +15,7 @@ type Props = {
 };
 
 const Lobby: React.FC<Props> = (props) => {
-  console.log(props);
+  //console.log(props);
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
   props.setText('Test paragraph for a race');
@@ -26,7 +27,7 @@ const Lobby: React.FC<Props> = (props) => {
   });
 
   props.socket.current.on('players', (roomId: string, players: Player[]) => {
-    console.log(players);
+    //console.log(players);
     //TODO: show players on a page
   })
 
@@ -41,8 +42,11 @@ const Lobby: React.FC<Props> = (props) => {
     });
   }
 
+const Lobby: React.FC = () => {
   return (
-    <div>
+    <div className="lobby-bg-container">
+      <div className="lobby-room-display-box"></div>
+      <PlayersList />
       <button onClick={handleClick}> Start Race </button>
     </div>
   );

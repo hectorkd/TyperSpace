@@ -1,1 +1,36 @@
+@import '../../../globalStyles/globalVariables';
+@import '../../../globalStyles/globalMixins';
 
+@import './mixins';
+@import './variables';
+
+.landing-bg-container {
+  @include bg-container;
+  background: url('../../../assets/backgrounds/nightsky1.png');
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-main-title {
+  font-family: $atariFont;
+  color: $font-white;
+  font-size: 9.5vw;
+  margin: 5vh;
+  text-shadow: $blue3Dborder;
+}
+
+.landing-buttons {
+  @include button;
+  &.create-btn {
+    background-color: $font-white;
+    color: $font-dark-blue;
+    box-shadow: $blue3Dborder;
+  }
+  &.join-btn {
+    border: 2px solid white;
+    background-color: $font-transparent;
+    color: $font-white;
+    box-shadow: $blue3Dborder;
+  }
+}
