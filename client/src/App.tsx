@@ -11,15 +11,64 @@ const App: React.FC = () => {
   const [socket, setSocket] = useState();
   const [text, setText] = useState('');
 
-  return (<div>
-        <Router>
-      <Route path="/" exact component={Landing} />
-      <Route exact path="/:roomId/avatar" render={(props) => <Avatar {...props } socket={socket} setSocket={setSocket} text={text} setText={setText}/>} />
-      <Route exact path="/:roomId/lobby" render={(props) => <Lobby {...props } socket={socket} setSocket={setSocket} text={text} setText={setText}/>} />
-      <Route exact path="/:roomId/race" render={(props) => <Race {...props } socket={socket} setSocket={setSocket} text={text} setText={setText}/>} />
-      <Route exact path="/:roomId/results" render={(props) => <Results {...props } socket={socket} setSocket={setSocket} text={text} setText={setText}/>} />
-    </Router>
-  </div>
+  return (
+    <div>
+      <Router>
+        <Route path="/" exact component={Landing} />
+        <Route
+          exact
+          path="/:roomId/avatar"
+          render={(props) => (
+            <Avatar
+              {...props}
+              socket={socket}
+              setSocket={setSocket}
+              text={text}
+              setText={setText}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/:roomId/lobby"
+          render={(props) => (
+            <Lobby
+              {...props}
+              socket={socket}
+              setSocket={setSocket}
+              text={text}
+              setText={setText}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/:roomId/race"
+          render={(props) => (
+            <Race
+              {...props}
+              socket={socket}
+              setSocket={setSocket}
+              text={text}
+              setText={setText}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/:roomId/results"
+          render={(props) => (
+            <Results
+              {...props}
+              socket={socket}
+              setSocket={setSocket}
+              text={text}
+              setText={setText}
+            />
+          )}
+        />
+      </Router>
+    </div>
   );
 };
 
