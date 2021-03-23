@@ -1,5 +1,6 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import IpositionData from '../../interfaces/positionData';
 
 import useTypingGame from '../../useTypingGame';
 
@@ -16,6 +17,7 @@ type RaceProps = {
 const Race: React.FC<RaceProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
+  const [positions, setPositions] = useState({});
   const [start, setStart] = useState<number>();
 
   const {
@@ -43,10 +45,6 @@ const Race: React.FC<RaceProps> = (props) => {
   const handleKey = (key: any) => {
     if (key === 'Backspace') {
       deleteTyping(false);
-      props.socket.current.emit('position', {
-        currChar: currChar,
-        currIndex: currIndex,
-      });
     } else if (key.length === 1) {
       insertTyping(key, start);
       props.socket.current.emit('position', {
@@ -56,8 +54,9 @@ const Race: React.FC<RaceProps> = (props) => {
     }
   };
 
-  props.socket.current.on('positions', (msg: any) => {
-    console.log(msg);
+  props.socket.current.on('positions', (data: IpositionData) => {
+    setPositions(data);
+    console.log(positions);
   });
 
   function handleClickFinish(): void {
