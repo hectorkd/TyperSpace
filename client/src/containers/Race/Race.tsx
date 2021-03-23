@@ -4,11 +4,11 @@ import useTypingGame from '../../useTypingGame';
 import './styles/Race.scss';
 
 type Props = {
-  socket: any, 
-  setSocket: any,
-  text: string,
-  setText: any,
-  children?: ReactNode
+  socket: any;
+  setSocket: any;
+  text: string;
+  setText: any;
+  children?: ReactNode;
 };
 
 const Race: React.FC<Props> = (props) => {
@@ -24,17 +24,17 @@ const Race: React.FC<Props> = (props) => {
       errorChar,
       phase,
       startTime,
-      endTime
+      endTime,
     },
-    actions: { insertTyping, resetTyping, deleteTyping }
+    actions: { insertTyping, resetTyping, deleteTyping },
   } = useTypingGame(props.text);
 
   const handleKey = (key: any) => {
     console.log(key);
-    if (key === "Escape") {
+    if (key === 'Escape') {
       // console.log('resetting game');
       resetTyping();
-    } else if (key === "Backspace") {
+    } else if (key === 'Backspace') {
       // console.log('deleting character');
       deleteTyping(false);
     } else if (key.length === 1) {
@@ -55,14 +55,14 @@ const Race: React.FC<Props> = (props) => {
         }}
         tabIndex={0}
       >
-        {props.text.split("").map((char, index) => {
+        {props.text.split('').map((char, index) => {
           const state = charsState[index];
-          const color = state === 0 ? "black" : state === 1 ? "green" : "red";
+          const color = state === 0 ? 'black' : state === 1 ? 'green' : 'red';
           return (
             <span
               key={char + index}
               style={{ color }}
-              className={currIndex + 1 === index ? "curr-letter" : ""}
+              className={currIndex + 1 === index ? 'curr-letter' : ''}
             >
               {char}
             </span>
@@ -79,10 +79,10 @@ const Race: React.FC<Props> = (props) => {
             currChar,
             correctChar,
             errorChar,
-            phase
+            phase,
           },
           null,
-          2
+          2,
         )}
       </pre>
     </div>

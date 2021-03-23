@@ -11,3 +11,9 @@
   justify-content: center;
   align-items: center;
 }
+
+.lobby-btn-start {
+  @include btn-orange;
+  width: 20vw;
+  height: 5vw;
+}

@@ -204,7 +204,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         newEndTime = new Date().getTime();
         phase = 2;
       }
-     const currChar = currIndex >= 0 ? chars[currIndex] : '';
+      const currChar = currIndex >= 0 ? chars[currIndex] : '';
       return {
         ...state,
         charsState: newCharsState,
@@ -271,7 +271,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
  */
 const useTypingGame = (
   text: string,
-  options: Partial<TypingOptionsType> = {}
+  options: Partial<TypingOptionsType> = {},
 ): { states: TypingStateType; actions: TypingActionType } => {
   const initialState: TypingStateType = {
     startTime: null,
@@ -327,7 +327,7 @@ const useTypingGame = (
           payload: deleteWord || false,
         });
       },
-      setCurrIndex: num => {
+      setCurrIndex: (num) => {
         if (num < -1 || num >= states.length || states.phase !== 2) {
           return false;
         }
