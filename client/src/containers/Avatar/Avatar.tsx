@@ -6,7 +6,7 @@ const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 
 import './styles/Avatar.scss';
 
-type Props = {
+type AvatarProps = {
   socket: any, 
   setSocket: any,
   text: string,
@@ -14,7 +14,7 @@ type Props = {
   children?: ReactNode
 };
 
-const Avatar: React.FC<Props> = (props) => {
+const Avatar: React.FC<AvatarProps> = (props) => {
   const history = useHistory();
   const { roomId } = useParams<Record<string, string | undefined>>();
   //console.log('roomid', roomId);
@@ -31,7 +31,7 @@ const Avatar: React.FC<Props> = (props) => {
 
   //console.log('created socket', props.socket);
 
-  function handleClick(): void {
+  function readyToLobby(): void {
     //TODO: get input info about username and color
     //TODO: emit event userName
     props.socket.current.emit('userInfo', {
@@ -49,14 +49,14 @@ const Avatar: React.FC<Props> = (props) => {
     <div className="avatar-bg-container">
       <div className="room-id-input input">
         <label htmlFor="" className="input-label">
-          enter room id
+          Room id
         </label>
         <input
           type="text"
           name=""
           id=""
           className="input-field room-id-input"
-          value="room-id"
+          value={roomId}
         />
       </div>
       <div className="name-field-input input">
@@ -69,7 +69,7 @@ const Avatar: React.FC<Props> = (props) => {
         <h2 className="avatar-select-h1">select colour</h2>
         <div className="avatar-selection"></div>
       </div>
-      <button className="btn-ready" onClick={handleClick}>Ready</button>
+      <button className="btn-ready" onClick={readyToLobby}>Ready</button>
     </div>
   );
 };
