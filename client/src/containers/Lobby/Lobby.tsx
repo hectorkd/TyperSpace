@@ -21,7 +21,7 @@ const Lobby: React.FC<Props> = (props) => {
   props.setText('Test text');
   //TODO: put ws events inside useEffect to run it once?
   props.socket.current.on('getParagraph', (text: string) => {
-    console.log('paragraph from server ', text);
+    // console.log('paragraph from server ', text);
     //TODO: store paragraph
     // props.setText(text);
   });
@@ -33,13 +33,13 @@ const Lobby: React.FC<Props> = (props) => {
 
   function handleClick(): void {
     //TODO: ws emit synchStart
-    // props.socket.current.emit('syncStart');
-    // history.push({
-    //   pathname: `/${roomId}/race`,
-    //   // state: {
-    //   //   text: 'Test paragraph for a race'
-    //   // }
-    // });
+    props.socket.current.emit('syncStart');
+    history.push({
+      pathname: `/${roomId}/race`,
+      // state: {
+      //   text: 'Test paragraph for a race'
+      // }
+    });
   }
   return (
     <div className="lobby-bg-container">

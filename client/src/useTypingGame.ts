@@ -220,7 +220,8 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         newCurrIndex += 1;
       }
 
-      if (currIndex >= length - 1) {
+      // if (currIndex === length - 2 && !charsState.some((el) => el === 2)) {
+      if (currIndex === length - 2) {
         // if text is finished
         newEndTime = new Date().getTime(); //set finishtime
         newPhase = 2; // set finish state
