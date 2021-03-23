@@ -1,4 +1,6 @@
 import React, { ReactNode } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+
 import useTypingGame from '../../useTypingGame';
 
 import './styles/Race.scss';
@@ -13,7 +15,9 @@ type Props = {
 
 const Race: React.FC<Props> = (props) => {
   // const text = props.text;
-  console.log(props.text);
+  const { roomId } = useParams<Record<string, string | undefined>>();
+  const history = useHistory();
+  // console.log(props.text);
   const {
     states: {
       charsState,
@@ -26,22 +30,56 @@ const Race: React.FC<Props> = (props) => {
       startTime,
       endTime,
     },
-    actions: { insertTyping, resetTyping, deleteTyping },
+    actions: { insertTyping, deleteTyping },
   } = useTypingGame(props.text);
 
+  props.socket.current.on('startTime', (startTime: number) => {
+    console.log('time right now', Date.now());
+    console.log('received startTime! ', startTime);
+  });
+
   const handleKey = (key: any) => {
-    console.log(key);
-    if (key === 'Escape') {
-      // console.log('resetting game');
-      resetTyping();
-    } else if (key === 'Backspace') {
+    // console.log(key);
+    //don't need to reset game during race
+    // if (key === "Escape") {
+    //   // console.log('resetting game');
+    //   resetTyping();
+    if (key === 'Backspace') {
       // console.log('deleting character');
       deleteTyping(false);
+      props.socket.current.emit('position', {
+        currChar: currChar,
+        currIndex: currIndex,
+      });
     } else if (key.length === 1) {
       // console.log('inserting key');
       insertTyping(key);
+      props.socket.current.emit('position', {
+        currChar: currChar,
+        currIndex: currIndex,
+      });
     }
   };
+
+  props.socket.current.on('positions', (msg: any) => {
+    console.log(msg);
+  });
+
+  function handleClick(): void {
+    console.log({
+      endTime,
+      correctChar,
+      errorChar,
+    });
+    props.socket.current.emit('finishRace', {
+      endTime: endTime,
+      correctChar: correctChar,
+      errorChar: errorChar,
+    });
+    history.push({
+      pathname: `/${roomId}/results`,
+    });
+  }
 
   return (
     <div>
@@ -85,6 +123,7 @@ const Race: React.FC<Props> = (props) => {
           2,
         )}
       </pre>
+      <button onClick={handleClick}> Finish Race </button>
     </div>
   );
 };
