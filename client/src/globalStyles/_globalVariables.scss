@@ -5,7 +5,7 @@ $nightsky1: '../assets/backgrounds/nightsky1.png';
 $nightsky2: '../assets/backgrounds/nightsky2.png';
 
 // Rockets
-// $rocket1blue: url('../assets/icons/rocket1blue.png');
+//$rocket1blue: url('../assets/icons/rocket1blue.png');
 // $rocket2blue: url('../assets/icons/rocket2yellow.png');
 // $rocket3orange: url('../assets/icons/rocket3orange.png');
 // $rocket4pink: url('../assets/icons/rocket4pink.png');
@@ -14,8 +14,24 @@ $nightsky2: '../assets/backgrounds/nightsky2.png';
 //Font colours:
 $font-white: rgb(236, 236, 236);
 $font-transparent: transparent;
+
+//border-shadow
 $font-dark-blue: #378ab4;
 $font-light-blue: #5dabcd;
+
+//other-colours:
+$colour-white: rgb(236, 236, 236);
+$colour-salmon: #ff7e67;
+$colour-opaque-white: rgba(255, 255, 255, 0.4);
+$colour-green: #44ee29;
+$colour-red: #ed1616;
+
+//Avatar-colours:
+$colour-avatar-blue: #40ece5;
+$colour-avatar-purple: #9f00ff;
+$colour-avatar-orange: #fa7921;
+$colour-avatar-coral-joe-LOL: #d64161;
+$colour-avatar-yellow: #d7e531;
 
 //border-styles:
 $blue3Dborder: 0 1px 0px #378ab4, 1px 0 0px #5dabcd, 1px 2px 1px #378ab4,

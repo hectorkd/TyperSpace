@@ -21,7 +21,7 @@
 }
 
 .landing-buttons {
-  @include button;
+  @include atari-button;
   &.create-btn {
     background-color: $font-white;
     color: $font-dark-blue;

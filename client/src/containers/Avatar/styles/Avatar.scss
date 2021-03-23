@@ -3,6 +3,7 @@
 
 .avatar-bg-container {
   @include bg-container;
+  box-sizing: border-box;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
@@ -15,6 +16,7 @@
 
   .avatar-select-h1 {
     @include label-font;
+    text-align: center;
   }
 
   .input-label {
@@ -22,8 +24,7 @@
   }
 
   .input-field {
-    background: rgba(255, 255, 255, 0.4);
-    border: 4px solid white;
+    @include box-white-border-transparent;
     width: 25vw;
     height: 8vh;
     text-align: center;
@@ -36,13 +37,45 @@
   }
 
   .btn-ready {
-    font-family: $sanchezRegular;
-    width: 16vw;
-    height: 7vh;
-    border: 2px solid white;
-    background-color: #ff7e67;
-    border-radius: 3px;
-    color: white;
-    font-size: 4vh;
+    @include btn-orange;
+  }
+
+  .avatar-list {
+    @include box-white-border-transparent;
+    box-sizing: border-box;
+    min-height: 25vh;
+    max-height: 30vh;
+    min-width: 40vw;
+    max-width: 60vw;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .avatar-images {
+    width: 6vw;
+    height: 24vh;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    flex-wrap: wrap;
+    &::selection {
+      background-color: yellow;
+    }
+  }
+
+  .avatar-images:hover {
+    background-color: white;
+    // border: 0.5vw solid white;
+    opacity: 0.6;
+  }
+  .avatar-images:active {
+    background-color: $colour-green;
+  }
+
+  .avatar-images::selection {
+    background-color: yellow;
   }
 }

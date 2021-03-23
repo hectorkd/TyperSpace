@@ -128,11 +128,12 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
     correctChar,
     errorChar,
     phase,
-    skipCurrentWordOnSpace,
+    // skipCurrentWordOnSpace,
     pauseOnError,
   } = state;
   const payload = action.payload ?? null;
   switch (action.type) {
+    //setcurrentindex action
     case ActionType.SETCURRENTINDEX: {
       if (
         payload &&
@@ -145,6 +146,8 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         return state;
       }
     }
+
+    // reset action
     case ActionType.RESET: {
       return {
         ...state,
@@ -158,101 +161,128 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         phase: 0,
       };
     }
+
+    //end action
     case ActionType.END: {
       return { ...state, phase: 2, endTime: new Date().getTime() };
     }
+
+    //insert character action
     case ActionType.TYPINGINSERT: {
       const letter = action.payload ?? null;
       let newStartTime = startTime;
       let newEndTime = endTime;
+      let newPhase = phase;
+      let newErrorChar = errorChar;
+      let newCurrIndex = currIndex;
+      let newCorrectChar = correctChar;
+
+      // if phase is 2 -> game is finished, state is the same
       if (phase === 2) {
         return state;
       }
 
+      // if phase is 0 -> start game
       if (phase === 0) {
-        phase = 1;
-        newStartTime = new Date().getTime();
+        // phase = 1;
+        newPhase = 1;
+        newStartTime = new Date().getTime(); //TODO: startTime is coming from ws
       }
 
+      // last case: phase = 1 -> insert character
       const newCharsState = [...charsState];
-      if (
-        letter === ' ' &&
-        chars[currIndex + 1] !== ' ' &&
-        skipCurrentWordOnSpace
-      ) {
-        const newIndex = chars.indexOf(letter, currIndex);
-        currIndex = newIndex === -1 ? length - 1 : newIndex;
-      } else {
-        if (letter !== null) {
-          if (chars[currIndex + 1] !== letter) {
-            newCharsState[currIndex + 1] = 2;
-            errorChar += 1;
-            if (!pauseOnError) {
-              currIndex += 1;
-            }
-          } else {
-            newCharsState[currIndex + 1] = 1;
-            correctChar += 1;
-            currIndex += 1;
+      //first if checks if letter is space AND skipCurrentWordOnSpace mode -> goes to the next word; don't need it in our game
+      // if (
+      //   letter === ' ' &&
+      //   chars[currIndex + 1] !== ' '
+      //   // skipCurrentWordOnSpace
+      // ) {
+      //   const newIndex = chars.indexOf(letter, currIndex);
+      //   // currIndex = newIndex === -1 ? length - 1 : newIndex;
+      //   const newCurrIndex = newIndex === -1 ? length - 1 : newIndex;
+      // } else {
+
+      if (letter !== null) {
+        if (chars[currIndex + 1] !== letter) {
+          //checks if inserted character is correct
+          newCharsState[currIndex + 1] = 2; //set character state to error (2)
+          newErrorChar += 1; // increase number of wrong letters
+          if (!pauseOnError) {
+            newCurrIndex += 1; //go to next letter
           }
         } else {
-          currIndex += 1;
+          newCharsState[currIndex + 1] = 1; //set character state to correct(1)
+          newCorrectChar += 1; //increase number of correct letters
+          newCurrIndex += 1; // go to next letter
         }
+      } else {
+        // if letter is null just go to next letter
+        newCurrIndex += 1;
       }
 
       if (currIndex >= length - 1) {
-        newEndTime = new Date().getTime();
-        phase = 2;
+        // if text is finished
+        newEndTime = new Date().getTime(); //set finishtime
+        newPhase = 2; // set finish state
       }
-     const currChar = currIndex >= 0 ? chars[currIndex] : '';
+      const currChar = currIndex >= 0 ? chars[currIndex] : ''; //go to next letter
       return {
         ...state,
         charsState: newCharsState,
-        errorChar,
-        correctChar,
-        currIndex,
+        errorChar: newErrorChar,
+        correctChar: newCorrectChar,
+        currIndex: newCurrIndex,
         currChar,
-        phase,
+        phase: newPhase,
         startTime: newStartTime,
         endTime: newEndTime,
       };
     }
+
+    //delete character action
     case ActionType.TYPINGDELETE: {
+      let newCorrectChar = correctChar;
+      let newErrorChar = errorChar;
+      let newCurrIndex = currIndex;
+
       if (phase !== 1 || currIndex === -1) {
+        //game is finished or never started, no changes for state
         return state;
       }
+
       const newCharsState = [...charsState];
+
       if (payload) {
         let newIndex = chars.lastIndexOf(' ', currIndex);
         newIndex = newIndex === -1 ? 0 : newIndex + 1;
         for (let i = currIndex; i >= newIndex; i--) {
           if (newCharsState[i] === 1) {
-            correctChar -= 1;
+            newCorrectChar -= 1;
           } else if (newCharsState[i] === 2) {
-            errorChar -= 1;
+            newErrorChar -= 1;
           }
           newCharsState[i] = 0;
         }
-        currIndex = newIndex;
+        newCurrIndex = newIndex;
       } else {
         if (newCharsState[currIndex] === 1) {
-          correctChar -= 1;
+          newCorrectChar -= 1;
         } else if (newCharsState[currIndex] === 2) {
-          errorChar -= 1;
+          newErrorChar -= 1;
         }
         newCharsState[currIndex] = 0;
       }
       if (currIndex !== -1) {
-        currIndex -= 1;
+        newCurrIndex -= 1;
       }
       const currChar = currIndex >= 0 ? chars[currIndex] : '';
       return {
         ...state,
-        currIndex,
+        currIndex: newCurrIndex,
         currChar,
         charsState: newCharsState,
-        correctChar,
-        errorChar,
+        correctChar: newCorrectChar,
+        errorChar: newErrorChar,
       };
     }
     default: {
@@ -271,7 +301,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
  */
 const useTypingGame = (
   text: string,
-  options: Partial<TypingOptionsType> = {}
+  options: Partial<TypingOptionsType> = {},
 ): { states: TypingStateType; actions: TypingActionType } => {
   const initialState: TypingStateType = {
     startTime: null,
@@ -327,7 +357,7 @@ const useTypingGame = (
           payload: deleteWord || false,
         });
       },
-      setCurrIndex: num => {
+      setCurrIndex: (num) => {
         if (num < -1 || num >= states.length || states.phase !== 2) {
           return false;
         }
