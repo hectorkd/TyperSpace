@@ -38,7 +38,7 @@
     display: flex;
     flex: 1;
     flex-direction: row;
-    border: 2px solid red;
+    // border: 2px solid red;
     .winner-info {
       display: flex;
       flex-direction: column;
@@ -53,7 +53,8 @@
         align-items: center;
         justify-content: space-evenly;
         .wpm-title {
-          // @include label-font;
+          @include label-font;
+          font-size: 200%;
         }
         .wpm-container {
           background: rgba(255, 255, 255, 0.4);
@@ -64,7 +65,8 @@
           justify-content: center;
           align-items: center;
           h1 {
-            // @include label-font;
+            @include label-font;
+            font-size: 150%;
           }
         }
       }
@@ -75,7 +77,8 @@
         align-items: center;
         justify-content: space-evenly;
         .time-title {
-          // @include label-font;
+          @include label-font;
+          font-size: 200%;
         }
         .time-container {
           background: rgba(255, 255, 255, 0.4);
@@ -86,7 +89,8 @@
           justify-content: center;
           align-items: center;
           h1 {
-            // @include label-font;
+            @include label-font;
+            font-size: 150%;
           }
         }
       }
@@ -96,7 +100,8 @@
       flex: 1;
       flex-direction: row;
       .winner-text {
-        // @include label-font;
+        @include label-font;
+        font-size: 150%;
         display: flex;
         flex: 1;
         flex-direction: column;
@@ -104,6 +109,7 @@
         align-items: center;
         .winner-name {
           color: yellow;
+          font-size: 180%;
         }
       }
       .rocket-icon {
@@ -121,6 +127,11 @@
 
   .placement-info-container {
     flex: 3;
-    border: 2px solid yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    // border: 2px solid yellow;
+    overflow-y: hidden;
   }
 }
