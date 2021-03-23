@@ -1,0 +1,48 @@
+@import '../../../globalStyles/globalVariables';
+@import '../../../globalStyles/globalMixins';
+
+.avatar-bg-container {
+  @include bg-container;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background-image: url('../../../assets/backgrounds/nightsky2.png');
+
+  .input {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .avatar-select-h1 {
+    @include label-font;
+  }
+
+  .input-label {
+    @include label-font;
+  }
+
+  .input-field {
+    background: rgba(255, 255, 255, 0.4);
+    border: 4px solid white;
+    width: 25vw;
+    height: 8vh;
+    text-align: center;
+    font-size: 5vh;
+    font-weight: 600;
+    font-family: $sanchezRegular;
+    & .room-id-input {
+      user-select: none;
+    }
+  }
+
+  .btn-ready {
+    font-family: $sanchezRegular;
+    width: 16vw;
+    height: 7vh;
+    border: 2px solid white;
+    background-color: #ff7e67;
+    border-radius: 3px;
+    color: white;
+    font-size: 4vh;
+  }
+}

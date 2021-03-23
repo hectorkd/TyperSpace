@@ -1,0 +1,13 @@
+@import '../../../globalStyles/globalVariables';
+@import '../../../globalStyles/globalMixins';
+
+@import './mixins';
+@import './variables';
+
+.lobby-bg-container {
+  @include bg-container;
+  background: url('../../../assets/backgrounds/nightsky1.png');
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

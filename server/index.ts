@@ -1,14 +1,19 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import router from './router';
+import cors from 'cors';
+import server from './socketioRouter';
 
 dotenv.config();
-
 const app = express();
-const PORT = process.env.SERVER_PORT;
 
+app.use(cors());
 app.use(router);
 
-app.listen(PORT, () =>
+const PORT = process.env.SERVER_PORT;
+
+server.listen(PORT, () =>
   console.log(`running at http://localhost:${PORT} 🚀🚀🚀`),
 );
+
+export default app;
