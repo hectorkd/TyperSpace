@@ -133,7 +133,6 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
   } = state;
   const payload = action.payload ?? null;
   switch (action.type) {
-
     //setcurrentindex action
     case ActionType.SETCURRENTINDEX: {
       if (
@@ -203,24 +202,26 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       //   const newCurrIndex = newIndex === -1 ? length - 1 : newIndex;
       // } else {
 
-      
-        if (letter !== null) {
-          if (chars[currIndex + 1] !== letter) { //checks if inserted character is correct
-            newCharsState[currIndex + 1] = 2; //set character state to error (2)
-            newErrorChar += 1; // increase number of wrong letters
-            if (!pauseOnError) { 
-              newCurrIndex += 1; //go to next letter
-            }
-          } else {
-            newCharsState[currIndex + 1] = 1; //set character state to correct(1)
-            newCorrectChar += 1; //increase number of correct letters
-            newCurrIndex += 1; // go to next letter
+      if (letter !== null) {
+        if (chars[currIndex + 1] !== letter) {
+          //checks if inserted character is correct
+          newCharsState[currIndex + 1] = 2; //set character state to error (2)
+          newErrorChar += 1; // increase number of wrong letters
+          if (!pauseOnError) {
+            newCurrIndex += 1; //go to next letter
           }
-        } else { // if letter is null just go to next letter
-          newCurrIndex += 1;
+        } else {
+          newCharsState[currIndex + 1] = 1; //set character state to correct(1)
+          newCorrectChar += 1; //increase number of correct letters
+          newCurrIndex += 1; // go to next letter
         }
-      
-      if (currIndex >= length - 1) { // if text is finished
+      } else {
+        // if letter is null just go to next letter
+        newCurrIndex += 1;
+      }
+
+      if (currIndex >= length - 1) {
+        // if text is finished
         newEndTime = new Date().getTime(); //set finishtime
         newPhase = 2; // set finish state
       }
@@ -231,7 +232,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         errorChar: newErrorChar,
         correctChar: newCorrectChar,
         currIndex: newCurrIndex,
-        currChar, 
+        currChar,
         phase: newPhase,
         startTime: newStartTime,
         endTime: newEndTime,
@@ -244,12 +245,13 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       let newErrorChar = errorChar;
       let newCurrIndex = currIndex;
 
-      if (phase !== 1 || currIndex === -1) { //game is finished or never started, no changes for state
+      if (phase !== 1 || currIndex === -1) {
+        //game is finished or never started, no changes for state
         return state;
       }
 
       const newCharsState = [...charsState];
-      
+
       if (payload) {
         let newIndex = chars.lastIndexOf(' ', currIndex);
         newIndex = newIndex === -1 ? 0 : newIndex + 1;
@@ -280,7 +282,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         currChar,
         charsState: newCharsState,
         correctChar: newCorrectChar,
-        errorChar: newErrorChar
+        errorChar: newErrorChar,
       };
     }
     default: {
@@ -299,7 +301,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
  */
 const useTypingGame = (
   text: string,
-  options: Partial<TypingOptionsType> = {}
+  options: Partial<TypingOptionsType> = {},
 ): { states: TypingStateType; actions: TypingActionType } => {
   const initialState: TypingStateType = {
     startTime: null,
@@ -355,7 +357,7 @@ const useTypingGame = (
           payload: deleteWord || false,
         });
       },
-      setCurrIndex: num => {
+      setCurrIndex: (num) => {
         if (num < -1 || num >= states.length || states.phase !== 2) {
           return false;
         }

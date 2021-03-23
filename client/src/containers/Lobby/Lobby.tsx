@@ -1,17 +1,17 @@
-import React, {ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import { IPlayer } from '../../interfaces/Player';
-import PlayersList from '../../components/PlayerList /PlayerList';
+import PlayersList from '../../components/PlayerList/PlayerList';
 
 import './styles/Lobby.scss';
 
 type Props = {
-  socket: any, 
-  setSocket: any, 
-  text: string,
-  setText: any,
-  children?: ReactNode
+  socket: any;
+  setSocket: any;
+  text: string;
+  setText: any;
+  children?: ReactNode;
 };
 
 const Lobby: React.FC<Props> = (props) => {
@@ -29,27 +29,28 @@ const Lobby: React.FC<Props> = (props) => {
   props.socket.current.on('playerInfo', (players: IPlayer[]) => {
     console.log('received from server for room ', players);
     //TODO: show players on a page, maybe with useEffect?
-  })
+  });
 
   function handleClick(): void {
     //TODO: ws emit synchStart
-    props.socket.current.emit('syncStart');
-    history.push({
-      pathname: `/${roomId}/race`,
-      // state: {
-      //   text: 'Test paragraph for a race'
-      // }
-    });
+    // props.socket.current.emit('syncStart');
+    // history.push({
+    //   pathname: `/${roomId}/race`,
+    //   // state: {
+    //   //   text: 'Test paragraph for a race'
+    //   // }
+    // });
   }
-
   return (
     <div className="lobby-bg-container">
       <div className="lobby-room-display-box"></div>
       <PlayersList />
-      <button onClick={handleClick}> Start Race </button>
+      <button onClick={handleClick} className="lobby-btn-start">
+        {' '}
+        Start Race{' '}
+      </button>
     </div>
   );
 };
-
 
 export default Lobby;

@@ -6,11 +6,11 @@ import useTypingGame from '../../useTypingGame';
 import './styles/Race.scss';
 
 type Props = {
-  socket: any, 
-  setSocket: any,
-  text: string,
-  setText: any,
-  children?: ReactNode
+  socket: any;
+  setSocket: any;
+  text: string;
+  setText: any;
+  children?: ReactNode;
 };
 
 const Race: React.FC<Props> = (props) => {
@@ -28,15 +28,15 @@ const Race: React.FC<Props> = (props) => {
       errorChar,
       phase,
       startTime,
-      endTime
+      endTime,
     },
-    actions: { insertTyping, deleteTyping }
+    actions: { insertTyping, deleteTyping },
   } = useTypingGame(props.text);
 
   props.socket.current.on('startTime', (startTime: number) => {
     console.log('time right now', Date.now());
     console.log('received startTime! ', startTime);
-  })
+  });
 
   const handleKey = (key: any) => {
     // console.log(key);
@@ -44,26 +44,26 @@ const Race: React.FC<Props> = (props) => {
     // if (key === "Escape") {
     //   // console.log('resetting game');
     //   resetTyping();
-    if (key === "Backspace") {
+    if (key === 'Backspace') {
       // console.log('deleting character');
       deleteTyping(false);
       props.socket.current.emit('position', {
         currChar: currChar,
-        currIndex: currIndex
+        currIndex: currIndex,
       });
     } else if (key.length === 1) {
       // console.log('inserting key');
       insertTyping(key);
       props.socket.current.emit('position', {
         currChar: currChar,
-        currIndex: currIndex
+        currIndex: currIndex,
       });
     }
   };
 
   props.socket.current.on('positions', (msg: any) => {
     console.log(msg);
-  })
+  });
 
   function handleClick(): void {
     console.log({
@@ -74,10 +74,10 @@ const Race: React.FC<Props> = (props) => {
     props.socket.current.emit('finishRace', {
       endTime: endTime,
       correctChar: correctChar,
-      errorChar: errorChar
+      errorChar: errorChar,
     });
     history.push({
-      pathname: `/${roomId}/results`
+      pathname: `/${roomId}/results`,
     });
   }
 
@@ -93,14 +93,14 @@ const Race: React.FC<Props> = (props) => {
         }}
         tabIndex={0}
       >
-        {props.text.split("").map((char, index) => {
+        {props.text.split('').map((char, index) => {
           const state = charsState[index];
-          const color = state === 0 ? "black" : state === 1 ? "green" : "red";
+          const color = state === 0 ? 'black' : state === 1 ? 'green' : 'red';
           return (
             <span
               key={char + index}
               style={{ color }}
-              className={currIndex + 1 === index ? "curr-letter" : ""}
+              className={currIndex + 1 === index ? 'curr-letter' : ''}
             >
               {char}
             </span>
@@ -117,10 +117,10 @@ const Race: React.FC<Props> = (props) => {
             currChar,
             correctChar,
             errorChar,
-            phase
+            phase,
           },
           null,
-          2
+          2,
         )}
       </pre>
       <button onClick={handleClick}> Finish Race </button>

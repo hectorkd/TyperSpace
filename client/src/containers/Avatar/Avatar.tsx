@@ -4,14 +4,20 @@ import SocketIOCLient from 'socket.io-client';
 
 const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 
+import blueRocket from '../../assets/icons/rocket1blue.png';
+import yellowRocket from '../../assets/icons/rocket2yellow.png';
+import orangeRocket from '../../assets/icons/rocket3orange.png';
+import pinkRocket from '../../assets/icons/rocket4pink.png';
+import violetRocket from '../../assets/icons/rocket5violet.png';
+
 import './styles/Avatar.scss';
 
 type AvatarProps = {
-  socket: any, 
-  setSocket: any,
-  text: string,
-  setText: any, 
-  children?: ReactNode
+  socket: any;
+  setSocket: any;
+  text: string;
+  setText: any;
+  children?: ReactNode;
 };
 
 const Avatar: React.FC<AvatarProps> = (props) => {
@@ -24,7 +30,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   useEffect(() => {
     // const socketRef = useRef<SocketIOClient.Socket>();
     socketRef.current = SocketIOCLient(SOCKET_SERVER_URL, {
-      query: {roomId}
+      query: { roomId },
     });
     props.setSocket(socketRef);
   }, [roomId]);
@@ -36,7 +42,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     //TODO: emit event userName
     props.socket.current.emit('userInfo', {
       userName: 'userName',
-      color: 'red'
+      color: 'red',
     });
     //go to lobby
     history.push({
@@ -44,7 +50,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       // state: {socket: props.socket}
     });
   }
-  
+
   return (
     <div className="avatar-bg-container">
       <div className="room-id-input input">
@@ -67,9 +73,17 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       </div>
       <div className="avatar-container">
         <h2 className="avatar-select-h1">select colour</h2>
-        <div className="avatar-selection"></div>
+        <div className="avatar-list">
+          <img src={blueRocket} className="avatar-images" />
+          <img src={yellowRocket} className="avatar-images" />
+          <img src={orangeRocket} className="avatar-images" />
+          <img src={pinkRocket} className="avatar-images" />
+          <img src={violetRocket} className="avatar-images" />
+        </div>
       </div>
-      <button className="btn-ready" onClick={readyToLobby}>Ready</button>
+      <button className="btn-ready" onClick={readyToLobby}>
+        Ready
+      </button>
     </div>
   );
 };
