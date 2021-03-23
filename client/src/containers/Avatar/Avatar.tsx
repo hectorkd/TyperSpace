@@ -23,34 +23,31 @@ type AvatarProps = {
 const Avatar: React.FC<AvatarProps> = (props) => {
   const history = useHistory();
   const { roomId } = useParams<Record<string, string | undefined>>();
-  //console.log('roomid', roomId);
   const socketRef = useRef<SocketIOClient.Socket>();
-  // const [socket, setSocket] = useState(useRef<SocketIOClient.Socket>());
+  const [userName, setUserName] = useState('');
+  const [color, setColor] = useState('');
 
   useEffect(() => {
-    // const socketRef = useRef<SocketIOClient.Socket>();
     socketRef.current = SocketIOCLient(SOCKET_SERVER_URL, {
       query: { roomId },
     });
+    console.log('connection to server!');
     props.setSocket(socketRef);
-  }, [roomId]);
+  }, [roomId]); //don't add props to array, useEffect runs twice when it's [props, roomId] and creates websocket twice
 
-  //console.log('created socket', props.socket);
-
-  function readyToLobby(): void {
-    //TODO: get input info about username and color
-    //TODO: emit event userName
+  function handleClickReady(): void {
+    //get useinfo from form and send to server
     props.socket.current.emit('userInfo', {
-      userName: 'userName',
-      color: 'red',
+      userName: userName,
+      color: color,
     });
     //go to lobby
     history.push({
       pathname: `/${roomId}/lobby`,
-      // state: {socket: props.socket}
     });
   }
 
+  //TODO: rocket selection: make it clear for user that he chose the rocket
   return (
     <div className="avatar-bg-container">
       <div className="room-id-input input">
@@ -62,26 +59,53 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           name=""
           id=""
           className="input-field room-id-input"
-          value={roomId}
+          value={roomId} //TODO: disable field
         />
       </div>
       <div className="name-field-input input">
         <label htmlFor="" className="input-label">
           enter name
         </label>
-        <input type="text" name="" id="" className="input-field" />
+        <input
+          type="text"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          name=""
+          id=""
+          className="input-field"
+        />
       </div>
       <div className="avatar-container">
         <h2 className="avatar-select-h1">select colour</h2>
         <div className="avatar-list">
-          <img src={blueRocket} className="avatar-images" />
-          <img src={yellowRocket} className="avatar-images" />
-          <img src={orangeRocket} className="avatar-images" />
-          <img src={pinkRocket} className="avatar-images" />
-          <img src={violetRocket} className="avatar-images" />
+          <img
+            src={blueRocket}
+            className="avatar-images"
+            onClick={() => setColor('blue')}
+          />
+          <img
+            src={yellowRocket}
+            className="avatar-images"
+            onClick={() => setColor('yellow')}
+          />
+          <img
+            src={orangeRocket}
+            className="avatar-images"
+            onClick={() => setColor('orange')}
+          />
+          <img
+            src={pinkRocket}
+            className="avatar-images"
+            onClick={() => setColor('pink')}
+          />
+          <img
+            src={violetRocket}
+            className="avatar-images"
+            onClick={() => setColor('violet')}
+          />
         </div>
       </div>
-      <button className="btn-ready" onClick={readyToLobby}>
+      <button className="btn-ready" onClick={handleClickReady}>
         Ready
       </button>
     </div>
