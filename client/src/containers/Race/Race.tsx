@@ -31,6 +31,7 @@ const Race: React.FC<RaceProps> = (props) => {
       phase,
       startTime,
       endTime,
+      allKeyPresses,
     },
     actions: { insertTyping, deleteTyping },
   } = useTypingGame(props.text);
@@ -67,8 +68,11 @@ const Race: React.FC<RaceProps> = (props) => {
     });
     props.socket.current.emit('finishRace', {
       endTime: endTime,
+      startTime: startTime,
       correctChar: correctChar,
       errorChar: errorChar,
+      allKeyPresses: allKeyPresses,
+      length: length,
     });
     history.push({
       pathname: `/${roomId}/results`,
@@ -112,6 +116,7 @@ const Race: React.FC<RaceProps> = (props) => {
             correctChar,
             errorChar,
             phase,
+            allKeyPresses,
           },
           null,
           2,
