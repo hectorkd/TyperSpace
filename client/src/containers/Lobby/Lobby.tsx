@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import { IPlayer } from '../../interfaces/Player';
@@ -6,7 +6,7 @@ import PlayersList from '../../components/PlayerList/PlayerList';
 
 import './styles/Lobby.scss';
 
-type Props = {
+type LobbyProps = {
   socket: any;
   setSocket: any;
   text: string;
@@ -14,38 +14,36 @@ type Props = {
   children?: ReactNode;
 };
 
-const Lobby: React.FC<Props> = (props) => {
-  //console.log(props);
+const Lobby: React.FC<LobbyProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
-  props.setText('Test text');
-  //TODO: put ws events inside useEffect to run it once?
-  props.socket.current.on('getParagraph', (text: string) => {
-    console.log('paragraph from server ', text);
-    //TODO: store paragraph
-    // props.setText(text);
-  });
+  const [players, setPlayers] = useState<IPlayer[]>([]);
 
-  props.socket.current.on('playerInfo', (players: IPlayer[]) => {
-    console.log('received from server for room ', players);
-    //TODO: show players on a page, maybe with useEffect?
-  });
+  useEffect(() => {
+    //get random paragpraph from server
+    props.socket.current.on('getParagraph', (text: string) => {
+      console.log('paragraph from server ', text);
+      props.setText(text);
+    });
+    //get players
+    props.socket.current.on('playerInfo', (players: IPlayer[]) => {
+      console.log('received from server for room ', players);
+      setPlayers(players);
+    });
+  }, []); //don't add props to array
 
-  function handleClick(): void {
-    //TODO: ws emit synchStart
-    // props.socket.current.emit('syncStart');
-    // history.push({
-    //   pathname: `/${roomId}/race`,
-    //   // state: {
-    //   //   text: 'Test paragraph for a race'
-    //   // }
-    // });
+  function handleClickStart(): void {
+    props.socket.current.emit('syncStart');
+    history.push({
+      pathname: `/${roomId}/race`,
+    });
   }
+
   return (
     <div className="lobby-bg-container">
       <div className="lobby-room-display-box"></div>
       <PlayersList />
-      <button onClick={handleClick} className="lobby-btn-start">
+      <button onClick={handleClickStart} className="lobby-btn-start">
         {' '}
         Start Race{' '}
       </button>

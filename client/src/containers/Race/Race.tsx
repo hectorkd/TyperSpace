@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import useTypingGame from '../../useTypingGame';
 
 import './styles/Race.scss';
 
-type Props = {
+type RaceProps = {
   socket: any;
   setSocket: any;
   text: string;
@@ -13,11 +13,11 @@ type Props = {
   children?: ReactNode;
 };
 
-const Race: React.FC<Props> = (props) => {
-  // const text = props.text;
+const Race: React.FC<RaceProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
-  // console.log(props.text);
+  const [start, setStart] = useState<number>();
+
   const {
     states: {
       charsState,
@@ -33,27 +33,22 @@ const Race: React.FC<Props> = (props) => {
     actions: { insertTyping, deleteTyping },
   } = useTypingGame(props.text);
 
+  // useEffect(() => {
   props.socket.current.on('startTime', (startTime: number) => {
-    console.log('time right now', Date.now());
     console.log('received startTime! ', startTime);
+    setStart(startTime);
   });
+  // }, [props.socket]);
 
   const handleKey = (key: any) => {
-    // console.log(key);
-    //don't need to reset game during race
-    // if (key === "Escape") {
-    //   // console.log('resetting game');
-    //   resetTyping();
     if (key === 'Backspace') {
-      // console.log('deleting character');
       deleteTyping(false);
       props.socket.current.emit('position', {
         currChar: currChar,
         currIndex: currIndex,
       });
     } else if (key.length === 1) {
-      // console.log('inserting key');
-      insertTyping(key);
+      insertTyping(key, start);
       props.socket.current.emit('position', {
         currChar: currChar,
         currIndex: currIndex,
@@ -65,7 +60,7 @@ const Race: React.FC<Props> = (props) => {
     console.log(msg);
   });
 
-  function handleClick(): void {
+  function handleClickFinish(): void {
     console.log({
       endTime,
       correctChar,
@@ -123,7 +118,7 @@ const Race: React.FC<Props> = (props) => {
           2,
         )}
       </pre>
-      <button onClick={handleClick}> Finish Race </button>
+      <button onClick={handleClickFinish}> Finish Race </button>
     </div>
   );
 };
