@@ -26,6 +26,7 @@ io.on('connection', async (socket) => {
   socket.join(`${roomId}`);
 
   socket.on('userInfo', async ({ userName, color }) => {
+    console.log('got userinfo from', userName);
     const curUser = gameState[`${roomId}`].users[socket.id];
     const updatedUser = {
       ...curUser,
@@ -38,7 +39,10 @@ io.on('connection', async (socket) => {
       usersArray.push(gameState[`${roomId}`].users[user]);
     }
     io.to(`${roomId}`).emit('playerInfo', usersArray);
-    io.to(`${roomId}`).emit('getParagraph', gameState[`${roomId}`].paragraph);
+    io.to(`${socket.id}`).emit(
+      'getParagraph',
+      gameState[`${roomId}`].paragraph,
+    ); // emit paragraph once only to user
   });
 
   socket.on('syncStart', () => {
