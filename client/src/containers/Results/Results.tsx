@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { IPlayer } from '../../interfaces/Player';
+import IPlayer from '../../interfaces/Player';
 import rocket2 from '../../assets/icons/rocket2yellow.png';
 import PlayerPlacementItem from '../../components/PlayerPlacementItem/PlayerPlacementItem';
 import './styles/Results.scss';

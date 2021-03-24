@@ -66,6 +66,10 @@
     }
   }
 
+  .selected {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+
   .avatar-images:hover {
     background-color: white;
     // border: 0.5vw solid white;

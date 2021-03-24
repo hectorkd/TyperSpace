@@ -1,24 +1,24 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-import { IPlayer } from '../../interfaces/Player';
+import IPlayer from '../../interfaces/Player';
 import PlayersList from '../../components/PlayerList/PlayerList';
 
 import './styles/Lobby.scss';
 
 type LobbyProps = {
   socket: any;
-  setSocket: any;
+  setSocket: React.Dispatch<React.SetStateAction<undefined>>;
   text: string;
-  setText: any;
+  setText: React.Dispatch<React.SetStateAction<string>>;
   children?: ReactNode;
+  players: IPlayer[];
+  setPlayers: React.Dispatch<React.SetStateAction<IPlayer[]>>;
 };
 
 const Lobby: React.FC<LobbyProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
-
-  const [players, setPlayers] = useState<IPlayer[]>([]);
 
   useEffect(() => {
     //get random paragpraph from server
@@ -28,8 +28,8 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     });
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
-      console.log('received from server for room ', players);
-      setPlayers(players);
+      props.setPlayers(players);
+      console.log(players);
     });
   }, []); //don't add props to array
 
@@ -37,14 +37,13 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     props.socket.current.emit('syncStart');
     history.push({
       pathname: `/${roomId}/race`,
-
     });
   }
 
   return (
     <div className="lobby-bg-container">
       <div className="lobby-room-display-box"></div>
-      <PlayersList />
+      <PlayersList players={props.players} />
       <button onClick={handleClickStart} className="lobby-btn-start">
         {' '}
         Start Race{' '}
