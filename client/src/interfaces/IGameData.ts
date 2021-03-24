@@ -1,6 +1,5 @@
 export default interface IgameState {
-  finishTime: Date;
-  correctCharacters: number;
-  errorCharacters: number;
+  finishTime: string;
   WPM: number;
+  accuracy: number;
 }
