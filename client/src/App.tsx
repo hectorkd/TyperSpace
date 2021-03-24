@@ -10,7 +10,7 @@ import IPlayer from './interfaces/Player';
 
 const App: React.FC = () => {
   const [socket, setSocket] = useState();
-  const [text, setText] = useState('');
+  const [text, setText] = useState<string>('');
   const [players, setPlayers] = useState<IPlayer[]>([]);
 
   return (
