@@ -51,6 +51,11 @@ const Race: React.FC<RaceProps> = (props) => {
   } = useTypingGame(props.text);
 
   useEffect(() => {
+    props.socket.current.on('startTime', (startTime: number) => {
+      console.log('received startTime! ', startTime);
+      setStart(startTime);
+    });
+
     const currPlayer = props.socket.current.id;
     let newAhead = { player: '', idx: 0 };
     let newBehind = { player: '', idx: 0 };
@@ -81,10 +86,10 @@ const Race: React.FC<RaceProps> = (props) => {
     console.log('behind me', behind.player, behind.idx);
   }, [allPlayerCurrentIndex]);
 
-  props.socket.current.on('startTime', (startTime: number) => {
-    console.log('received startTime! ', startTime);
-    setStart(startTime);
-  });
+  // props.socket.current.on('startTime', (startTime: number) => {
+  //   console.log('received startTime! ', startTime);
+  //   setStart(startTime);
+  // });
 
   const handleKey = (key: any) => {
     if (key === 'Backspace') {

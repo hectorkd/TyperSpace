@@ -38,10 +38,14 @@ io.on('connection', async (socket) => {
       usersArray.push(gameState[`${roomId}`].users[user]);
     }
     io.to(`${roomId}`).emit('playerInfo', usersArray);
-    io.to(`${roomId}`).emit('getParagraph', gameState[`${roomId}`].paragraph);
+    io.to(`${socket.id}`).emit(
+      'getParagraph',
+      gameState[`${roomId}`].paragraph,
+    ); // emit paragraph once only to user
   });
 
   socket.on('syncStart', () => {
+    io.to(`${roomId}`).emit('startRace');
     const timeNow = Date.now();
     const raceStartTime = timeNow + 5000;
     gameState[`${roomId}`].startTime = raceStartTime;

@@ -19,6 +19,7 @@ type LobbyProps = {
 const Lobby: React.FC<LobbyProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
+  const [isHost, setIsHost] = useState(false);
 
   useEffect(() => {
     //get random paragpraph from server
@@ -29,7 +30,11 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
       props.setPlayers(players);
-      console.log(players);
+      const player = players.filter(
+        (player) => player.userId === props.socket.current.id,
+      );
+      console.log('Is host?', player[0].isHost);
+      setIsHost(player[0].isHost);
     });
   }, []); //don't add props to array
 
@@ -40,11 +45,23 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     });
   }
 
+  // go to race when host clicked Start Sace
+  props.socket.current.on('startRace', () => {
+    history.push({
+      pathname: `/${roomId}/race`,
+    });
+  });
+
+  //TODO: another style for disabled button?
   return (
     <div className="lobby-bg-container">
       <div className="lobby-room-display-box"></div>
       <PlayersList players={props.players} />
-      <button onClick={handleClickStart} className="lobby-btn-start">
+      <button
+        disabled={!isHost}
+        onClick={handleClickStart}
+        className="lobby-btn-start"
+      >
         {' '}
         Start Race{' '}
       </button>
