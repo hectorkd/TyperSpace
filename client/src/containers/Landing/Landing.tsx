@@ -1,5 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+
+import Footer from '../../components/Footer/Footer';
+
 import './styles/Landing.scss';
 
 const Landing: React.FC = () => {
@@ -29,6 +32,7 @@ const Landing: React.FC = () => {
         </button>
         <button className="landing-buttons join-btn"> Join Room</button>
       </div>
+      <Footer></Footer>
     </div>
   );
 };

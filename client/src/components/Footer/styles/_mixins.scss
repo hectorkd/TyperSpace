@@ -1,0 +1,9 @@
+@mixin footer-text {
+  margin: 0;
+  line-height: 0;
+  color: $colour-white;
+  font-family: $sanchezRegular;
+  &:hover {
+    cursor: pointer;
+  }
+}

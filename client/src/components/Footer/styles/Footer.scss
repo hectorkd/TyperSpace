@@ -1,0 +1,31 @@
+@import '../../../globalStyles/globalVariables';
+//@import '../../../globalStyles/globalMixins';
+@import './mixins';
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba($color: #fff, $alpha: 0.2);
+  width: 100%;
+  bottom: 0;
+  position: fixed;
+  //   border: 2px solid red;
+
+  .logo {
+    padding: 5px;
+    font-size: 4vh;
+    @include footer-text;
+  }
+
+  .footer-list {
+    list-style: none;
+    display: flex;
+  }
+
+  .item-name {
+    @include footer-text;
+    padding: 8px 30px;
+    font-size: 3.5vh;
+  }
+}
