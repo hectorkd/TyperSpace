@@ -15,7 +15,11 @@ type ActionItemType =
   | { type: ActionType.RESET; payload?: undefined }
   | { type: ActionType.END; payload?: undefined }
   | { type: ActionType.TYPINGDELETE; payload: boolean }
-  | { type: ActionType.TYPINGINSERT; payload: string | null }
+  | {
+      type: ActionType.TYPINGINSERT;
+      payload: string | null;
+      start: number | null;
+    }
   | { type: ActionType.SETCURRENTINDEX; payload: number };
 
 /**
@@ -102,9 +106,10 @@ type TypingActionType = {
   /**
    * Insert a character into the current typing sequence.
    * @param {string | null} char A character to be inserted.
+   * @param {number | null} start StartTime received from the server
    * If falsy or no argument is supplied, skip the current character.
    */
-  insertTyping: (char?: string | null) => void;
+  insertTyping: (char?: string | null, start?: number | null) => void;
   /**
    * Delete a character from the current typing sequence.
    * @param {boolean} [deleteWord] If `true`, deletes the whole of the current word. Defaults to `false`.
@@ -170,6 +175,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
     //insert character action
     case ActionType.TYPINGINSERT: {
       const letter = action.payload ?? null;
+      const startGame = action.start ?? null;
       let newStartTime = startTime;
       let newEndTime = endTime;
       let newPhase = phase;
@@ -186,7 +192,8 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       if (phase === 0) {
         // phase = 1;
         newPhase = 1;
-        newStartTime = new Date().getTime(); //TODO: startTime is coming from ws
+        // newStartTime = new Date().getTime();
+        newStartTime = startGame; // startTime is coming from server
       }
 
       // last case: phase = 1 -> insert character
@@ -220,7 +227,8 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         newCurrIndex += 1;
       }
 
-      if (currIndex >= length - 1) {
+      // if (currIndex === length - 2 && !charsState.some((el) => el === 2)) {
+      if (currIndex === length - 2) {
         // if text is finished
         newEndTime = new Date().getTime(); //set finishtime
         newPhase = 2; // set finish state
@@ -345,10 +353,11 @@ const useTypingGame = (
       },
       resetTyping: () => dispatch({ type: ActionType.RESET }),
       endTyping: () => dispatch({ type: ActionType.END }),
-      insertTyping: (letter = null) => {
+      insertTyping: (letter = null, start = null) => {
         dispatch({
           type: ActionType.TYPINGINSERT,
           payload: letter ? letter[0] : null,
+          start: start ? start : null,
         });
       },
       deleteTyping: (deleteWord = false) => {

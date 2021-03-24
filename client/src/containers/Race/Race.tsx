@@ -1,5 +1,6 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import IpositionData from '../../interfaces/positionData';
 
 import useTypingGame from '../../useTypingGame';
 
@@ -11,7 +12,7 @@ import violetRocket from '../../assets/icons/rocket5violet.png';
 
 import './styles/Race.scss';
 
-type Props = {
+type RaceProps = {
   socket: any;
   setSocket: any;
   text: string;
@@ -19,12 +20,11 @@ type Props = {
   children?: ReactNode;
 };
 
-const Race: React.FC<Props> = (props) => {
-  // const text = props.text;
+const Race: React.FC<RaceProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
-  // console.log(props.text);
-
+  const [positions, setPositions] = useState({});
+  const [start, setStart] = useState<number>();
   const {
     states: {
       charsState,
@@ -40,27 +40,18 @@ const Race: React.FC<Props> = (props) => {
     actions: { insertTyping, deleteTyping },
   } = useTypingGame(props.text);
 
+  // useEffect(() => {
   props.socket.current.on('startTime', (startTime: number) => {
-    console.log('time right now', Date.now());
     console.log('received startTime! ', startTime);
+    setStart(startTime);
   });
+  // }, [props.socket]);
 
   const handleKey = (key: any) => {
-    // console.log(key);
-    //don't need to reset game during race
-    // if (key === "Escape") {
-    //   // console.log('resetting game');
-    //   resetTyping();
     if (key === 'Backspace') {
-      // console.log('deleting character');
       deleteTyping(false);
-      props.socket.current.emit('position', {
-        currChar: currChar,
-        currIndex: currIndex,
-      });
     } else if (key.length === 1) {
-      // console.log('inserting key');
-      insertTyping(key);
+      insertTyping(key, start);
       props.socket.current.emit('position', {
         currChar: currChar,
         currIndex: currIndex,
@@ -68,11 +59,12 @@ const Race: React.FC<Props> = (props) => {
     }
   };
 
-  props.socket.current.on('positions', (msg: any) => {
-    console.log(msg);
+  props.socket.current.on('positions', (data: IpositionData) => {
+    setPositions(data);
+    console.log(positions);
   });
 
-  function handleClick(): void {
+  function handleClickFinish(): void {
     console.log({
       endTime,
       correctChar,
@@ -148,7 +140,7 @@ const Race: React.FC<Props> = (props) => {
           2,
         )}
       </pre> */}
-        <button onClick={handleClick} className="race-btn-finish">
+        <button onClick={handleClickFinish} className="race-btn-finish">
           Finish Race
         </button>
       </div>
