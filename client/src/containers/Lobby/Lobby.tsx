@@ -45,6 +45,14 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     });
   }
 
+  // go to race when host clicked Start Sace
+  props.socket.current.on('startRace', () => {
+    history.push({
+      pathname: `/${roomId}/race`,
+    });
+  });
+
+  //TODO: another style for disabled button?
   return (
     <div className="lobby-bg-container">
       <div className="lobby-room-display-box"></div>

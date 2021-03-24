@@ -45,6 +45,7 @@ io.on('connection', async (socket) => {
   });
 
   socket.on('syncStart', () => {
+    io.to(`${roomId}`).emit('startRace');
     const timeNow = Date.now();
     const raceStartTime = timeNow + 5000;
     gameState[`${roomId}`].startTime = raceStartTime;
