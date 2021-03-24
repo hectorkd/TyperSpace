@@ -17,6 +17,7 @@ type LobbyProps = {
 const Lobby: React.FC<LobbyProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
+
   const [players, setPlayers] = useState<IPlayer[]>([]);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     props.socket.current.emit('syncStart');
     history.push({
       pathname: `/${roomId}/race`,
+
     });
   }
 
