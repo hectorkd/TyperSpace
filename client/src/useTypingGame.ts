@@ -83,6 +83,10 @@ interface TypingStateType extends TypingOptionsType {
    * Time in milliseconds when the typing ended
    */
   endTime: number | null;
+  /**
+   *  Total number of key presses
+   */
+  allKeyPresses: number;
 }
 
 /**
@@ -133,6 +137,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
     correctChar,
     errorChar,
     phase,
+    allKeyPresses,
     // skipCurrentWordOnSpace,
     pauseOnError,
   } = state;
@@ -230,10 +235,11 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       // if (currIndex === length - 2 && !charsState.some((el) => el === 2)) {
       if (currIndex === length - 2) {
         // if text is finished
-        newEndTime = new Date().getTime(); //set finishtime
+        newEndTime = Date.now(); //set finishtime
         newPhase = 2; // set finish state
       }
       const currChar = currIndex >= 0 ? chars[currIndex] : ''; //go to next letter
+      const newAllKeyPresses = allKeyPresses + 1;
       return {
         ...state,
         charsState: newCharsState,
@@ -244,6 +250,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         phase: newPhase,
         startTime: newStartTime,
         endTime: newEndTime,
+        allKeyPresses: newAllKeyPresses,
       };
     }
 
@@ -324,6 +331,7 @@ const useTypingGame = (
     phase: 0,
     skipCurrentWordOnSpace: true,
     pauseOnError: false,
+    allKeyPresses: 0,
     ...options,
   };
 

@@ -24,7 +24,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     //get random paragpraph from server
     props.socket.current.on('getParagraph', (text: string) => {
       console.log('paragraph from server ', text);
-      props.setText(text);
+      props.setText('test text');
     });
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
