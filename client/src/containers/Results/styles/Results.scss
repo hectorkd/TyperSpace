@@ -118,8 +118,8 @@
         align-items: center;
         flex: 1;
         img {
-          height: 100%;
-          width: 40%;
+          height: 80%;
+          width: 32%;
         }
       }
     }
@@ -134,4 +134,11 @@
     // border: 2px solid yellow;
     overflow-y: hidden;
   }
+}
+
+.table-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  color: white;
 }

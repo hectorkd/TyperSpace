@@ -13,7 +13,7 @@
   // border-style: solid;
   // border-width: 2px 4px 2px 2px;
   width: 80%;
-  height: 15%;
+  height: 10%;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
@@ -21,7 +21,7 @@
 
 .placement-name-container {
   @include label-font;
-  font-size: 150%;
+  font-size: 100%;
   flex: 2;
   height: 100%;
   display: flex;
@@ -29,28 +29,38 @@
   border-right: 4px solid white;
   justify-content: flex-start;
   align-items: center;
-  .placement-place {
-    flex: 1;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // border: 2px solid red;
-  }
-  .placement-name {
-    flex: 3;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: yellow;
-    // border: 2px solid red;
-  }
+}
+.placement-place {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // border: 2px solid red;
+}
+.placement-name {
+  flex: 3;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: yellow;
+  // border: 2px solid red;
 }
 
 .placement-wpm-container {
   @include label-font;
-  font-size: 150%;
+  font-size: 100%;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  border-right: 4px solid white;
+  justify-content: center;
+  align-items: center;
+}
+.placement-accuracy-container {
+  @include label-font;
+  font-size: 100%;
   flex: 1;
   height: 100%;
   display: flex;
@@ -61,10 +71,20 @@
 
 .placement-time-container {
   @include label-font;
-  font-size: 150%;
+  font-size: 100%;
   flex: 1;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.conditional-render {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+}
+
+.placement-container h2 {
+  color: white;
 }
