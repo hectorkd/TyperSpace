@@ -26,7 +26,6 @@ io.on('connection', async (socket) => {
   socket.join(`${roomId}`);
 
   socket.on('userInfo', async ({ userName, color }) => {
-    console.log('got userinfo from', userName);
     const curUser = gameState[`${roomId}`].users[socket.id];
     const updatedUser = {
       ...curUser,
