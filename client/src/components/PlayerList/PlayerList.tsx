@@ -1,7 +1,7 @@
 import React from 'react';
 import PlayerListItem from '../PlayerListItem/PlayerListItem';
 import './styles/PlayerList.scss';
-import IPlayer from '../../interfaces/Player';
+import IPlayer from '../../interfaces/IPlayer';
 
 type PlayerListProps = {
   players: IPlayer[];

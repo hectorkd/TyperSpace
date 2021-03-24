@@ -1,14 +1,13 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import IpositionData from '../../interfaces/positionData';
-
+import IPositionData from '../../interfaces/IPositionData';
 import useTypingGame from '../../useTypingGame';
 
-import blueRocket from '../../assets/icons/rocket1blue.png';
-import yellowRocket from '../../assets/icons/rocket2yellow.png';
-import orangeRocket from '../../assets/icons/rocket3orange.png';
-import pinkRocket from '../../assets/icons/rocket4pink.png';
-import violetRocket from '../../assets/icons/rocket5violet.png';
+// import blueRocket from '../../assets/icons/rocket1blue.png';
+// import yellowRocket from '../../assets/icons/rocket2yellow.png';
+// import orangeRocket from '../../assets/icons/rocket3orange.png';
+// import pinkRocket from '../../assets/icons/rocket4pink.png';
+// import violetRocket from '../../assets/icons/rocket5violet.png';
 
 import './styles/Race.scss';
 
@@ -20,17 +19,27 @@ type RaceProps = {
   children?: ReactNode;
 };
 
+type ahead = {
+  player: string;
+  idx: number;
+};
+
 const Race: React.FC<RaceProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
-  const [positions, setPositions] = useState({});
+  const [
+    allPlayerCurrentIndex,
+    setAllPlayerCurrentIndex,
+  ] = useState<IPositionData>({});
+  const [ahead, setAhead] = useState<ahead>({ player: '', idx: 0 });
+  const [behind, setBehind] = useState<ahead>({ player: '', idx: 0 });
   const [start, setStart] = useState<number>();
+
   const {
     states: {
       charsState,
       length,
       currIndex,
-      currChar,
       correctChar,
       errorChar,
       phase,
@@ -42,8 +51,35 @@ const Race: React.FC<RaceProps> = (props) => {
   } = useTypingGame(props.text);
 
   useEffect(() => {
-    console.log(positions);
-  }, [positions]);
+    const currPlayer = props.socket.current.id;
+    let newAhead = { player: '', idx: 0 };
+    let newBehind = { player: '', idx: 0 };
+    for (const player in allPlayerCurrentIndex) {
+      if (
+        player !== currPlayer &&
+        allPlayerCurrentIndex[player] >= allPlayerCurrentIndex[currPlayer]
+      ) {
+        if (!newAhead.player || allPlayerCurrentIndex[player] < newAhead.idx) {
+          newAhead = { player: player, idx: allPlayerCurrentIndex[player] };
+        }
+      }
+      if (
+        player !== currPlayer &&
+        allPlayerCurrentIndex[player] < allPlayerCurrentIndex[currPlayer]
+      ) {
+        if (
+          !newBehind.player ||
+          allPlayerCurrentIndex[player] > newBehind.idx
+        ) {
+          newBehind = { player: player, idx: allPlayerCurrentIndex[player] };
+        }
+      }
+    }
+    setAhead(newAhead);
+    setBehind(newBehind);
+    console.log('ahead of me', ahead.player, ahead.idx);
+    console.log('behind me', behind.player, behind.idx);
+  }, [allPlayerCurrentIndex]);
 
   props.socket.current.on('startTime', (startTime: number) => {
     console.log('received startTime! ', startTime);
@@ -55,15 +91,14 @@ const Race: React.FC<RaceProps> = (props) => {
       deleteTyping(false);
     } else if (key.length === 1) {
       insertTyping(key, start);
-      props.socket.current.emit('position', {
-        currChar: currChar,
-        currIndex: currIndex,
-      });
     }
+    props.socket.current.emit('position', {
+      currIndex: currIndex,
+    });
   };
 
-  props.socket.current.on('positions', (data: IpositionData) => {
-    setPositions(data);
+  props.socket.current.on('positions', (data: IPositionData) => {
+    setAllPlayerCurrentIndex(data);
   });
 
   function handleClickFinish(): void {

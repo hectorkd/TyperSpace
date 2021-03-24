@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-import IPlayer from '../../interfaces/Player';
+import IPlayer from '../../interfaces/IPlayer';
 import PlayersList from '../../components/PlayerList/PlayerList';
 
 import './styles/Lobby.scss';

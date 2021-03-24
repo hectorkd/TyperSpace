@@ -6,7 +6,7 @@ import Lobby from './containers/Lobby/Lobby';
 import Avatar from './containers/Avatar/Avatar';
 import Race from './containers/Race/Race';
 import Results from './containers/Results/Results';
-import IPlayer from './interfaces/Player';
+import IPlayer from './interfaces/IPlayer';
 
 const App: React.FC = () => {
   const [socket, setSocket] = useState();

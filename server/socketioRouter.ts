@@ -48,17 +48,17 @@ io.on('connection', async (socket) => {
     io.to(`${roomId}`).emit('startTime', `${timeNow}`);
   });
 
-  socket.on('position', ({ currIndex, currChar }) => {
+  socket.on('position', ({ currIndex }) => {
     const currPositions = gameState[`${roomId}`].positions;
     const newPositions = {
       ...currPositions,
-      [socket.id]: { currIndex, currChar },
+      [socket.id]: currIndex,
     };
     gameState[`${roomId}`].positions = newPositions;
   });
 
   setInterval(() => {
-    socket.to(`${roomId}`).emit('positions', gameState[`${roomId}`].positions);
+    io.in(`${roomId}`).emit('positions', gameState[`${roomId}`].positions);
   }, 2000);
 
   socket.on(
