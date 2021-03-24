@@ -4,6 +4,12 @@ import IpositionData from '../../interfaces/positionData';
 
 import useTypingGame from '../../useTypingGame';
 
+import blueRocket from '../../assets/icons/rocket1blue.png';
+import yellowRocket from '../../assets/icons/rocket2yellow.png';
+import orangeRocket from '../../assets/icons/rocket3orange.png';
+import pinkRocket from '../../assets/icons/rocket4pink.png';
+import violetRocket from '../../assets/icons/rocket5violet.png';
+
 import './styles/Race.scss';
 
 type RaceProps = {
@@ -19,7 +25,6 @@ const Race: React.FC<RaceProps> = (props) => {
   const history = useHistory();
   const [positions, setPositions] = useState({});
   const [start, setStart] = useState<number>();
-
   const {
     states: {
       charsState,
@@ -76,33 +81,51 @@ const Race: React.FC<RaceProps> = (props) => {
     });
   }
 
+  //TODO: optimise font size to paragraph length
+
   return (
-    <div>
-      <h1>React Typing Game Hook Demo</h1>
-      <p>Click on the text below and start typing (esc to reset)</p>
-      <div
-        className="typing-test"
-        onKeyDown={(e) => {
-          handleKey(e.key);
-          e.preventDefault();
-        }}
-        tabIndex={0}
-      >
-        {props.text.split('').map((char, index) => {
-          const state = charsState[index];
-          const color = state === 0 ? 'black' : state === 1 ? 'green' : 'red';
-          return (
-            <span
-              key={char + index}
-              style={{ color }}
-              className={currIndex + 1 === index ? 'curr-letter' : ''}
-            >
-              {char}
-            </span>
-          );
-        })}
+    <div className="race-bg-container">
+      <div className="race-info-container left-side-bar">
+        <div className="race-info-time"></div>
+        <div className="race-info-wpm"></div>
       </div>
-      <pre>
+      <div className="race-container">
+        <div
+          className="race-typing-test"
+          onKeyDown={(e) => {
+            handleKey(e.key);
+            e.preventDefault();
+          }}
+          tabIndex={0}
+        >
+          {props.text.split('').map((char, index) => {
+            const state = charsState[index];
+            const color =
+              state === 0 ? 'black' : state === 1 ? 'darkgreen' : 'red';
+            const charBgcolor =
+              state === 0
+                ? 'transparent'
+                : state === 1
+                ? 'lightgreen'
+                : 'lightcoral';
+            return (
+              <span
+                key={char + index}
+                style={{
+                  color,
+                  backgroundColor: charBgcolor,
+                  borderTop: '1px solid lightgrey',
+                  borderRight: '1px solid lightgrey',
+                  borderRadius: '6px',
+                }}
+                className={currIndex + 1 === index ? 'curr-letter' : ''}
+              >
+                {char}
+              </span>
+            );
+          })}
+        </div>
+        {/* <pre>
         {JSON.stringify(
           {
             startTime,
@@ -117,8 +140,15 @@ const Race: React.FC<RaceProps> = (props) => {
           null,
           2,
         )}
-      </pre>
-      <button onClick={handleClickFinish}> Finish Race </button>
+      </pre> */}
+        <button onClick={handleClickFinish} className="race-btn-finish">
+          Finish Race
+        </button>
+      </div>
+      <div className="race-info-container right-side-bar">
+        <div className="race-info-leader-icon"> </div>
+        <div className="race-info-leader-name"> </div>
+      </div>
     </div>
   );
 };

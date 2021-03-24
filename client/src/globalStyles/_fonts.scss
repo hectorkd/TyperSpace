@@ -29,8 +29,18 @@
     url(../assets/fonts/Sanchez/Sanchez-Italic.woff) format('woff'),
     url(../assets/fonts/Sanchez/Sanchez-Italic.woff2) format('woff2');
 }
+@font-face {
+  font-family: 'RobotoMono-Regular';
+  src: local('RobotoMono-Regular'),
+    url(../assets/fonts/Roboto/RobotoMono-Regular.ttf) format('tff'),
+    url(../assets/fonts/Roboto/RobotoMono-Regular.eot) format('eot'),
+    url(../assets/fonts/Roboto/RobotoMono-Regular.woff) format('woff'),
+    url(../assets/fonts/Roboto/RobotoMono-Regular.woff2) format('woff2');
+}
 
 //declare fonts as scss variables
+
 $atariFont: 'PressStart2p-Regular';
 $sanchezRegular: 'Sanchez-Regular';
+$robotoMonoRegular: 'RobotoMono-Regular';
 $sanchezItalic: 'Sanchez-Italic';
