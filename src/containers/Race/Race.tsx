@@ -1,17 +1,14 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import IPositionData from '../../interfaces/IPositionData';
 import useTypingGame from '../../useTypingGame';
+import rocketObj from '../../assets/icons/rocketObj';
 
 import CountDown from '../../components/CountDown/CountDown';
-
-// import blueRocket from '../../assets/icons/rocket1blue.png';
-// import yellowRocket from '../../assets/icons/rocket2yellow.png';
-// import orangeRocket from '../../assets/icons/rocket3orange.png';
-// import pinkRocket from '../../assets/icons/rocket4pink.png';
-// import violetRocket from '../../assets/icons/rocket5violet.png';
+import gsap from 'gsap';
 
 import './styles/Race.scss';
+import IPlayer from '../../interfaces/IPlayer';
 
 type RaceProps = {
   socket: any;
@@ -21,10 +18,11 @@ type RaceProps = {
   children?: ReactNode;
 };
 
-type ahead = {
+interface ahead {
   player: string;
   idx: number;
-};
+  color: string;
+}
 
 const Race: React.FC<RaceProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
@@ -33,11 +31,18 @@ const Race: React.FC<RaceProps> = (props) => {
     allPlayerCurrentIndex,
     setAllPlayerCurrentIndex,
   ] = useState<IPositionData>({});
-  const [ahead, setAhead] = useState<ahead>({ player: '', idx: 0 });
-  const [behind, setBehind] = useState<ahead>({ player: '', idx: 0 });
+  const [ahead, setAhead] = useState<ahead>({ player: '', idx: 0, color: '' });
+  const [behind, setBehind] = useState<ahead>({
+    player: '',
+    idx: 0,
+    color: '',
+  });
   const [start, setStart] = useState<number>();
   const [countDown, setCountDown] = useState<number>(-1);
   const [gamePhase, setGamePhase] = useState<number>(0);
+
+  const aheadRef = useRef<HTMLElement>(null);
+  const behindRef = useRef<HTMLElement>(null);
 
   const {
     states: {
@@ -61,33 +66,54 @@ const Race: React.FC<RaceProps> = (props) => {
     });
 
     const currPlayer = props.socket.current.id;
-    let newAhead = { player: '', idx: 0 };
-    let newBehind = { player: '', idx: 0 };
+    let newAhead = { player: '', idx: 0, color: '' };
+    let newBehind = { player: '', idx: 0, color: '' };
     for (const player in allPlayerCurrentIndex) {
       if (
+        allPlayerCurrentIndex[currPlayer] &&
         player !== currPlayer &&
-        allPlayerCurrentIndex[player] >= allPlayerCurrentIndex[currPlayer]
+        allPlayerCurrentIndex[player].currIndex >=
+          allPlayerCurrentIndex[currPlayer].currIndex
       ) {
-        if (!newAhead.player || allPlayerCurrentIndex[player] < newAhead.idx) {
-          newAhead = { player: player, idx: allPlayerCurrentIndex[player] };
+        if (
+          !newAhead.player ||
+          allPlayerCurrentIndex[player].currIndex < newAhead.idx
+        ) {
+          newAhead = {
+            player: player,
+            idx: allPlayerCurrentIndex[player].currIndex,
+            color: allPlayerCurrentIndex[player].color,
+          };
         }
       }
       if (
+        allPlayerCurrentIndex[currPlayer] &&
         player !== currPlayer &&
-        allPlayerCurrentIndex[player] < allPlayerCurrentIndex[currPlayer]
+        allPlayerCurrentIndex[player].currIndex <
+          allPlayerCurrentIndex[currPlayer].currIndex
       ) {
         if (
           !newBehind.player ||
-          allPlayerCurrentIndex[player] > newBehind.idx
+          allPlayerCurrentIndex[player].currIndex > newBehind.idx
         ) {
-          newBehind = { player: player, idx: allPlayerCurrentIndex[player] };
+          newBehind = {
+            player: player,
+            idx: allPlayerCurrentIndex[player].currIndex,
+            color: allPlayerCurrentIndex[player].color,
+          };
         }
       }
     }
     setAhead(newAhead);
     setBehind(newBehind);
-    // console.log('ahead of me', ahead.player, ahead.idx);
-    // console.log('behind me', behind.player, behind.idx);
+    gsap.to('.aheadRocket', {
+      duration: 0.3,
+      x: aheadRef.current ? aheadRef.current.offsetLeft : 0,
+    });
+    gsap.to('.behindRocket', {
+      duration: 0.3,
+      x: behindRef.current ? behindRef.current.offsetLeft : 0,
+    });
   }, [allPlayerCurrentIndex]);
 
   //go to results page automatically
@@ -125,18 +151,6 @@ const Race: React.FC<RaceProps> = (props) => {
     setAllPlayerCurrentIndex(data);
   });
 
-  // function handleClickFinish(): void {
-  //   props.socket.current.emit('finishRace', {
-  //     endTime: endTime,
-  //     startTime: startTime,
-  //     allKeyPresses: allKeyPresses,
-  //     length: length,
-  //   });
-  //   history.push({
-  //     pathname: `/${roomId}/results`,
-  //   });
-  // }
-
   //TODO: optimise font size to paragraph length
   //TODO: style countdown
 
@@ -159,6 +173,35 @@ const Race: React.FC<RaceProps> = (props) => {
               }}
               tabIndex={0}
             >
+              {aheadRef?.current && (
+            <img
+              src={rocketObj[`${ahead.color}Rocket`]}
+              className="aheadRocket"
+              style={{
+                width: '35px',
+                height: '60px',
+                transform: 'rotate(90deg)',
+                position: 'absolute',
+                top: `${aheadRef.current.offsetTop - 47}px`,
+                left: '-30px',
+              }}
+            />
+          )}
+
+          {behindRef?.current && (
+            <img
+              src={rocketObj[`${behind.color}Rocket`]}
+              className="behindRocket"
+              style={{
+                width: '35px',
+                height: '60px',
+                transform: 'rotate(90deg)',
+                position: 'absolute',
+                top: `${behindRef.current.offsetTop - 47}px`,
+                left: '-30px',
+              }}
+            />
+          )}
               {props.text.split('').map((char, index) => {
                 const state = charsState[index];
                 const color =
@@ -172,6 +215,13 @@ const Race: React.FC<RaceProps> = (props) => {
                 return (
                   <span
                     key={char + index}
+                    ref={
+                  ahead.player && ahead.idx + 2 === index
+                    ? aheadRef
+                    : behind.player && behind.idx + 2 === index
+                    ? behindRef
+                    : null
+                }
                     style={{
                       color,
                       backgroundColor: charBgcolor,
