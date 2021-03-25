@@ -4,6 +4,7 @@ import IPositionData from '../../interfaces/IPositionData';
 import useTypingGame from '../../useTypingGame';
 import rocketObj from '../../assets/icons/rocketObj';
 
+import CountDown from '../../components/CountDown/CountDown';
 import gsap from 'gsap';
 
 import './styles/Race.scss';
@@ -37,6 +38,8 @@ const Race: React.FC<RaceProps> = (props) => {
     color: '',
   });
   const [start, setStart] = useState<number>();
+  const [countDown, setCountDown] = useState<number>(-1);
+  const [gamePhase, setGamePhase] = useState<number>(0);
 
   const aheadRef = useRef<HTMLElement>(null);
   const behindRef = useRef<HTMLElement>(null);
@@ -45,10 +48,8 @@ const Race: React.FC<RaceProps> = (props) => {
     states: {
       charsState,
       length,
-      currIndex,
-      correctChar,
-      errorChar,
       phase,
+      currIndex,
       startTime,
       endTime,
       allKeyPresses,
@@ -59,7 +60,9 @@ const Race: React.FC<RaceProps> = (props) => {
   useEffect(() => {
     props.socket.current.on('startTime', (startTime: number) => {
       console.log('received startTime! ', startTime);
+      console.log('time diff', Math.round((startTime - Date.now()) / 1000));
       setStart(startTime);
+      setCountDown(Math.round((startTime - Date.now()) / 1000));
     });
 
     const currPlayer = props.socket.current.id;
@@ -103,7 +106,6 @@ const Race: React.FC<RaceProps> = (props) => {
     }
     setAhead(newAhead);
     setBehind(newBehind);
-
     gsap.to('.aheadRocket', {
       duration: 0.3,
       x: aheadRef.current ? aheadRef.current.offsetLeft : 0,
@@ -114,58 +116,64 @@ const Race: React.FC<RaceProps> = (props) => {
     });
   }, [allPlayerCurrentIndex]);
 
-  const handleKey = (key: any) => {
-    if (key === 'Backspace') {
-      deleteTyping(false);
-    } else if (key.length === 1) {
-      insertTyping(key, start);
+  //go to results page automatically
+  useEffect(() => {
+    if (phase === 2) {
+      props.socket.current.emit('finishRace', {
+        endTime: endTime,
+        startTime: startTime,
+        allKeyPresses: allKeyPresses,
+        length: length,
+      });
+      history.push({
+        pathname: `/${roomId}/results`,
+      });
     }
-    props.socket.current.emit('position', {
-      currIndex: currIndex,
-    });
+  }, [phase]);
+
+  const handleKey = (key: any) => {
+    // handle key after countdown finished!
+    if (countDown > 0) {
+      return null;
+    } else {
+      if (key === 'Backspace') {
+        deleteTyping(false);
+      } else if (key.length === 1) {
+        insertTyping(key, start);
+      }
+      props.socket.current.emit('position', {
+        currIndex: currIndex,
+      });
+    }
   };
 
   props.socket.current.on('positions', (data: IPositionData) => {
     setAllPlayerCurrentIndex(data);
   });
 
-  function handleClickFinish(): void {
-    console.log({
-      endTime,
-      correctChar,
-      errorChar,
-      length,
-    });
-    props.socket.current.emit('finishRace', {
-      endTime: endTime,
-      startTime: startTime,
-      allKeyPresses: allKeyPresses,
-      length: length,
-    });
-    history.push({
-      pathname: `/${roomId}/results`,
-    });
-  }
-
   //TODO: optimise font size to paragraph length
-  // console.log(rocketObj[`${ahead.color}Rocket`]);
+  //TODO: style countdown
 
   return (
     <div className="race-bg-container">
-      <div className="race-info-container left-side-bar">
-        <div className="race-info-time"></div>
-        <div className="race-info-wpm"></div>
-      </div>
-      <div className="race-container">
-        <div
-          className="race-typing-test"
-          onKeyDown={(e) => {
-            handleKey(e.key);
-            e.preventDefault();
-          }}
-          tabIndex={0}
-        >
-          {aheadRef?.current && (
+      {countDown >= 0 ? (
+        <div className="conditional-render">
+          <div className="race-info-container left-side-bar">
+            <div className="race-info-time">
+              <CountDown countdown={countDown} setCountDown={setCountDown} />
+            </div>
+            <div className="race-info-wpm"></div>
+          </div>
+          <div className="race-container">
+            <div
+              className="race-typing-test"
+              onKeyDown={(e) => {
+                handleKey(e.key);
+                e.preventDefault();
+              }}
+              tabIndex={0}
+            >
+              {aheadRef?.current && (
             <img
               src={rocketObj[`${ahead.color}Rocket`]}
               className="aheadRocket"
@@ -194,48 +202,52 @@ const Race: React.FC<RaceProps> = (props) => {
               }}
             />
           )}
-          {props.text.split('').map((char, index) => {
-            const state = charsState[index];
-            const color =
-              state === 0 ? 'black' : state === 1 ? 'darkgreen' : 'red';
-            const charBgcolor =
-              state === 0
-                ? 'transparent'
-                : state === 1
-                ? 'lightgreen'
-                : 'lightcoral';
-            return (
-              <span
-                key={char + index}
-                ref={
+              {props.text.split('').map((char, index) => {
+                const state = charsState[index];
+                const color =
+                  state === 0 ? 'black' : state === 1 ? 'darkgreen' : 'red';
+                const charBgcolor =
+                  state === 0
+                    ? 'transparent'
+                    : state === 1
+                    ? 'lightgreen'
+                    : 'lightcoral';
+                return (
+                  <span
+                    key={char + index}
+                    ref={
                   ahead.player && ahead.idx + 2 === index
                     ? aheadRef
                     : behind.player && behind.idx + 2 === index
                     ? behindRef
                     : null
                 }
-                style={{
-                  color,
-                  backgroundColor: charBgcolor,
-                  borderTop: '1px solid lightgrey',
-                  borderRight: '1px solid lightgrey',
-                  borderRadius: '6px',
-                }}
-                className={currIndex + 1 === index ? 'curr-letter' : ''}
-              >
-                {char}
-              </span>
-            );
-          })}
+                    style={{
+                      color,
+                      backgroundColor: charBgcolor,
+                      borderTop: '1px solid lightgrey',
+                      borderRight: '1px solid lightgrey',
+                      borderRadius: '6px',
+                    }}
+                    className={currIndex + 1 === index ? 'curr-letter' : ''}
+                  >
+                    {char}
+                  </span>
+                );
+              })}
+            </div>
+            {/* <button onClick={handleClickFinish} className="race-btn-finish">
+              Finish Race
+            </button> */}
+          </div>
+          <div className="race-info-container right-side-bar">
+            <div className="race-info-leader-icon"> </div>
+            <div className="race-info-leader-name"> </div>
+          </div>
         </div>
-        <button onClick={handleClickFinish} className="race-btn-finish">
-          Finish Race
-        </button>
-      </div>
-      <div className="race-info-container right-side-bar">
-        <div className="race-info-leader-icon"> </div>
-        <div className="race-info-leader-name"> </div>
-      </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
