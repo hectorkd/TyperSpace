@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 type CountDownProps = {
   countdown: number;
+  setCountDown: any;
 };
 
 const CountDown: React.FC<CountDownProps> = (props) => {
-  const [counter, setCounter] = useState(props.countdown);
-
   useEffect(() => {
-    if (!counter) return;
+    if (!props.countdown) return;
 
     const timer = setInterval(() => {
-      setCounter(counter - 1);
+      props.setCountDown(props.countdown - 1);
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [counter]);
+  }, [props.countdown]);
 
-  return <div>{counter > 0 ? <h1>{counter}</h1> : <h2>START</h2>}</div>;
+  return (
+    <div>
+      {props.countdown > 0 ? <h1>{props.countdown}</h1> : <h2>START</h2>}
+    </div>
+  );
 };
 
 export default CountDown;

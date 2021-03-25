@@ -36,7 +36,7 @@ const Race: React.FC<RaceProps> = (props) => {
   const [ahead, setAhead] = useState<ahead>({ player: '', idx: 0 });
   const [behind, setBehind] = useState<ahead>({ player: '', idx: 0 });
   const [start, setStart] = useState<number>();
-  const [countDown, setCountDown] = useState<number>(0);
+  const [countDown, setCountDown] = useState<number>(-1);
 
   const {
     states: {
@@ -92,14 +92,19 @@ const Race: React.FC<RaceProps> = (props) => {
   }, [allPlayerCurrentIndex]);
 
   const handleKey = (key: any) => {
-    if (key === 'Backspace') {
-      deleteTyping(false);
-    } else if (key.length === 1) {
-      insertTyping(key, start);
+    // handle key after countdown finished!
+    if (countDown > 0) {
+      return null;
+    } else {
+      if (key === 'Backspace') {
+        deleteTyping(false);
+      } else if (key.length === 1) {
+        insertTyping(key, start);
+      }
+      props.socket.current.emit('position', {
+        currIndex: currIndex,
+      });
     }
-    props.socket.current.emit('position', {
-      currIndex: currIndex,
-    });
   };
 
   props.socket.current.on('positions', (data: IPositionData) => {
@@ -123,11 +128,11 @@ const Race: React.FC<RaceProps> = (props) => {
 
   return (
     <div className="race-bg-container">
-      {countDown > 0 ? (
+      {countDown >= 0 ? (
         <div className="conditional-render">
           <div className="race-info-container left-side-bar">
             <div className="race-info-time">
-              <CountDown countdown={countDown} />
+              <CountDown countdown={countDown} setCountDown={setCountDown} />
             </div>
             <div className="race-info-wpm"></div>
           </div>
