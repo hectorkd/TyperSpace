@@ -1,13 +1,9 @@
-import React, { ReactNode, useState, useEffect } from 'react';
+import React, { ReactNode, useState, useEffect, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import IPositionData from '../../interfaces/IPositionData';
 import useTypingGame from '../../useTypingGame';
-
-// import blueRocket from '../../assets/icons/rocket1blue.png';
-// import yellowRocket from '../../assets/icons/rocket2yellow.png';
-// import orangeRocket from '../../assets/icons/rocket3orange.png';
-// import pinkRocket from '../../assets/icons/rocket4pink.png';
-// import violetRocket from '../../assets/icons/rocket5violet.png';
+import rocketObj from '../../assets/icons/rocketObj';
+import gsap from 'gsap';
 
 import './styles/Race.scss';
 
@@ -34,6 +30,9 @@ const Race: React.FC<RaceProps> = (props) => {
   const [ahead, setAhead] = useState<ahead>({ player: '', idx: 0 });
   const [behind, setBehind] = useState<ahead>({ player: '', idx: 0 });
   const [start, setStart] = useState<number>();
+
+  const aheadRef = useRef<HTMLElement>(null);
+  const behindRef = useRef<HTMLElement>(null);
 
   const {
     states: {
@@ -82,8 +81,15 @@ const Race: React.FC<RaceProps> = (props) => {
     }
     setAhead(newAhead);
     setBehind(newBehind);
-    console.log('ahead of me', ahead.player, ahead.idx);
-    console.log('behind me', behind.player, behind.idx);
+
+    gsap.to('.aheadRocket', {
+      duration: 0.3,
+      x: aheadRef.current ? aheadRef.current.offsetLeft : 0,
+    });
+    gsap.to('.behindRocket', {
+      duration: 0.3,
+      x: behindRef.current ? behindRef.current.offsetLeft : 0,
+    });
   }, [allPlayerCurrentIndex]);
 
   // props.socket.current.on('startTime', (startTime: number) => {
@@ -141,6 +147,35 @@ const Race: React.FC<RaceProps> = (props) => {
           }}
           tabIndex={0}
         >
+          {aheadRef?.current && (
+            <img
+              src={rocketObj.blueRocket}
+              className="aheadRocket"
+              style={{
+                width: '35px',
+                height: '60px',
+                transform: 'rotate(90deg)',
+                position: 'absolute',
+                top: `${aheadRef.current.offsetTop - 47}px`,
+                left: '-30px',
+              }}
+            />
+          )}
+
+          {behindRef?.current && (
+            <img
+              src={rocketObj.orangeRocket}
+              className="behindRocket"
+              style={{
+                width: '35px',
+                height: '60px',
+                transform: 'rotate(90deg)',
+                position: 'absolute',
+                top: `${behindRef.current.offsetTop - 47}px`,
+                left: '-30px',
+              }}
+            />
+          )}
           {props.text.split('').map((char, index) => {
             const state = charsState[index];
             const color =
@@ -154,6 +189,13 @@ const Race: React.FC<RaceProps> = (props) => {
             return (
               <span
                 key={char + index}
+                ref={
+                  ahead.player && ahead.idx + 2 === index
+                    ? aheadRef
+                    : behind.player && behind.idx + 2 === index
+                    ? behindRef
+                    : null
+                }
                 style={{
                   color,
                   backgroundColor: charBgcolor,
