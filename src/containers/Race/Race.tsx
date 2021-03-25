@@ -37,15 +37,14 @@ const Race: React.FC<RaceProps> = (props) => {
   const [behind, setBehind] = useState<ahead>({ player: '', idx: 0 });
   const [start, setStart] = useState<number>();
   const [countDown, setCountDown] = useState<number>(-1);
+  const [gamePhase, setGamePhase] = useState<number>(0);
 
   const {
     states: {
       charsState,
       length,
-      currIndex,
-      correctChar,
-      errorChar,
       phase,
+      currIndex,
       startTime,
       endTime,
       allKeyPresses,
@@ -87,9 +86,24 @@ const Race: React.FC<RaceProps> = (props) => {
     }
     setAhead(newAhead);
     setBehind(newBehind);
-    console.log('ahead of me', ahead.player, ahead.idx);
-    console.log('behind me', behind.player, behind.idx);
+    // console.log('ahead of me', ahead.player, ahead.idx);
+    // console.log('behind me', behind.player, behind.idx);
   }, [allPlayerCurrentIndex]);
+
+  //go to results page automatically
+  useEffect(() => {
+    if (phase === 2) {
+      props.socket.current.emit('finishRace', {
+        endTime: endTime,
+        startTime: startTime,
+        allKeyPresses: allKeyPresses,
+        length: length,
+      });
+      history.push({
+        pathname: `/${roomId}/results`,
+      });
+    }
+  }, [phase]);
 
   const handleKey = (key: any) => {
     // handle key after countdown finished!
@@ -111,17 +125,17 @@ const Race: React.FC<RaceProps> = (props) => {
     setAllPlayerCurrentIndex(data);
   });
 
-  function handleClickFinish(): void {
-    props.socket.current.emit('finishRace', {
-      endTime: endTime,
-      startTime: startTime,
-      allKeyPresses: allKeyPresses,
-      length: length,
-    });
-    history.push({
-      pathname: `/${roomId}/results`,
-    });
-  }
+  // function handleClickFinish(): void {
+  //   props.socket.current.emit('finishRace', {
+  //     endTime: endTime,
+  //     startTime: startTime,
+  //     allKeyPresses: allKeyPresses,
+  //     length: length,
+  //   });
+  //   history.push({
+  //     pathname: `/${roomId}/results`,
+  //   });
+  // }
 
   //TODO: optimise font size to paragraph length
   //TODO: style countdown
@@ -172,9 +186,9 @@ const Race: React.FC<RaceProps> = (props) => {
                 );
               })}
             </div>
-            <button onClick={handleClickFinish} className="race-btn-finish">
+            {/* <button onClick={handleClickFinish} className="race-btn-finish">
               Finish Race
-            </button>
+            </button> */}
           </div>
           <div className="race-info-container right-side-bar">
             <div className="race-info-leader-icon"> </div>
@@ -186,83 +200,6 @@ const Race: React.FC<RaceProps> = (props) => {
       )}
     </div>
   );
-  {
-    /* <div className="race-info-container left-side-bar">
-        <div className="race-info-time">
-          <CountDown countdown={countDown} />
-        </div>
-        <div className="race-info-wpm"></div>
-      </div>
-      <div className="race-container">
-        <div
-          className="race-typing-test"
-          onKeyDown={(e) => {
-            handleKey(e.key);
-            e.preventDefault();
-          }}
-          tabIndex={0}
-        >
-          {props.text.split('').map((char, index) => {
-            const state = charsState[index];
-            const color =
-              state === 0 ? 'black' : state === 1 ? 'darkgreen' : 'red';
-            const charBgcolor =
-              state === 0
-                ? 'transparent'
-                : state === 1
-                ? 'lightgreen'
-                : 'lightcoral';
-            return (
-              <span
-                key={char + index}
-                style={{
-                  color,
-                  backgroundColor: charBgcolor,
-                  borderTop: '1px solid lightgrey',
-                  borderRight: '1px solid lightgrey',
-                  borderRadius: '6px',
-                }}
-                className={currIndex + 1 === index ? 'curr-letter' : ''}
-              >
-                {char}
-              </span>
-            );
-          })}
-        </div>
-        {/* <pre>
-        {JSON.stringify(
-          {
-            startTime,
-            endTime,
-            length,
-            currIndex,
-            currChar,
-            correctChar,
-            errorChar,
-            phase,
-            allKeyPresses,
-          },
-          null,
-          2,
-        )}
-      </pre> */
-  }
-  {
-    /* <button onClick={handleClickFinish} className="race-btn-finish">
-          Finish Race
-        </button>
-      </div>
-      <div className="race-info-container right-side-bar">
-        <div className="race-info-leader-icon"> </div>
-        <div className="race-info-leader-name"> </div>
-      </div> */
-  }
-  {
-    /* </div> */
-  }
-  {
-    /* ); */
-  }
 };
 
 export default Race;
