@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import CountDown from 'react-countdown';
 
 type CountDownProps = {
   countdown: number;
@@ -7,7 +6,6 @@ type CountDownProps = {
 
 const CountDown: React.FC<CountDownProps> = (props) => {
   const [counter, setCounter] = useState(props.countdown);
-  // console.log('start countdown from: ', counter);
 
   useEffect(() => {
     if (!counter) return;
@@ -19,11 +17,7 @@ const CountDown: React.FC<CountDownProps> = (props) => {
     return () => clearInterval(timer);
   }, [counter]);
 
-  return (
-    <div>
-      <h1>{counter}</h1>
-    </div>
-  );
+  return <div>{counter > 0 ? <h1>{counter}</h1> : <h2>START</h2>}</div>;
 };
 
 export default CountDown;

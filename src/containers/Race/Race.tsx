@@ -3,6 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import IPositionData from '../../interfaces/IPositionData';
 import useTypingGame from '../../useTypingGame';
 
+import CountDown from '../../components/CountDown/CountDown';
+
 // import blueRocket from '../../assets/icons/rocket1blue.png';
 // import yellowRocket from '../../assets/icons/rocket2yellow.png';
 // import orangeRocket from '../../assets/icons/rocket3orange.png';
@@ -34,6 +36,7 @@ const Race: React.FC<RaceProps> = (props) => {
   const [ahead, setAhead] = useState<ahead>({ player: '', idx: 0 });
   const [behind, setBehind] = useState<ahead>({ player: '', idx: 0 });
   const [start, setStart] = useState<number>();
+  const [countDown, setCountDown] = useState<number>(0);
 
   const {
     states: {
@@ -53,7 +56,9 @@ const Race: React.FC<RaceProps> = (props) => {
   useEffect(() => {
     props.socket.current.on('startTime', (startTime: number) => {
       console.log('received startTime! ', startTime);
+      console.log('time diff', Math.round((startTime - Date.now()) / 1000));
       setStart(startTime);
+      setCountDown(Math.round((startTime - Date.now()) / 1000));
     });
 
     const currPlayer = props.socket.current.id;
@@ -86,11 +91,6 @@ const Race: React.FC<RaceProps> = (props) => {
     console.log('behind me', behind.player, behind.idx);
   }, [allPlayerCurrentIndex]);
 
-  // props.socket.current.on('startTime', (startTime: number) => {
-  //   console.log('received startTime! ', startTime);
-  //   setStart(startTime);
-  // });
-
   const handleKey = (key: any) => {
     if (key === 'Backspace') {
       deleteTyping(false);
@@ -107,12 +107,6 @@ const Race: React.FC<RaceProps> = (props) => {
   });
 
   function handleClickFinish(): void {
-    console.log({
-      endTime,
-      correctChar,
-      errorChar,
-      length,
-    });
     props.socket.current.emit('finishRace', {
       endTime: endTime,
       startTime: startTime,
@@ -125,11 +119,73 @@ const Race: React.FC<RaceProps> = (props) => {
   }
 
   //TODO: optimise font size to paragraph length
+  //TODO: style countdown
 
   return (
     <div className="race-bg-container">
-      <div className="race-info-container left-side-bar">
-        <div className="race-info-time"></div>
+      {countDown > 0 ? (
+        <div className="conditional-render">
+          <div className="race-info-container left-side-bar">
+            <div className="race-info-time">
+              <CountDown countdown={countDown} />
+            </div>
+            <div className="race-info-wpm"></div>
+          </div>
+          <div className="race-container">
+            <div
+              className="race-typing-test"
+              onKeyDown={(e) => {
+                handleKey(e.key);
+                e.preventDefault();
+              }}
+              tabIndex={0}
+            >
+              {props.text.split('').map((char, index) => {
+                const state = charsState[index];
+                const color =
+                  state === 0 ? 'black' : state === 1 ? 'darkgreen' : 'red';
+                const charBgcolor =
+                  state === 0
+                    ? 'transparent'
+                    : state === 1
+                    ? 'lightgreen'
+                    : 'lightcoral';
+                return (
+                  <span
+                    key={char + index}
+                    style={{
+                      color,
+                      backgroundColor: charBgcolor,
+                      borderTop: '1px solid lightgrey',
+                      borderRight: '1px solid lightgrey',
+                      borderRadius: '6px',
+                    }}
+                    className={currIndex + 1 === index ? 'curr-letter' : ''}
+                  >
+                    {char}
+                  </span>
+                );
+              })}
+            </div>
+            <button onClick={handleClickFinish} className="race-btn-finish">
+              Finish Race
+            </button>
+          </div>
+          <div className="race-info-container right-side-bar">
+            <div className="race-info-leader-icon"> </div>
+            <div className="race-info-leader-name"> </div>
+          </div>
+        </div>
+      ) : (
+        <div></div>
+      )}
+    </div>
+  );
+  {
+    /* <div className="race-info-container left-side-bar">
+        <div className="race-info-time">
+          <CountDown countdown={countDown} />
+        </div>
         <div className="race-info-wpm"></div>
       </div>
       <div className="race-container">
@@ -184,17 +240,24 @@ const Race: React.FC<RaceProps> = (props) => {
           null,
           2,
         )}
-      </pre> */}
-        <button onClick={handleClickFinish} className="race-btn-finish">
+      </pre> */
+  }
+  {
+    /* <button onClick={handleClickFinish} className="race-btn-finish">
           Finish Race
         </button>
       </div>
       <div className="race-info-container right-side-bar">
         <div className="race-info-leader-icon"> </div>
         <div className="race-info-leader-name"> </div>
-      </div>
-    </div>
-  );
+      </div> */
+  }
+  {
+    /* </div> */
+  }
+  {
+    /* ); */
+  }
 };
 
 export default Race;
