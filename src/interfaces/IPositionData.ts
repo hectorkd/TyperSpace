@@ -1,3 +1,6 @@
 export default interface IpositionData {
-  [socketId: string]: number;
+  [socketId: string]: {
+    currIndex: number;
+    color: string;
+  };
 }

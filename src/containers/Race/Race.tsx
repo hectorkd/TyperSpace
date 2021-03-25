@@ -3,9 +3,11 @@ import { useParams, useHistory } from 'react-router-dom';
 import IPositionData from '../../interfaces/IPositionData';
 import useTypingGame from '../../useTypingGame';
 import rocketObj from '../../assets/icons/rocketObj';
+
 import gsap from 'gsap';
 
 import './styles/Race.scss';
+import IPlayer from '../../interfaces/IPlayer';
 
 type RaceProps = {
   socket: any;
@@ -15,10 +17,11 @@ type RaceProps = {
   children?: ReactNode;
 };
 
-type ahead = {
+interface ahead {
   player: string;
   idx: number;
-};
+  color: string;
+}
 
 const Race: React.FC<RaceProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
@@ -27,8 +30,12 @@ const Race: React.FC<RaceProps> = (props) => {
     allPlayerCurrentIndex,
     setAllPlayerCurrentIndex,
   ] = useState<IPositionData>({});
-  const [ahead, setAhead] = useState<ahead>({ player: '', idx: 0 });
-  const [behind, setBehind] = useState<ahead>({ player: '', idx: 0 });
+  const [ahead, setAhead] = useState<ahead>({ player: '', idx: 0, color: '' });
+  const [behind, setBehind] = useState<ahead>({
+    player: '',
+    idx: 0,
+    color: '',
+  });
   const [start, setStart] = useState<number>();
 
   const aheadRef = useRef<HTMLElement>(null);
@@ -56,26 +63,41 @@ const Race: React.FC<RaceProps> = (props) => {
     });
 
     const currPlayer = props.socket.current.id;
-    let newAhead = { player: '', idx: 0 };
-    let newBehind = { player: '', idx: 0 };
+    let newAhead = { player: '', idx: 0, color: '' };
+    let newBehind = { player: '', idx: 0, color: '' };
     for (const player in allPlayerCurrentIndex) {
       if (
+        allPlayerCurrentIndex[currPlayer] &&
         player !== currPlayer &&
-        allPlayerCurrentIndex[player] >= allPlayerCurrentIndex[currPlayer]
+        allPlayerCurrentIndex[player].currIndex >=
+          allPlayerCurrentIndex[currPlayer].currIndex
       ) {
-        if (!newAhead.player || allPlayerCurrentIndex[player] < newAhead.idx) {
-          newAhead = { player: player, idx: allPlayerCurrentIndex[player] };
+        if (
+          !newAhead.player ||
+          allPlayerCurrentIndex[player].currIndex < newAhead.idx
+        ) {
+          newAhead = {
+            player: player,
+            idx: allPlayerCurrentIndex[player].currIndex,
+            color: allPlayerCurrentIndex[player].color,
+          };
         }
       }
       if (
+        allPlayerCurrentIndex[currPlayer] &&
         player !== currPlayer &&
-        allPlayerCurrentIndex[player] < allPlayerCurrentIndex[currPlayer]
+        allPlayerCurrentIndex[player].currIndex <
+          allPlayerCurrentIndex[currPlayer].currIndex
       ) {
         if (
           !newBehind.player ||
-          allPlayerCurrentIndex[player] > newBehind.idx
+          allPlayerCurrentIndex[player].currIndex > newBehind.idx
         ) {
-          newBehind = { player: player, idx: allPlayerCurrentIndex[player] };
+          newBehind = {
+            player: player,
+            idx: allPlayerCurrentIndex[player].currIndex,
+            color: allPlayerCurrentIndex[player].color,
+          };
         }
       }
     }
@@ -91,11 +113,6 @@ const Race: React.FC<RaceProps> = (props) => {
       x: behindRef.current ? behindRef.current.offsetLeft : 0,
     });
   }, [allPlayerCurrentIndex]);
-
-  // props.socket.current.on('startTime', (startTime: number) => {
-  //   console.log('received startTime! ', startTime);
-  //   setStart(startTime);
-  // });
 
   const handleKey = (key: any) => {
     if (key === 'Backspace') {
@@ -131,6 +148,7 @@ const Race: React.FC<RaceProps> = (props) => {
   }
 
   //TODO: optimise font size to paragraph length
+  // console.log(rocketObj[`${ahead.color}Rocket`]);
 
   return (
     <div className="race-bg-container">
@@ -149,7 +167,7 @@ const Race: React.FC<RaceProps> = (props) => {
         >
           {aheadRef?.current && (
             <img
-              src={rocketObj.blueRocket}
+              src={rocketObj[`${ahead.color}Rocket`]}
               className="aheadRocket"
               style={{
                 width: '35px',
@@ -164,7 +182,7 @@ const Race: React.FC<RaceProps> = (props) => {
 
           {behindRef?.current && (
             <img
-              src={rocketObj.orangeRocket}
+              src={rocketObj[`${behind.color}Rocket`]}
               className="behindRocket"
               style={{
                 width: '35px',
@@ -210,23 +228,6 @@ const Race: React.FC<RaceProps> = (props) => {
             );
           })}
         </div>
-        {/* <pre>
-        {JSON.stringify(
-          {
-            startTime,
-            endTime,
-            length,
-            currIndex,
-            currChar,
-            correctChar,
-            errorChar,
-            phase,
-            allKeyPresses,
-          },
-          null,
-          2,
-        )}
-      </pre> */}
         <button onClick={handleClickFinish} className="race-btn-finish">
           Finish Race
         </button>
