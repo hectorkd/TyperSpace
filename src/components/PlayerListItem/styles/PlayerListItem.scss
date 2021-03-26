@@ -7,28 +7,36 @@
 .player-list-element-container {
   @include box-white-border-transparent;
   display: flex;
-  min-width: 40vw;
+  min-width: 100%;
   min-height: 10vh;
-  max-width: 50vw;
+  max-width: fit-content;
   max-height: 20vh;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
 }
 
 .player-list {
   font-family: $atariFont;
   color: $font-white;
   font-size: 1.7rem;
+  padding-right: 0.5vw;
+  padding-left: 0.5vw;
+  display: flex;
+  flex-direction: column;
 
   &.name-element {
     color: $colour-avatar-blue;
+    justify-self: flex-end;
   }
   &.avatar-element {
     height: 12vh;
-    width: 3vw;
+    max-width: 110px;
     transform: rotate(90deg);
+    margin-right: 30px;
+    margin-left: 30px;
   }
   &.status-element {
     color: $colour-green;
+    max-width: 160px;
   }
 }
