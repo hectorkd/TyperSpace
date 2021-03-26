@@ -166,12 +166,12 @@ const Race: React.FC<RaceProps> = (props) => {
     <div className="race-bg-container">
       {countDown >= 0 ? (
         <div className="conditional-render">
-          <div className="race-info-container left-side-bar">
+          {/* <div className="race-info-container left-side-bar">
             <div className="race-info-time">
-              <CountDown countdown={countDown} setCountDown={setCountDown} />
+              
             </div>
             <div className="race-info-wpm"></div>
-          </div>
+          </div> */}
           <div className="race-container">
             <div
               className="race-typing-test"
@@ -249,10 +249,10 @@ const Race: React.FC<RaceProps> = (props) => {
               Finish Race
             </button> */}
           </div>
-          <div className="race-info-container right-side-bar">
+          {/* <div className="race-info-container right-side-bar">
             <div className="race-info-leader-icon"> </div>
             <div className="race-info-leader-name"> </div>
-          </div>
+          </div> */}
         </div>
       ) : (
         <div></div>
