@@ -3,12 +3,13 @@ import { useParams, useHistory } from 'react-router-dom';
 import IPositionData from '../../interfaces/IPositionData';
 import useTypingGame from '../../useTypingGame';
 import rocketObj from '../../assets/icons/rocketObj';
+import helperFunctions from './raceHelperFunctions';
+import IPlayer from '../../interfaces/IPlayer';
 
 import CountDown from '../../components/CountDown/CountDown';
 import gsap from 'gsap';
 
 import './styles/Race.scss';
-import IPlayer from '../../interfaces/IPlayer';
 
 type RaceProps = {
   socket: any;
@@ -16,6 +17,7 @@ type RaceProps = {
   text: string;
   setText: any;
   children?: ReactNode;
+  players: IPlayer[];
 };
 
 interface ahead {
@@ -39,7 +41,11 @@ const Race: React.FC<RaceProps> = (props) => {
   });
   const [start, setStart] = useState<number>();
   const [countDown, setCountDown] = useState<number>(-1);
-  const [gamePhase, setGamePhase] = useState<number>(0);
+  const [firstPlace, setFirstPlace] = useState<ahead>({
+    player: '',
+    idx: 0,
+    color: '',
+  });
 
   const aheadRef = useRef<HTMLElement>(null);
   const behindRef = useRef<HTMLElement>(null);
@@ -65,47 +71,19 @@ const Race: React.FC<RaceProps> = (props) => {
       setCountDown(Math.round((startTime - Date.now()) / 1000));
     });
 
-    const currPlayer = props.socket.current.id;
-    let newAhead = { player: '', idx: 0, color: '' };
-    let newBehind = { player: '', idx: 0, color: '' };
-    for (const player in allPlayerCurrentIndex) {
-      if (
-        allPlayerCurrentIndex[currPlayer] &&
-        player !== currPlayer &&
-        allPlayerCurrentIndex[player].currIndex >=
-          allPlayerCurrentIndex[currPlayer].currIndex
-      ) {
-        if (
-          !newAhead.player ||
-          allPlayerCurrentIndex[player].currIndex < newAhead.idx
-        ) {
-          newAhead = {
-            player: player,
-            idx: allPlayerCurrentIndex[player].currIndex,
-            color: allPlayerCurrentIndex[player].color,
-          };
-        }
-      }
-      if (
-        allPlayerCurrentIndex[currPlayer] &&
-        player !== currPlayer &&
-        allPlayerCurrentIndex[player].currIndex <
-          allPlayerCurrentIndex[currPlayer].currIndex
-      ) {
-        if (
-          !newBehind.player ||
-          allPlayerCurrentIndex[player].currIndex > newBehind.idx
-        ) {
-          newBehind = {
-            player: player,
-            idx: allPlayerCurrentIndex[player].currIndex,
-            color: allPlayerCurrentIndex[player].color,
-          };
-        }
-      }
-    }
-    setAhead(newAhead);
-    setBehind(newBehind);
+    helperFunctions.calculateRocketPositions(
+      allPlayerCurrentIndex,
+      setAhead,
+      setBehind,
+      props.socket.current.id,
+    );
+
+    helperFunctions.calculateFirstPlace(
+      allPlayerCurrentIndex,
+      setFirstPlace,
+      props.players,
+    );
+
     gsap.to('.aheadRocket', {
       duration: 0.3,
       x: aheadRef.current ? aheadRef.current.offsetLeft : 0,
@@ -174,34 +152,34 @@ const Race: React.FC<RaceProps> = (props) => {
               tabIndex={0}
             >
               {aheadRef?.current && (
-            <img
-              src={rocketObj[`${ahead.color}Rocket`]}
-              className="aheadRocket"
-              style={{
-                width: '35px',
-                height: '60px',
-                transform: 'rotate(90deg)',
-                position: 'absolute',
-                top: `${aheadRef.current.offsetTop - 47}px`,
-                left: '-30px',
-              }}
-            />
-          )}
+                <img
+                  src={rocketObj[`${ahead.color}Rocket`]}
+                  className="aheadRocket"
+                  style={{
+                    width: '35px',
+                    height: '60px',
+                    transform: 'rotate(90deg)',
+                    position: 'absolute',
+                    top: `${aheadRef.current.offsetTop - 47}px`,
+                    left: '-30px',
+                  }}
+                />
+              )}
 
-          {behindRef?.current && (
-            <img
-              src={rocketObj[`${behind.color}Rocket`]}
-              className="behindRocket"
-              style={{
-                width: '35px',
-                height: '60px',
-                transform: 'rotate(90deg)',
-                position: 'absolute',
-                top: `${behindRef.current.offsetTop - 47}px`,
-                left: '-30px',
-              }}
-            />
-          )}
+              {behindRef?.current && (
+                <img
+                  src={rocketObj[`${behind.color}Rocket`]}
+                  className="behindRocket"
+                  style={{
+                    width: '35px',
+                    height: '60px',
+                    transform: 'rotate(90deg)',
+                    position: 'absolute',
+                    top: `${behindRef.current.offsetTop - 47}px`,
+                    left: '-30px',
+                  }}
+                />
+              )}
               {props.text.split('').map((char, index) => {
                 const state = charsState[index];
                 const color =
@@ -216,12 +194,12 @@ const Race: React.FC<RaceProps> = (props) => {
                   <span
                     key={char + index}
                     ref={
-                  ahead.player && ahead.idx + 2 === index
-                    ? aheadRef
-                    : behind.player && behind.idx + 2 === index
-                    ? behindRef
-                    : null
-                }
+                      ahead.player && ahead.idx + 2 === index
+                        ? aheadRef
+                        : behind.player && behind.idx + 2 === index
+                        ? behindRef
+                        : null
+                    }
                     style={{
                       color,
                       backgroundColor: charBgcolor,
@@ -236,13 +214,23 @@ const Race: React.FC<RaceProps> = (props) => {
                 );
               })}
             </div>
-            {/* <button onClick={handleClickFinish} className="race-btn-finish">
-              Finish Race
-            </button> */}
           </div>
           <div className="race-info-container right-side-bar">
-            <div className="race-info-leader-icon"> </div>
-            <div className="race-info-leader-name"> </div>
+            <h2 className="right-race-info-title">First Place</h2>
+            <div className="race-leader-info">
+              <img
+                className="race-leader-icon"
+                src={rocketObj[`${firstPlace?.color}Rocket`]}
+              />
+              <h3
+                className="race-leader-name"
+                style={{
+                  color: `${firstPlace?.color}`,
+                }}
+              >
+                {firstPlace.player ? firstPlace.player : ''}
+              </h3>
+            </div>
           </div>
         </div>
       ) : (
