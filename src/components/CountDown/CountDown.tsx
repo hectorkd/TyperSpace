@@ -23,10 +23,8 @@ const CountDown: React.FC<CountDownProps> = (props) => {
 
   return (
     <div>
-      {props.countdown > 0 ? (
+      {props.countdown > 0 && (
         <h1 className="countdown-numbers">{props.countdown}</h1>
-      ) : (
-        <h2 className="countdown-go">START!</h2>
       )}
     </div>
   );
