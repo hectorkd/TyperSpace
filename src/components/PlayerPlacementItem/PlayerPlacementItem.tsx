@@ -71,7 +71,7 @@ const PlayerListItem: React.FC<PlayerPlacementItemProps> = ({
             <h3 className="placement-wpm">{gameData.WPM}</h3>
           </div>
           <div className="placement-accuracy-container">
-            <h3 className="placement-accuracy">{gameData.accuracy}</h3>
+            <h3 className="placement-accuracy">{gameData.accuracy}%</h3>
           </div>
           <div className="placement-time-container">
             <h3 className="placement-time">{gameData.finishTime}</h3>
