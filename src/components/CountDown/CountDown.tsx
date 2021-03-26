@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+import gsap from 'gsap';
+
+import './CountDown.scss';
 
 type CountDownProps = {
   countdown: number;
@@ -7,6 +10,8 @@ type CountDownProps = {
 
 const CountDown: React.FC<CountDownProps> = (props) => {
   useEffect(() => {
+    // gsap.to('.countdown-numbers', { duration: 1, scale: 10 });
+
     if (!props.countdown) return;
 
     const timer = setInterval(() => {
@@ -18,7 +23,9 @@ const CountDown: React.FC<CountDownProps> = (props) => {
 
   return (
     <div>
-      {props.countdown > 0 ? <h1>{props.countdown}</h1> : <h2>START</h2>}
+      {props.countdown > 0 && (
+        <h1 className="countdown-numbers">{props.countdown}</h1>
+      )}
     </div>
   );
 };

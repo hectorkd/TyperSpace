@@ -57,6 +57,7 @@ const App: React.FC = () => {
               setSocket={setSocket}
               text={text}
               setText={setText}
+              players={players}
             />
           )}
         />
