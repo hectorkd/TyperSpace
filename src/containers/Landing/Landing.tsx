@@ -28,9 +28,9 @@ const Landing: React.FC = () => {
       <h1 className="landing-main-title"> TyperSpace </h1>
       <div className="landing-buttons">
         <button onClick={handleClick} className=" landing-buttons create-btn">
-          Create Room
+          New Race
         </button>
-        <button className="landing-buttons join-btn"> Join Room</button>
+        <button className="landing-buttons join-btn"> Join Race</button>
       </div>
       <Footer></Footer>
     </div>
