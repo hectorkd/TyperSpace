@@ -21,7 +21,7 @@ const Landing: React.FC = () => {
   //generate random roomID and redirect to avatar page
   function handleClick(): void {
     const roomId = makeString();
-    history.push(`/${roomId}/avatar`);
+    history.push(`/${roomId}`);
   }
   return (
     <div className="landing-bg-container">
