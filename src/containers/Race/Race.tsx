@@ -159,9 +159,6 @@ const Race: React.FC<RaceProps> = (props) => {
       {countDown >= 0 ? (
         <div className="conditional-render">
           <div className="race-info-container left-side-bar">
-            <div className="race-info-time">
-              <CountDown countdown={countDown} setCountDown={setCountDown} />
-            </div>
             <div className="race-info-wpm"></div>
           </div>
           <div className="race-container">
@@ -173,35 +170,38 @@ const Race: React.FC<RaceProps> = (props) => {
               }}
               tabIndex={0}
             >
+              <div className="race-countdown-container">
+                <CountDown countdown={countDown} setCountDown={setCountDown} />
+              </div>
               {aheadRef?.current && (
-            <img
-              src={rocketObj[`${ahead.color}Rocket`]}
-              className="aheadRocket"
-              style={{
-                width: '35px',
-                height: '60px',
-                transform: 'rotate(90deg)',
-                position: 'absolute',
-                top: `${aheadRef.current.offsetTop - 47}px`,
-                left: '-30px',
-              }}
-            />
-          )}
+                <img
+                  src={rocketObj[`${ahead.color}Rocket`]}
+                  className="aheadRocket"
+                  style={{
+                    width: '35px',
+                    height: '60px',
+                    transform: 'rotate(90deg)',
+                    position: 'absolute',
+                    top: `${aheadRef.current.offsetTop - 47}px`,
+                    left: '-30px',
+                  }}
+                />
+              )}
 
-          {behindRef?.current && (
-            <img
-              src={rocketObj[`${behind.color}Rocket`]}
-              className="behindRocket"
-              style={{
-                width: '35px',
-                height: '60px',
-                transform: 'rotate(90deg)',
-                position: 'absolute',
-                top: `${behindRef.current.offsetTop - 47}px`,
-                left: '-30px',
-              }}
-            />
-          )}
+              {behindRef?.current && (
+                <img
+                  src={rocketObj[`${behind.color}Rocket`]}
+                  className="behindRocket"
+                  style={{
+                    width: '35px',
+                    height: '60px',
+                    transform: 'rotate(90deg)',
+                    position: 'absolute',
+                    top: `${behindRef.current.offsetTop - 47}px`,
+                    left: '-30px',
+                  }}
+                />
+              )}
               {props.text.split('').map((char, index) => {
                 const state = charsState[index];
                 const color =
@@ -216,12 +216,12 @@ const Race: React.FC<RaceProps> = (props) => {
                   <span
                     key={char + index}
                     ref={
-                  ahead.player && ahead.idx + 2 === index
-                    ? aheadRef
-                    : behind.player && behind.idx + 2 === index
-                    ? behindRef
-                    : null
-                }
+                      ahead.player && ahead.idx + 2 === index
+                        ? aheadRef
+                        : behind.player && behind.idx + 2 === index
+                        ? behindRef
+                        : null
+                    }
                     style={{
                       color,
                       backgroundColor: charBgcolor,

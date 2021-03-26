@@ -31,7 +31,7 @@
   width: 60vw;
   height: 30vw;
   margin: 2vw;
-  padding: 2vh;
+  padding: 3vw;
   overflow-y: scroll;
   line-height: 500%;
   span {
@@ -78,4 +78,13 @@
   display: flex;
   flex: 1;
   flex-direction: row;
+}
+
+.race-countdown-container {
+  // border: 2px solid red;
+  position: absolute;
+  z-index: 3;
+  top: 30%;
+  min-width: 53vw;
+  text-align: center;
 }
