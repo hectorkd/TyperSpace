@@ -23,7 +23,7 @@ const Landing: React.FC = () => {
   function handleClick(): void {
     setIsClicked(true);
     const roomId = makeString();
-    history.push(`/${roomId}/avatar`);
+    history.push(`/${roomId}`);
   }
   return (
     <div className="landing-bg-container">
@@ -37,9 +37,9 @@ const Landing: React.FC = () => {
               : 'landing-buttons create-btn'
           }
         >
-          Create Room
+          New Race
         </button>
-        <button className="landing-buttons join-btn"> Join Room</button>
+        <button className="landing-buttons join-btn"> Join Race</button>
       </div>
       <Footer></Footer>
     </div>

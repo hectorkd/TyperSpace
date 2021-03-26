@@ -1,14 +1,21 @@
-import React, { ReactNode, useState, useEffect, useRef } from 'react';
+import React, {
+  ReactNode,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import IPositionData from '../../interfaces/IPositionData';
 import useTypingGame from '../../useTypingGame';
 import rocketObj from '../../assets/icons/rocketObj';
+import helperFunctions from './raceHelperFunctions';
+import IPlayer from '../../interfaces/IPlayer';
 
 import CountDown from '../../components/CountDown/CountDown';
 import gsap from 'gsap';
 
 import './styles/Race.scss';
-import IPlayer from '../../interfaces/IPlayer';
 
 type RaceProps = {
   socket: any;
@@ -16,6 +23,7 @@ type RaceProps = {
   text: string;
   setText: any;
   children?: ReactNode;
+  players: IPlayer[];
 };
 
 interface ahead {
@@ -39,7 +47,11 @@ const Race: React.FC<RaceProps> = (props) => {
   });
   const [start, setStart] = useState<number>();
   const [countDown, setCountDown] = useState<number>(-1);
-  const [gamePhase, setGamePhase] = useState<number>(0);
+  const [firstPlace, setFirstPlace] = useState<ahead>({
+    player: '',
+    idx: 0,
+    color: '',
+  });
 
   const aheadRef = useRef<HTMLElement>(null);
   const behindRef = useRef<HTMLElement>(null);
@@ -65,47 +77,19 @@ const Race: React.FC<RaceProps> = (props) => {
       setCountDown(Math.round((startTime - Date.now()) / 1000));
     });
 
-    const currPlayer = props.socket.current.id;
-    let newAhead = { player: '', idx: 0, color: '' };
-    let newBehind = { player: '', idx: 0, color: '' };
-    for (const player in allPlayerCurrentIndex) {
-      if (
-        allPlayerCurrentIndex[currPlayer] &&
-        player !== currPlayer &&
-        allPlayerCurrentIndex[player].currIndex >=
-          allPlayerCurrentIndex[currPlayer].currIndex
-      ) {
-        if (
-          !newAhead.player ||
-          allPlayerCurrentIndex[player].currIndex < newAhead.idx
-        ) {
-          newAhead = {
-            player: player,
-            idx: allPlayerCurrentIndex[player].currIndex,
-            color: allPlayerCurrentIndex[player].color,
-          };
-        }
-      }
-      if (
-        allPlayerCurrentIndex[currPlayer] &&
-        player !== currPlayer &&
-        allPlayerCurrentIndex[player].currIndex <
-          allPlayerCurrentIndex[currPlayer].currIndex
-      ) {
-        if (
-          !newBehind.player ||
-          allPlayerCurrentIndex[player].currIndex > newBehind.idx
-        ) {
-          newBehind = {
-            player: player,
-            idx: allPlayerCurrentIndex[player].currIndex,
-            color: allPlayerCurrentIndex[player].color,
-          };
-        }
-      }
-    }
-    setAhead(newAhead);
-    setBehind(newBehind);
+    helperFunctions.calculateRocketPositions(
+      allPlayerCurrentIndex,
+      setAhead,
+      setBehind,
+      props.socket.current.id,
+    );
+
+    helperFunctions.calculateFirstPlace(
+      allPlayerCurrentIndex,
+      setFirstPlace,
+      props.players,
+    );
+
     gsap.to('.aheadRocket', {
       duration: 0.3,
       x: aheadRef.current ? aheadRef.current.offsetLeft : 0,
@@ -147,6 +131,8 @@ const Race: React.FC<RaceProps> = (props) => {
     }
   };
 
+  const autoFocus = useCallback((el) => (el ? el.focus() : null), []);
+
   props.socket.current.on('positions', (data: IPositionData) => {
     setAllPlayerCurrentIndex(data);
   });
@@ -158,9 +144,11 @@ const Race: React.FC<RaceProps> = (props) => {
     <div className="race-bg-container">
       {countDown >= 0 ? (
         <div className="conditional-render">
+          {/* <div className="race-info-container left-side-bar">
+            <div className="race-info-time"></div>
           <div className="race-info-container left-side-bar">
             <div className="race-info-wpm"></div>
-          </div>
+          </div> */}
           <div className="race-container">
             <div
               className="race-typing-test"
@@ -169,6 +157,7 @@ const Race: React.FC<RaceProps> = (props) => {
                 e.preventDefault();
               }}
               tabIndex={0}
+              ref={autoFocus}
             >
               <div className="race-countdown-container">
                 <CountDown countdown={countDown} setCountDown={setCountDown} />
@@ -277,13 +266,23 @@ const Race: React.FC<RaceProps> = (props) => {
                 );
               })}
             </div>
-            {/* <button onClick={handleClickFinish} className="race-btn-finish">
-              Finish Race
-            </button> */}
           </div>
           <div className="race-info-container right-side-bar">
-            <div className="race-info-leader-icon"> </div>
-            <div className="race-info-leader-name"> </div>
+            <h2 className="right-race-info-title">First Place</h2>
+            <div className="race-leader-info">
+              <img
+                className="race-leader-icon"
+                src={rocketObj[`${firstPlace?.color}Rocket`]}
+              />
+              <h3
+                className="race-leader-name"
+                style={{
+                  color: `${firstPlace?.color}`,
+                }}
+              >
+                {firstPlace.player ? firstPlace.player : ''}
+              </h3>
+            </div>
           </div>
         </div>
       ) : (
