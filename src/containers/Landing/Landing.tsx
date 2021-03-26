@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Footer from '../../components/Footer/Footer';
@@ -6,6 +6,7 @@ import Footer from '../../components/Footer/Footer';
 import './styles/Landing.scss';
 
 const Landing: React.FC = () => {
+  const [isClicked, setIsClicked] = useState(false);
   const history = useHistory();
   //generate random string
   function makeString(): string {
@@ -20,6 +21,7 @@ const Landing: React.FC = () => {
   }
   //generate random roomID and redirect to avatar page
   function handleClick(): void {
+    setIsClicked(true);
     const roomId = makeString();
     history.push(`/${roomId}/avatar`);
   }
@@ -27,7 +29,14 @@ const Landing: React.FC = () => {
     <div className="landing-bg-container">
       <h1 className="landing-main-title"> TyperSpace </h1>
       <div className="landing-buttons">
-        <button onClick={handleClick} className=" landing-buttons create-btn">
+        <button
+          onClick={handleClick}
+          className={
+            isClicked
+              ? 'landing-buttons create-btn btn-press'
+              : 'landing-buttons create-btn'
+          }
+        >
           Create Room
         </button>
         <button className="landing-buttons join-btn"> Join Room</button>
