@@ -137,9 +137,6 @@ const Race: React.FC<RaceProps> = (props) => {
       {countDown >= 0 ? (
         <div className="conditional-render">
           <div className="race-info-container left-side-bar">
-            <div className="race-info-time">
-              <CountDown countdown={countDown} setCountDown={setCountDown} />
-            </div>
             <div className="race-info-wpm"></div>
           </div>
           <div className="race-container">
@@ -151,6 +148,9 @@ const Race: React.FC<RaceProps> = (props) => {
               }}
               tabIndex={0}
             >
+              <div className="race-countdown-container">
+                <CountDown countdown={countDown} setCountDown={setCountDown} />
+              </div>
               {aheadRef?.current && (
                 <img
                   src={rocketObj[`${ahead.color}Rocket`]}
