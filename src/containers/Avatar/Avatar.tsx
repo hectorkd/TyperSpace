@@ -58,14 +58,15 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     <div className="avatar-bg-container">
       <div className="room-id-input input">
         <label htmlFor="" className="input-label">
-          Room id
+          Race #
         </label>
         <input
           type="text"
+          disabled
           name=""
           id=""
           className="input-field room-id-input"
-          value={roomId} //TODO: disable field
+          value={roomId}
         />
       </div>
       <div className="name-field-input input">
