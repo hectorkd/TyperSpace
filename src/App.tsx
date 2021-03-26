@@ -19,7 +19,7 @@ const App: React.FC = () => {
         <Route path="/" exact component={Landing} />
         <Route
           exact
-          path="/:roomId/avatar"
+          path="/:roomId"
           render={(props) => (
             <Avatar
               {...props}

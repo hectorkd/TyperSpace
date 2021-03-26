@@ -21,16 +21,16 @@ const Landing: React.FC = () => {
   //generate random roomID and redirect to avatar page
   function handleClick(): void {
     const roomId = makeString();
-    history.push(`/${roomId}/avatar`);
+    history.push(`/${roomId}`);
   }
   return (
     <div className="landing-bg-container">
       <h1 className="landing-main-title"> TyperSpace </h1>
       <div className="landing-buttons">
         <button onClick={handleClick} className=" landing-buttons create-btn">
-          Create Room
+          New Race
         </button>
-        <button className="landing-buttons join-btn"> Join Room</button>
+        <button className="landing-buttons join-btn"> Join Race</button>
       </div>
       <Footer></Footer>
     </div>

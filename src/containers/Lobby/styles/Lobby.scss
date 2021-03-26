@@ -17,3 +17,10 @@
   width: 20vw;
   height: 5vw;
 }
+
+.lobby-btn-start-disabled {
+  @include btn-orange;
+  width: 20vw;
+  height: 5vw;
+  opacity: 0.5;
+}

@@ -1,4 +1,10 @@
-import React, { ReactNode, useState, useEffect, useRef } from 'react';
+import React, {
+  ReactNode,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import IPositionData from '../../interfaces/IPositionData';
 import useTypingGame from '../../useTypingGame';
@@ -125,6 +131,8 @@ const Race: React.FC<RaceProps> = (props) => {
     }
   };
 
+  const autoFocus = useCallback((el) => (el ? el.focus() : null), []);
+
   props.socket.current.on('positions', (data: IPositionData) => {
     setAllPlayerCurrentIndex(data);
   });
@@ -136,9 +144,11 @@ const Race: React.FC<RaceProps> = (props) => {
     <div className="race-bg-container">
       {countDown >= 0 ? (
         <div className="conditional-render">
+          {/* <div className="race-info-container left-side-bar">
+            <div className="race-info-time"></div>
           <div className="race-info-container left-side-bar">
             <div className="race-info-wpm"></div>
-          </div>
+          </div> */}
           <div className="race-container">
             <div
               className="race-typing-test"
@@ -147,6 +157,7 @@ const Race: React.FC<RaceProps> = (props) => {
                 e.preventDefault();
               }}
               tabIndex={0}
+              ref={autoFocus}
             >
               <div className="race-countdown-container">
                 <CountDown countdown={countDown} setCountDown={setCountDown} />

@@ -29,6 +29,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     });
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
+      console.log(players);
       props.setPlayers(players);
       const player = players.filter(
         (player) => player.userId === props.socket.current.id,
@@ -60,7 +61,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
       <button
         disabled={!isHost}
         onClick={handleClickStart}
-        className="lobby-btn-start"
+        className={isHost ? 'lobby-btn-start' : 'lobby-btn-start-disabled'}
       >
         {' '}
         Start Race{' '}
