@@ -1,15 +1,9 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import IPlayer from '../../interfaces/IPlayer';
-import rocket2 from '../../assets/icons/rocket2yellow.png';
+import rocketObj from '../../assets/icons/rocketObj';
 import PlayerPlacementItem from '../../components/PlayerPlacementItem/PlayerPlacementItem';
 import './styles/Results.scss';
-
-import blueRocket from '../../assets/icons/rocket1blue.png';
-import yellowRocket from '../../assets/icons/rocket2yellow.png';
-import orangeRocket from '../../assets/icons/rocket3orange.png';
-import pinkRocket from '../../assets/icons/rocket4pink.png';
-import violetRocket from '../../assets/icons/rocket5violet.png';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 type Props = {
   socket: any;
@@ -23,15 +17,20 @@ type Props = {
 
 const Results: React.FC<Props> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
-  const rocketObj: any = {
-    blueRocket,
-    yellowRocket,
-    orangeRocket,
-    pinkRocket,
-    violetRocket,
-  };
+  const [isAllFinished, setIsAllFinished] = useState(false);
+  const [isHost, setIsHost] = useState(false);
 
   const [resultsPlayers, setResultsPlayers] = useState<IPlayer[]>([]);
+  const history = useHistory();
+
+  useEffect(() => {
+    const player = props.players.filter(
+      (player) => player.userId === props.socket.current.id,
+    );
+    // console.log('Is host?', player[0].isHost);
+    // console.log(props.players[1].gameData.WPM);
+    setIsHost(player[0].isHost);
+  }, []);
 
   useEffect(() => {
     props.socket.current.on('results', (players: IPlayer[]) => {
@@ -47,10 +46,30 @@ const Results: React.FC<Props> = (props) => {
           return 1;
         }
       });
-      console.log('players', players);
+      if (
+        players.every((player) => {
+          return player.gameData.WPM;
+        })
+      ) {
+        setIsAllFinished(true);
+      }
       setResultsPlayers(players);
     });
   }, [resultsPlayers]);
+
+  function handlePlayAgainClick() {
+    props.socket.current.emit('playAgain');
+    history.push({
+      pathname: `/${roomId}/lobby`,
+    });
+    props.socket.current.emit('getParagraph');
+  }
+
+  props.socket.current.on('navigateToLobby', () => {
+    history.push({
+      pathname: `/${roomId}/lobby`,
+    });
+  });
 
   return (
     <div className="results-bg-container">
@@ -128,6 +147,18 @@ const Results: React.FC<Props> = (props) => {
                   })}
                 </div>
               </div>
+              <button
+                disabled={!isHost || !isAllFinished}
+                onClick={handlePlayAgainClick}
+                className={
+                  isHost && isAllFinished
+                    ? 'lobby-btn-start'
+                    : 'lobby-btn-start-disabled'
+                }
+              >
+                {' '}
+                Play Again{' '}
+              </button>
             </div>
           </div>
         ) : (

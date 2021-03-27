@@ -27,10 +27,79 @@
     color: $font-dark-blue;
     box-shadow: $blue3Dborder;
   }
+  &.create-btn {
+    outline-style: none;
+  }
+  &.create-btn:focus {
+    outline-style: none;
+  }
   &.join-btn {
     border: 2px solid white;
     background-color: $font-transparent;
     color: $font-white;
     box-shadow: $blue3Dborder;
+    outline-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    transition: height 1s ease-in-out;
+    height: 8vh;
+    z-index: 1;
+  }
+  &.join-btn:focus {
+    outline-style: none;
+  }
+  &.join-btn:hover {
+    transition: height 1s ease-in-out;
+    height: 16vh;
+  }
+
+  &.create-btn:active {
+    transform: translate(5px, 5px);
+  }
+  &.join-btn p {
+    margin: 0;
   }
 }
+
+.join-input {
+  -webkit-appearance: none;
+  width: 0%;
+  border-style: none;
+  background-color: transparent;
+  height: 40%;
+  font-family: $atariFont;
+  font-size: 1.7rem;
+  color: white;
+  text-align: center;
+  z-index: 2;
+
+  &:focus,
+  &:active {
+    -webkit-appearance: none;
+    outline: none;
+  }
+}
+
+.join-btn:hover > input.join-input {
+  transition-property: border, width;
+  transition: all 1.2s ease 1.1s;
+  width: 40%;
+  border: 1px solid white;
+}
+
+.btn-press:active {
+  transform: translate(5px, 5px);
+  // animation: buttonAnim;
+  // animation-duration: 0.5s;
+}
+
+// @keyframes buttonAnim {
+//   50% {
+//     transform: translate(5px, 5px);
+//   }
+//   100% {
+//     transform: translate(0px, 0px);
+//   }
+// }
