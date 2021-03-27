@@ -34,10 +34,13 @@
   padding: 3vw;
   overflow-y: scroll;
   line-height: 500%;
+  // position: absolute;
+  left: 20%;
   span {
     font-family: monospace;
     font-size: 270%;
   }
+  z-index: 2;
 }
 
 .race-info-container {
@@ -125,4 +128,14 @@
   top: 30%;
   min-width: 53vw;
   text-align: center;
+}
+
+.svg {
+  height: 35px;
+  width: 100%;
+  position: absolute;
+}
+
+line {
+  stroke-width: 5px;
 }

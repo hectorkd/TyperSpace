@@ -171,8 +171,9 @@ const Race: React.FC<RaceProps> = (props) => {
                     height: '60px',
                     transform: 'rotate(90deg)',
                     position: 'absolute',
-                    top: `${aheadRef.current.offsetTop - 47}px`,
+                    top: `${aheadRef.current.offsetTop - 57}px`,
                     left: '-30px',
+                    zIndex: 5,
                   }}
                 />
               )}
@@ -186,11 +187,51 @@ const Race: React.FC<RaceProps> = (props) => {
                     height: '60px',
                     transform: 'rotate(90deg)',
                     position: 'absolute',
-                    top: `${behindRef.current.offsetTop - 47}px`,
+                    top: `${behindRef.current.offsetTop - 57}px`,
                     left: '-30px',
+                    zIndex: 5,
                   }}
                 />
               )}
+              {aheadRef?.current && (
+                <svg
+                  className="svg"
+                  style={{
+                    top: aheadRef.current.offsetTop - 45,
+                    left: 200,
+                    width: '100%',
+                    zIndex: 4,
+                  }}
+                >
+                  <line
+                    style={{ stroke: `${ahead.color}` }}
+                    x1="0%"
+                    y1="50%"
+                    x2={aheadRef.current.offsetLeft - 220}
+                    y2="50%"
+                  ></line>
+                </svg>
+              )}
+              {behindRef?.current && (
+                <svg
+                  className="svg"
+                  style={{
+                    top: behindRef.current.offsetTop - 45,
+                    left: 200,
+                    width: '100%',
+                    zIndex: 4,
+                  }}
+                >
+                  <line
+                    style={{ stroke: `${behind.color}` }}
+                    x1="0%"
+                    y1="50%"
+                    x2={behindRef.current.offsetLeft - 220}
+                    y2="50%"
+                  ></line>
+                </svg>
+              )}
+
               {props.text.split('').map((char, index) => {
                 const state = charsState[index];
                 const color =

@@ -33,4 +33,26 @@
     color: $font-white;
     box-shadow: $blue3Dborder;
   }
+  &.join-btn:focus {
+    outline-style: none;
+  }
+  &.create-btn {
+    outline-style: none;
+  }
+  &.join-btn {
+    outline-style: none;
+  }
+  &.create-btn {
+    outline-style: none;
+  }
+  &.create-btn:focus {
+    outline-style: none;
+  }
+  &.join-btn:active {
+    transform: translate(5px, 5px);
+  }
+
+  &.create-btn:active {
+    transform: translate(5px, 5px);
+  }
 }
