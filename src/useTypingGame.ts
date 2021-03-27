@@ -87,6 +87,7 @@ interface TypingStateType extends TypingOptionsType {
    *  Total number of key presses
    */
   allKeyPresses: number;
+  hasError: boolean;
 }
 
 /**
@@ -140,6 +141,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
     allKeyPresses,
     // skipCurrentWordOnSpace,
     pauseOnError,
+    hasError,
   } = state;
   const payload = action.payload ?? null;
   switch (action.type) {
@@ -187,6 +189,22 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       let newErrorChar = errorChar;
       let newCurrIndex = currIndex;
       let newCorrectChar = correctChar;
+      let newHasError = hasError;
+
+      const errorIndex = charsState.indexOf(2);
+      console.log('insert wrong letter with index', errorIndex);
+      if (errorIndex !== -1 && currIndex - errorIndex >= 4) {
+        console.log('errorIndex again', errorIndex);
+        console.log(
+          'currentIndex',
+          currIndex,
+          'errorIndex',
+          errorIndex,
+          'indexes between error and current',
+          currIndex - errorIndex,
+        );
+        newHasError = true;
+      }
 
       // if phase is 2 -> game is finished, state is the same
       if (phase === 2) {
@@ -215,25 +233,37 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       // } else {
 
       if (letter !== null) {
-        if (chars[currIndex + 1] !== letter) {
-          //checks if inserted character is correct
-          newCharsState[currIndex + 1] = 2; //set character state to error (2)
-          newErrorChar += 1; // increase number of wrong letters
-          if (!pauseOnError) {
+        if (!hasError) {
+          if (chars[currIndex + 1] !== letter) {
+            //checks if inserted character is correct
+            newCharsState[currIndex + 1] = 2; //set character state to error (2)
+            newErrorChar += 1; // increase number of wrong letters
+            // if (!pauseOnError) {
             newCurrIndex += 1; //go to next letter
+            // }
+          } else {
+            newCharsState[currIndex + 1] = 1; //set character state to correct(1)
+            newCorrectChar += 1; //increase number of correct letters
+            newCurrIndex += 1; // go to next letter
           }
-        } else {
-          newCharsState[currIndex + 1] = 1; //set character state to correct(1)
-          newCorrectChar += 1; //increase number of correct letters
-          newCurrIndex += 1; // go to next letter
         }
-      } else {
-        // if letter is null just go to next letter
-        newCurrIndex += 1;
       }
 
+      // } else {
+      //   // if letter is null just go to next letter
+      //   newCurrIndex += 1;
+      // }
+
+      // const errorIndex = charsState.indexOf(2);
+      // console.log('insert wrong letter with index', errorIndex);
+      // if (errorIndex !== -1 && currIndex - errorIndex < 2) {
+      //   console.log('errorIndex again', errorIndex);
+      //   newHasError = true;
+      // }
+
+      // newCurrIndex += 1;
       // if (currIndex === length - 2 && !charsState.some((el) => el === 2)) {
-      if (currIndex === length - 2) {
+      if (currIndex === length - 2 && !newCharsState.some((el) => el === 2)) {
         // if text is finished
         newEndTime = Date.now(); //set finishtime
         newPhase = 2; // set finish state
@@ -251,6 +281,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         startTime: newStartTime,
         endTime: newEndTime,
         allKeyPresses: newAllKeyPresses,
+        hasError: newHasError,
       };
     }
 
@@ -259,8 +290,17 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       let newCorrectChar = correctChar;
       let newErrorChar = errorChar;
       let newCurrIndex = currIndex;
+      let newHasError = hasError;
+      console.log('starting deleting...');
+
+      // const errorIndex = charsState.indexOf(2);
+      // if (errorIndex === -1) {
+      //   console.log('inside deleting, errorIndex=', errorIndex);
+      //   newHasError = false;
+      // }
 
       if (phase !== 1 || currIndex === -1) {
+        console.log('checking game phase.....');
         //game is finished or never started, no changes for state
         return state;
       }
@@ -268,6 +308,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       const newCharsState = [...charsState];
 
       if (payload) {
+        console.log('payload is true!');
         let newIndex = chars.lastIndexOf(' ', currIndex);
         newIndex = newIndex === -1 ? 0 : newIndex + 1;
         for (let i = currIndex; i >= newIndex; i--) {
@@ -280,9 +321,12 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         }
         newCurrIndex = newIndex;
       } else {
+        console.log('payload is false!!!!');
         if (newCharsState[currIndex] === 1) {
+          console.log('letter was correct');
           newCorrectChar -= 1;
         } else if (newCharsState[currIndex] === 2) {
+          console.log('letter was incorrect');
           newErrorChar -= 1;
         }
         newCharsState[currIndex] = 0;
@@ -291,6 +335,13 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         newCurrIndex -= 1;
       }
       const currChar = currIndex >= 0 ? chars[currIndex] : '';
+
+      const errorIndex = newCharsState.indexOf(2);
+      if (errorIndex === -1) {
+        console.log('inside deleting, errorIndex=', errorIndex);
+        newHasError = false;
+      }
+
       return {
         ...state,
         currIndex: newCurrIndex,
@@ -298,6 +349,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         charsState: newCharsState,
         correctChar: newCorrectChar,
         errorChar: newErrorChar,
+        hasError: newHasError,
       };
     }
     default: {
@@ -332,6 +384,7 @@ const useTypingGame = (
     skipCurrentWordOnSpace: true,
     pauseOnError: false,
     allKeyPresses: 0,
+    hasError: false,
     ...options,
   };
 
