@@ -62,11 +62,10 @@ const Results: React.FC<Props> = (props) => {
     history.push({
       pathname: `/${roomId}/lobby`,
     });
-    props.socket.current.emit('navigateLobby');
     props.socket.current.emit('getParagraph');
   }
 
-  props.socket.current.on('navigateLobby', () => {
+  props.socket.current.on('navigateToLobby', () => {
     history.push({
       pathname: `/${roomId}/lobby`,
     });
