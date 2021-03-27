@@ -113,18 +113,20 @@ const Results: React.FC<Props> = (props) => {
                 <h3>Accuracy</h3>
                 <h3>Time</h3>
               </div>
-              <div className="scroll-area">
-                {resultsPlayers.slice(1).map((element) => {
-                  return (
-                    <PlayerPlacementItem
-                      key={element.userName}
-                      name={element.userName}
-                      rocketColor={element.color}
-                      gameData={element.gameData}
-                      rank={resultsPlayers.indexOf(element) + 1}
-                    />
-                  );
-                })}
+              <div className="scroll-container">
+                <div className="scroll-area">
+                  {resultsPlayers.slice(1).map((element) => {
+                    return (
+                      <PlayerPlacementItem
+                        key={element.userName}
+                        name={element.userName}
+                        rocketColor={element.color}
+                        gameData={element.gameData}
+                        rank={resultsPlayers.indexOf(element) + 1}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>

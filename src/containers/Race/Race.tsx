@@ -229,10 +229,12 @@ const Race: React.FC<RaceProps> = (props) => {
           <div className="race-info-container right-side-bar">
             <h2 className="right-race-info-title">First Place</h2>
             <div className="race-leader-info">
-              <img
-                className="race-leader-icon"
-                src={rocketObj[`${firstPlace?.color}Rocket`]}
-              />
+              {firstPlace.player && (
+                <img
+                  className="race-leader-icon"
+                  src={rocketObj[`${firstPlace?.color}Rocket`]}
+                />
+              )}
               <h3
                 className="race-leader-name"
                 style={{
