@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState, ReactNode } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import SocketIOCLient from 'socket.io-client';
+import { FaCopy } from 'react-icons/fa';
 
 const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/'; //TODO: keep in env
+// const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 
 import rocketObj from '../../assets/icons/rocketObj';
 
@@ -22,9 +24,15 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const history = useHistory();
   const { roomId } = useParams<Record<string, string | undefined>>();
   const socketRef = useRef<SocketIOClient.Socket>();
-  const [userName, setUserName] = useState('');
-  const [color, setColor] = useState('');
+  const [userName, setUserName] = useState<string>('');
+  const [color, setColor] = useState<string>('');
+  const [opacity, setOpacity] = useState<number>(0.5);
+
+  const url = window.location.href;
+
   useEffect(() => {
+    console.log('url link', `${url}`);
+
     socketRef.current = SocketIOCLient(SOCKET_SERVER_URL, {
       query: { roomId },
     });
@@ -49,6 +57,11 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     setColor(id);
   };
 
+  function onCopy() {
+    setOpacity(1);
+    navigator.clipboard.writeText(`${url}`);
+  }
+
   //TODO: rocket selection: make it clear for user that he chose the rocket
   return (
     <div className="avatar-bg-container">
@@ -56,14 +69,17 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         <label htmlFor="" className="input-label">
           Race #
         </label>
-        <input
-          type="text"
-          disabled
-          name=""
-          id=""
-          className="input-field room-id-input"
-          value={roomId}
-        />
+        <div className="room-id-display">
+          <div className="room-id-text">{roomId}</div>
+          <button className="copy-button">
+            <FaCopy
+              className="copy-to-clipboard"
+              size="40px"
+              style={{ opacity: opacity }}
+              onClick={onCopy}
+            />
+          </button>
+        </div>
       </div>
       <div className="name-field-input input">
         <label htmlFor="" className="input-label">
