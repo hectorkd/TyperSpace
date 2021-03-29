@@ -3,8 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import SocketIOCLient from 'socket.io-client';
 import { FaCopy } from 'react-icons/fa';
 
-const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/'; //TODO: keep in env
-// const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
+// const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/'; //TODO: keep in env
+const SOCKET_SERVER_URL = 'http://localhost:3005'; //TODO: keep in env
 
 import blueRocket from '../../assets/icons/rocket1blue.png';
 import yellowRocket from '../../assets/icons/rocket2yellow.png';

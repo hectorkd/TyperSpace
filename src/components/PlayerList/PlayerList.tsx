@@ -14,8 +14,11 @@ const PlayerList: React.FC<PlayerListProps> = (props) => {
         return (
           <PlayerListItem
             key={idx}
-            userName={player.userName}
-            color={player.color}
+            player={player}
+            // userName={player.userName}
+            // color={player.color}
+            // isReady={player.isReady}
+            // appliedPowerUps={player.appliedPUs}
           />
         );
       })}
