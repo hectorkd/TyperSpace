@@ -9,6 +9,8 @@ const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 import rocketObj from '../../assets/icons/rocketObj';
 
 import './styles/Avatar.scss';
+import IPlayer from '../../interfaces/IPlayer';
+import { isConstructorDeclaration } from 'typescript';
 
 type AvatarProps = {
   socket: any;
@@ -20,20 +22,34 @@ type AvatarProps = {
   setPlayers: any;
 };
 
+interface colorState {
+  [color: string]: boolean;
+}
+
 const Avatar: React.FC<AvatarProps> = (props) => {
   const history = useHistory();
   const { roomId } = useParams<Record<string, string | undefined>>();
   const socketRef = useRef<SocketIOClient.Socket>();
   const [userName, setUserName] = useState<string>('');
-  const [color, setColor] = useState<string>('');
+  const [selectedColor, setSelectedColor] = useState<string>('');
   const [rounds, setRounds] = useState<string>('');
   const [opacity, setOpacity] = useState<number>(0.5);
+  //const [pla]
+
+  const [selectedColors, setSelectedColors] = useState<colorState>({
+    blue: false,
+    coral: false,
+    lime: false,
+    orange: false,
+    pink: false,
+    purple: false,
+    red: false,
+    teal: false,
+  });
 
   const url = window.location.href;
 
   useEffect(() => {
-    // console.log('url link', `${url}`);
-
     socketRef.current = SocketIOCLient(SOCKET_SERVER_URL, {
       query: { roomId },
     });
@@ -41,11 +57,33 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     props.setSocket(socketRef);
   }, [roomId]); //don't add props to array, useEffect runs twice when it's [props, roomId] and creates websocket twice
 
+  useEffect(() => {
+    const newSelectedColors: colorState = {
+      blue: false,
+      coral: false,
+      lime: false,
+      orange: false,
+      pink: false,
+      purple: false,
+      red: false,
+      teal: false,
+    };
+    for (const player of props.players) {
+      if (player.color) {
+        newSelectedColors[player.color] = true;
+      }
+    }
+    setSelectedColors((prevState) => {
+      console.log({ ...prevState, ...newSelectedColors });
+      return { ...prevState, ...newSelectedColors };
+    });
+  }, [props.players]);
+
   function handleClickReady(): void {
     //get useinfo from form and send to server
     props.socket.current.emit('userInfo', {
       userName: userName,
-      color: color,
+      color: selectedColor,
       rounds: rounds,
     });
     //go to lobby
@@ -56,13 +94,19 @@ const Avatar: React.FC<AvatarProps> = (props) => {
 
   const handleClick = (e: any) => {
     const id = e.target.id;
-    setColor(id);
+    setSelectedColor(id);
   };
 
   function onCopy() {
     setOpacity(1);
     navigator.clipboard.writeText(`${url}`);
   }
+
+  props.socket
+    ? props.socket.current.on('playerInfo', (data: IPlayer[]) => {
+        props.setPlayers(data);
+      })
+    : null;
 
   //TODO: rocket selection: make it clear for user that he chose the rocket
   return (
@@ -111,54 +155,24 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       <div className="avatar-container">
         <h2 className="avatar-select-h1 ">select colour</h2>
         <div className="avatar-list">
-          <img
-            src={rocketObj.blueRocket}
-            id="blue"
-            className={`avatar-images ${color === 'blue' ? 'selected' : ''}`}
-            onClick={handleClick}
-          />
-          <img
-            src={rocketObj.coralRocket}
-            id="coral"
-            className={`avatar-images ${color === 'coral' ? 'selected' : ''}`}
-            onClick={handleClick}
-          />
-          <img
-            src={rocketObj.limeRocket}
-            id="lime"
-            className={`avatar-images ${color === 'lime' ? 'selected' : ''}`}
-            onClick={handleClick}
-          />
-          <img
-            src={rocketObj.orangeRocket}
-            id="orange"
-            className={`avatar-images ${color === 'orange' ? 'selected' : ''}`}
-            onClick={handleClick}
-          />
-          <img
-            src={rocketObj.pinkRocket}
-            id="pink"
-            className={`avatar-images ${color === 'pink' ? 'selected' : ''}`}
-            onClick={handleClick}
-          />
-          <img
-            src={rocketObj.purpleRocket}
-            id="purple"
-            className={`avatar-images ${color === 'purple' ? 'selected' : ''}`}
-            onClick={handleClick}
-          />
-          <img
-            src={rocketObj.redRocket}
-            id="red"
-            className={`avatar-images ${color === 'red' ? 'selected' : ''}`}
-            onClick={handleClick}
-          />
-          <img
-            src={rocketObj.tealRocket}
-            id="teal"
-            className={`avatar-images ${color === 'teal' ? 'selected' : ''}`}
-            onClick={handleClick}
-          />
+          {Object.keys(selectedColors).map((color, idx) => {
+            return (
+              <img
+                key={idx}
+                id={color}
+                src={rocketObj[`${color}Rocket`]}
+                className={`avatar-images ${
+                  selectedColors[color]
+                    ? 'taken'
+                    : selectedColor === color
+                    ? 'selected'
+                    : ''
+                }`}
+                alt=""
+                onClick={selectedColors[color] ? undefined : handleClick}
+              />
+            );
+          })}
         </div>
       </div>
       <button className="btn-ready" onClick={handleClickReady}>

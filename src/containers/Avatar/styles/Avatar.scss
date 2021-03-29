@@ -125,6 +125,7 @@
     background-color: white;
     // border: 0.5vw solid white;
     opacity: 0.6;
+    cursor: pointer;
   }
   .avatar-images:active {
     background-color: $colour-green;
@@ -132,5 +133,11 @@
 
   .avatar-images::selection {
     background-color: yellow;
+  }
+
+  .taken {
+    background-color: rgba(0, 0, 50, 0.2);
+    filter: brightness(40%);
+    pointer-events: none;
   }
 }

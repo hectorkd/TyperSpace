@@ -43,8 +43,6 @@ const Lobby: React.FC<LobbyProps> = (props) => {
 
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
-      console.log(players);
-      console.log(players[0].userParagraph);
       props.setPlayers(players);
       const player = players.filter(
         (player) => player.userId === props.socket.current.id,
