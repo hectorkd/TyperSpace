@@ -26,6 +26,10 @@ const Lobby: React.FC<LobbyProps> = (props) => {
 
   useEffect(() => {
     //get random paragpraph from server
+    props.socket.current.on('getParagraph', (text: string) => {
+      console.log('paragraph from server ', text);
+      props.setText('the quick brown fox jumps over the lazy dog');
+    });
     //TODO: now use parapgraph from playerinfo!
     props.socket.current.on(
       'getGameState',

@@ -90,9 +90,8 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         <input
           type="text"
           value={userName}
+          maxLength={13}
           onChange={(e) => setUserName(e.target.value)}
-          name=""
-          id=""
           className="input-field"
         />
       </div>

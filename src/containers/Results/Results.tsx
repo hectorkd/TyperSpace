@@ -4,11 +4,7 @@ import rocketObj from '../../assets/icons/rocketObj';
 import PlayerPlacementItem from '../../components/PlayerPlacementItem/PlayerPlacementItem';
 import './styles/Results.scss';
 
-
-import rocketObj from '../../assets/icons/rocketObj';
-
 import { useParams, useHistory } from 'react-router-dom';
-
 
 type Props = {
   socket: any;
