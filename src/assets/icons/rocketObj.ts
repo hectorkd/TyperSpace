@@ -1,8 +1,11 @@
-import blueRocket from './rocket1blue.png';
-import yellowRocket from './rocket2yellow.png';
-import orangeRocket from './rocket3orange.png';
-import pinkRocket from './rocket4pink.png';
-import violetRocket from './rocket5violet.png';
+import blueRocket from './rocketBlue.svg';
+import coralRocket from './rocketCoral.svg';
+import limeRocket from './rocketLime.svg';
+import orangeRocket from './rocketOrange.svg';
+import pinkRocket from './rocketPink.svg';
+import purpleRocket from './rocketPurple.svg';
+import redRocket from './rocketRed.svg';
+import tealRocket from './rocketTeal.svg';
 
 type RocketObj = {
   [rocket: string]: string;
@@ -10,10 +13,13 @@ type RocketObj = {
 
 const rocketObj: RocketObj = {
   blueRocket,
-  yellowRocket,
+  coralRocket,
+  limeRocket,
   orangeRocket,
   pinkRocket,
-  violetRocket,
+  purpleRocket,
+  redRocket,
+  tealRocket,
 };
 
 export default rocketObj;

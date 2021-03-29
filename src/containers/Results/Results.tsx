@@ -4,11 +4,7 @@ import rocket2 from '../../assets/icons/rocket2yellow.png';
 import PlayerPlacementItem from '../../components/PlayerPlacementItem/PlayerPlacementItem';
 import './styles/Results.scss';
 
-import blueRocket from '../../assets/icons/rocket1blue.png';
-import yellowRocket from '../../assets/icons/rocket2yellow.png';
-import orangeRocket from '../../assets/icons/rocket3orange.png';
-import pinkRocket from '../../assets/icons/rocket4pink.png';
-import violetRocket from '../../assets/icons/rocket5violet.png';
+import rocketObj from '../../assets/icons/rocketObj';
 import { useParams } from 'react-router-dom';
 
 type Props = {
@@ -23,13 +19,6 @@ type Props = {
 
 const Results: React.FC<Props> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
-  const rocketObj: any = {
-    blueRocket,
-    yellowRocket,
-    orangeRocket,
-    pinkRocket,
-    violetRocket,
-  };
 
   const [resultsPlayers, setResultsPlayers] = useState<IPlayer[]>([]);
 
