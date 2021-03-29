@@ -88,8 +88,11 @@
   @include box-white-border-transparent;
   width: 10vw;
   height: 50vh;
+  background-color: transparent;
+  border-style: none;
   .left-side-bar {
   }
+
 }
 
 .right-race-info-title {

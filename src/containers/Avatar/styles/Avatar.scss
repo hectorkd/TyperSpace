@@ -26,6 +26,32 @@
     text-align: center;
   }
 
+  .room-id-display {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    @include box-white-border-transparent;
+    width: 25vw;
+    height: 8vh;
+  }
+
+  .room-id-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 5;
+    opacity: 0.6;
+  }
+
+  .copy-button {
+    flex: 1;
+  }
+
+  .copy-to-clipboard {
+    color: white;
+    width: 50px;
+  }
+
   .input-field {
     @include box-white-border-transparent;
     width: 25vw;
@@ -35,8 +61,30 @@
     font-weight: 600;
     font-family: $sanchezRegular;
     & .room-id-input {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       user-select: none;
     }
+  }
+
+  .copy-button {
+    background-color: transparent;
+    width: 80px;
+    border: none;
+  }
+
+  .copy-button:active {
+    opacity: 1;
+    transform: scale(0.8);
+  }
+
+  .copy-to-clipboard {
+    fill: white;
+    // background-color: white;
+    color: white;
+    width: 40px;
+    background-color: transparent;
   }
 
   .btn-ready {
@@ -77,6 +125,7 @@
     background-color: white;
     // border: 0.5vw solid white;
     opacity: 0.6;
+    cursor: pointer;
   }
   .avatar-images:active {
     background-color: $colour-green;
@@ -84,5 +133,11 @@
 
   .avatar-images::selection {
     background-color: yellow;
+  }
+
+  .taken {
+    background-color: rgba(0, 0, 50, 0.2);
+    filter: brightness(40%);
+    pointer-events: none;
   }
 }
