@@ -1,0 +1,26 @@
+@import '../../../globalStyles/globalVariables';
+@import '../../../globalStyles/globalMixins';
+
+@import './mixins';
+@import './variables';
+
+.lobby-bg-container {
+  @include bg-container;
+  background: url('../../../assets/backgrounds/nightsky1.png');
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.lobby-btn-start {
+  @include btn-orange;
+  width: 20vw;
+  height: 5vw;
+}
+
+.lobby-btn-start-disabled {
+  @include btn-orange;
+  width: 20vw;
+  height: 5vw;
+  opacity: 0.5;
+}

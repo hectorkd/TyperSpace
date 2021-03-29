@@ -1,0 +1,54 @@
+@import '../globalStyles/fonts';
+@import './globalVariables';
+
+@mixin bg-container {
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+}
+
+@mixin atari-button {
+  font-family: $atariFont;
+  font-size: 1.8rem;
+  width: 35vw;
+  height: 8vh;
+  margin: 1vh;
+  //below is getting rid of all default button styles
+  border: none;
+  margin: 1vh;
+  padding: 1vw;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+@mixin btn-orange {
+  font-family: $atariFont;
+  width: 16vw;
+  height: 7vh;
+  border: 2px solid $colour-white;
+  background-color: $colour-salmon;
+  color: $font-white;
+  font-size: 1.7rem;
+}
+
+@mixin label-font {
+  font-family: $sanchezRegular;
+  font-size: 3rem;
+  font-weight: 700;
+  color: $font-white;
+}
+
+@mixin box-white-border-transparent {
+  background: $colour-opaque-white;
+  border: 4px solid white;
+}
+
+@mixin flex-center {
+  justify-content: center;
+  align-items: center;
+}

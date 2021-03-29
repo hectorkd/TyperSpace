@@ -1,0 +1,380 @@
+@import '../../../globalStyles/globalVariables';
+@import '../../../globalStyles/globalMixins';
+
+@import './mixins';
+@import './variables';
+
+.results-bg-container {
+  @include bg-container;
+  background: url('../../#{$nightsky1}');
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.room-id-display-box {
+  @include flex-center;
+  display: flex;
+  background: rgba(17, 38, 126, 0.4);
+  border: 4px solid white;
+  width: 50vw;
+  height: 8vh;
+}
+
+.room-id-text {
+  @include label-font;
+}
+
+.results-display-box {
+  display: flex;
+  background: rgba(17, 38, 126, 0.4);
+  border: 4px solid white;
+  width: 60vw;
+  height: 75vh;
+}
+
+.inside-results-display {
+  flex: 1;
+  // height: fit-content;
+  // width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.winner-info-container {
+  flex: 1;
+  display: flex;
+  // border: 2px solid red;
+}
+
+.winner-info {
+  display: flex;
+  flex-direction: row;
+  flex: 2;
+  // min-height: 100%;
+}
+
+.winner-wpm-container {
+  // border: 2px solid pink;
+  // @include flex-center;
+  flex: 1;
+  // width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.wpm-title {
+  @include label-font;
+  font-size: 200%;
+  margin: 0;
+}
+.wpm-container {
+  background: rgba(255, 255, 255, 0.4);
+  border: 4px solid white;
+  width: 60%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    @include label-font;
+    font-size: 150%;
+  }
+}
+
+.left-side {
+  flex: 1;
+}
+
+.winner-other-stats {
+  flex: 1;
+  // height: 100%;
+  display: flex;
+}
+
+.accuracy-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  flex: 1;
+  // border: 2px solid purple;
+}
+
+.accuracy-title {
+  @include label-font;
+  font-size: 200%;
+  margin: 0;
+}
+.accuracy-container-box {
+  background: rgba(255, 255, 255, 0.4);
+  border: 4px solid white;
+  width: 60%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    @include label-font;
+    font-size: 150%;
+  }
+}
+
+.time-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  flex: 1;
+  // height: 100%;
+  // border: 2px solid yellow;
+}
+
+.time-title {
+  @include label-font;
+  font-size: 200%;
+  margin: 0;
+}
+.time-container-box {
+  background: rgba(255, 255, 255, 0.4);
+  border: 4px solid white;
+  width: 60%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    @include label-font;
+    font-size: 150%;
+  }
+}
+
+.winner-picture {
+  flex: 1;
+  display: flex;
+}
+
+.name-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  // @include flex-center;
+  align-items: center;
+  justify-content: space-around;
+  // border: 2px solid yellow;
+}
+
+.winner-text {
+  @include label-font;
+  font-size: 150%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  // justify-content: space-around;
+  align-items: center;
+}
+.winner-name {
+  // color: yellow;
+  font-size: 180%;
+  // color: red;
+}
+
+.rocket-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  img {
+    height: 80%;
+    width: 40%;
+  }
+}
+
+.placement-info-container {
+  // flex: 2;
+  height: 66.6%;
+  // border: 2px solid yellow;
+}
+
+.scroll-container {
+  height: 85%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scroll-area {
+  padding-bottom: 10px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  // @include flex-center;
+  align-items: center;
+  // border: 2px solid orange;
+  // height: inherit;
+  overflow-y: scroll;
+  // border: 5px solid black;
+}
+
+.scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+.table-header {
+  display: flex;
+  height: 10%;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  color: white;
+  // border: 2px solid pink;
+}
+
+// @import '../../../globalStyles/globalVariables';
+// @import '../../../globalStyles/globalMixins';
+
+// @import './mixins';
+// @import './variables';
+
+// .results-bg-container {
+//   @include bg-container;
+//   background: url('../../#{$nightsky1}');
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .room-id-display-box {
+//   background: rgba(17, 38, 126, 0.4);
+//   // background: rgba(255, 255, 255, 0.4);
+//   margin-bottom: 3%;
+//   border: 4px solid white;
+//   width: 50vw;
+//   height: 8vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   .room-id-text {
+//     @include label-font;
+//   }
+// }
+
+// .results-display-box {
+//   background: rgba(17, 38, 126, 0.4);
+//   border: 4px solid white;
+//   width: 60vw;
+//   height: 70vh;
+//   display: flex;
+//   flex-direction: column;
+//   .winner-info-container {
+//     display: flex;
+//     flex: 1;
+//     flex-direction: row;
+//     // border: 2px solid red;
+//     .winner-info {
+//       display: flex;
+//       flex-direction: column;
+//       flex: 1;
+//       justify-content: center;
+//       align-items: center;
+//       // border: 2px solid pink;
+//       .wpm-display {
+//         display: flex;
+//         width: 100%;
+//         flex-direction: row;
+//         align-items: center;
+//         justify-content: space-evenly;
+//         .wpm-title {
+//           @include label-font;
+//           font-size: 200%;
+//         }
+//         .wpm-container {
+//           background: rgba(255, 255, 255, 0.4);
+//           border: 4px solid white;
+//           width: 25%;
+//           height: 60%;
+//           display: flex;
+//           justify-content: center;
+//           align-items: center;
+//           h1 {
+//             @include label-font;
+//             font-size: 150%;
+//           }
+//         }
+//       }
+//       .time-display {
+//         display: flex;
+//         width: 100%;
+//         flex-direction: row;
+//         align-items: center;
+//         justify-content: space-evenly;
+//         .time-title {
+//           @include label-font;
+//           font-size: 200%;
+//         }
+//         .time-container {
+//           background: rgba(255, 255, 255, 0.4);
+//           border: 4px solid white;
+//           width: 25%;
+//           height: 60%;
+//           display: flex;
+//           justify-content: center;
+//           align-items: center;
+//           h1 {
+//             @include label-font;
+//             font-size: 150%;
+//           }
+//         }
+//       }
+//     }
+//     .winner-visual {
+//       display: flex;
+//       flex: 1;
+//       flex-direction: row;
+//       .winner-text {
+//         @include label-font;
+//         font-size: 150%;
+//         display: flex;
+//         flex: 1;
+//         flex-direction: column;
+//         // justify-content: space-around;
+//         align-items: center;
+//         .winner-name {
+//           color: yellow;
+//           font-size: 180%;
+//         }
+//       }
+//       .rocket-icon {
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//         flex: 1;
+//         img {
+//           height: 80%;
+//           width: 32%;
+//         }
+//       }
+//     }
+//   }
+
+//   .placement-info-container {
+//     flex: 3;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     flex-direction: column;
+//     border: 2px solid yellow;
+//     overflow-y: scroll;
+//   }
+// }
+
+// .table-header {
+//   display: flex;
+//   width: 100%;
+//   justify-content: space-evenly;
+//   color: white;
+// }

@@ -1,0 +1,46 @@
+//import all local fonts from assets/fonts folder
+@font-face {
+  font-family: 'PressStart2P-Regular';
+  src: local('PressStart2P-Regular'),
+    url(../assets/fonts/PressStart2P-Regular/PressStart2P-Regular.ttf)
+      format('tff'),
+    url(../assets/fonts/PressStart2P-Regular/PressStart2P-Regular.eot)
+      format('eot'),
+    url(../assets/fonts/PressStart2P-Regular/PressStart2P-Regular.woff)
+      format('woff'),
+    url(../assets/fonts/PressStart2P-Regular/PressStart2P-Regular.woff2)
+      format('woff2');
+}
+
+@font-face {
+  font-family: 'Sanchez-Regular';
+  src: local('Sanchez-Regular'),
+    url(../assets/fonts/Sanchez/Sanchez-Regular.ttf) format('tff'),
+    url(../assets/fonts/Sanchez/Sanchez-Regular.eot) format('eot'),
+    url(../assets/fonts/Sanchez/Sanchez-Regular.woff) format('woff'),
+    url(../assets/fonts/Sanchez/Sanchez-Regular.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Sanchez-Italic';
+  src: local('Sanchez-Italic'),
+    url(../assets/fonts/Sanchez/Sanchez-Italic.ttf) format('tff'),
+    url(../assets/fonts/Sanchez/Sanchez-Italic.eot) format('eot'),
+    url(../assets/fonts/Sanchez/Sanchez-Italic.woff) format('woff'),
+    url(../assets/fonts/Sanchez/Sanchez-Italic.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'RobotoMono-Regular';
+  src: local('RobotoMono-Regular'),
+    url(../assets/fonts/Roboto/RobotoMono-Regular.ttf) format('tff'),
+    url(../assets/fonts/Roboto/RobotoMono-Regular.eot) format('eot'),
+    url(../assets/fonts/Roboto/RobotoMono-Regular.woff) format('woff'),
+    url(../assets/fonts/Roboto/RobotoMono-Regular.woff2) format('woff2');
+}
+
+//declare fonts as scss variables
+
+$atariFont: 'PressStart2p-Regular';
+$sanchezRegular: 'Sanchez-Regular';
+$robotoMonoRegular: 'RobotoMono-Regular';
+$sanchezItalic: 'Sanchez-Italic';

@@ -1,0 +1,163 @@
+@import '../../../globalStyles/globalVariables';
+@import '../../../globalStyles/globalMixins';
+
+@import './mixins';
+@import './variables';
+
+.race-bg-container {
+  @include bg-container;
+  background: url('../../../assets/backgrounds/nightsky1.png');
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.race-container {
+  border: 2px soild red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.race-btn-finish {
+  @include btn-orange;
+  width: 30vw;
+  height: 7vh;
+}
+
+.race-typing-test {
+  @include box-white-border-transparent;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 60vw;
+  height: 30vw;
+  margin: 2vw;
+  padding: 3vw;
+  overflow-y: scroll;
+  line-height: 500%;
+  // position: absolute;
+  left: 20%;
+  span {
+    font-family: monospace;
+    font-size: 270%;
+  }
+  z-index: 2;
+}
+
+.race-info-container {
+  @include box-white-border-transparent;
+  width: 10vw;
+  height: 50vh;
+  background-color: transparent;
+  border-style: none;
+  .left-side-bar {
+  }
+
+}
+
+.right-race-info-title {
+  flex: 1;
+  text-align: center;
+  font-family: $sanchezRegular;
+  color: $font-white;
+}
+
+.race-leader-info {
+  max-width: 10vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .race-leader-icon {
+    width: 6vw;
+    height: 25vh;
+    //transform: 'rotate(90deg)';
+    border: none;
+    border-image-width: 0;
+    -webkit-appearance: none;
+    animation-name: shake;
+    animation-iteration-count: infinite;
+    animation-duration: 0.3s;
+    // transition: 0.2s;
+    &:focus {
+      -webkit-appearance: none;
+      border-style: none;
+    }
+  }
+
+  .race-leader-name {
+    width: 10vw;
+    block-size: fit-content;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 1.4rem;
+  }
+}
+
+.right-side-bar {
+  min-height: 50vh;
+  min-width: 10vw;
+}
+
+//TODO: implement caret working
+//TODO: autoscrolling with type
+
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+// .curr-letter {
+//   animation-name: flash;
+//   animation-iteration-count: infinite;
+//   animation-duration: 0.5s;
+//   transition: 0.2s;
+// }
+
+.curr-letter {
+  text-decoration: underline;
+}
+
+.conditional-render {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.race-countdown-container {
+  // border: 2px solid red;
+  position: absolute;
+  z-index: 3;
+  top: 30%;
+  min-width: 53vw;
+  text-align: center;
+}
+
+.svg {
+  height: 35px;
+  width: 100%;
+  position: absolute;
+}
+
+line {
+  stroke-width: 5px;
+}
+
+@keyframes shake {
+  0% {
+  }
+  50% {
+    transform: translate(random(2) + px, 0px);
+  }
+
+  100% {
+    transform: translate(0px, random(2) + px);
+  }
+}

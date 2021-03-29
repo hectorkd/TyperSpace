@@ -1,0 +1,48 @@
+@import './_fonts';
+
+// Backgrounds
+$nightsky1: '../assets/backgrounds/nightsky1.png';
+$nightsky2: '../assets/backgrounds/nightsky2.png';
+
+// Rockets
+//$rocket1blue: url('../assets/icons/rocket1blue.png');
+// $rocket2blue: url('../assets/icons/rocket2yellow.png');
+// $rocket3orange: url('../assets/icons/rocket3orange.png');
+// $rocket4pink: url('../assets/icons/rocket4pink.png');
+// $rocket5violet: url('../assets/icons/rocket5violet.png');
+
+//Font colours:
+$font-white: rgb(236, 236, 236);
+$font-dark: #1e1e1e;
+$font-transparent: transparent;
+$font-deepgreen: #165b33;
+$font-green: #165b33;
+$font-yellow: #f8b229;
+$font-orange: #ea4630;
+$font-red: #bb2528;
+
+//border-shadow
+$font-dark-blue: #378ab4;
+$font-light-blue: #5dabcd;
+
+//other-colours:
+$colour-white: rgb(236, 236, 236);
+$colour-salmon: #ff7e67;
+$colour-opaque-white: rgba(255, 255, 255, 0.4);
+$colour-green: #44ee29;
+$colour-red: #ed1616;
+
+//Avatar-colours:
+$colour-avatar-blue: #40ece5;
+$colour-avatar-purple: #9f00ff;
+$colour-avatar-orange: #fa7921;
+$colour-avatar-coral-joe-LOL: #d64161;
+$colour-avatar-yellow: #d7e531;
+
+//border-styles:
+$blue3Dborder: 0 1px 0px #378ab4, 1px 0 0px #5dabcd, 1px 2px 1px #378ab4,
+  2px 1px 1px #5dabcd, 2px 3px 2px #378ab4, 3px 2px 2px #5dabcd,
+  3px 4px 2px #378ab4, 4px 3px 3px #5dabcd, 4px 5px 3px #378ab4,
+  5px 4px 2px #5dabcd, 5px 6px 2px #378ab4, 6px 5px 2px #5dabcd,
+  6px 7px 1px #378ab4, 7px 6px 1px #5dabcd, 7px 8px 0px #378ab4,
+  8px 7px 0px #5dabcd;
