@@ -70,6 +70,10 @@ const Race: React.FC<RaceProps> = (props) => {
   } = useTypingGame(props.text);
 
   useEffect(() => {
+    props.socket.current.emit('position', { currIndex: undefined });
+  }, []);
+
+  useEffect(() => {
     props.socket.current.on('startTime', (startTime: number) => {
       console.log('received startTime! ', startTime);
       console.log('time diff', Math.round((startTime - Date.now()) / 1000));
@@ -102,10 +106,6 @@ const Race: React.FC<RaceProps> = (props) => {
       y: behindRef.current ? behindRef.current.offsetTop - 57 : 0,
     });
   }, [allPlayerCurrentIndex]);
-
-  // useEffect(() => {
-
-  // }, [ahead.player, ])
 
   console.log(aheadRef);
 
