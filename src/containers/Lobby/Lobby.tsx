@@ -25,17 +25,9 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   const [currPlayer, setCurrPlayer] = useState<IPlayer>();
 
   useEffect(() => {
-    //get random paragpraph from server
-    props.socket.current.on('getParagraph', (text: string) => {
-      console.log('paragraph from server ', text);
-      props.setText(text);
-    });
-    //TODO: now use parapgraph from playerinfo!
     props.socket.current.on(
       'getGameState',
       (rounds: number, currRound: number) => {
-        console.log('number of rounds', rounds);
-        console.log('current round', currRound);
         setRounds(rounds);
         setCurrRound(currRound);
       },
