@@ -14,14 +14,6 @@ type PlayerListItemProps = {
 };
 
 const PlayerListItem: React.FC<PlayerListItemProps> = (props) => {
-  const rocketObj: any = {
-    blueRocket,
-    yellowRocket,
-    orangeRocket,
-    pinkRocket,
-    violetRocket,
-  };
-
   function handleCLick(e: any): void {
     const id = e.target.id;
     //TODO: decide on which event emit info to server
