@@ -60,37 +60,40 @@ const Landing: React.FC = () => {
   }
 
   return (
-    <div className="landing-bg-container">
-      <h1 className="landing-main-title"> TyperSpace </h1>
-      <div className="landing-buttons">
-        <button
-          className={`landing-buttons create-btn ${newRaceBtnAnimationClass}`}
-          onClick={() => handleNewRaceClick()}
-        >
-          New Race
-        </button>
-        <button
-          className={`landing-buttons join-btn ${joinRaceBtnAnimationClass}`}
-          onClick={() => {
-            handleJoinRaceClick();
-          }}
-          onKeyPress={(e) => handleKeyPress(e)}
-        >
-          Join Race
-          <input
-            ref={inputRef}
-            type="text"
-            className="join-input"
-            onMouseEnter={handleJoinHover}
-            placeholder="tysp8s"
-            value={inputRoomId}
-            maxLength={6}
-            spellCheck={false}
-            onChange={handleTextChange}
-          ></input>
-        </button>
+    <div>
+      <div className="landing-bg"> </div>
+      <div className="landing-container">
+        <h1 className="landing-main-title"> TyperSpace </h1>
+        <div className="landing-buttons">
+          <button
+            className={`landing-buttons create-btn ${newRaceBtnAnimationClass}`}
+            onClick={() => handleNewRaceClick()}
+          >
+            New Race
+          </button>
+          <button
+            className={`landing-buttons join-btn ${joinRaceBtnAnimationClass}`}
+            onClick={() => {
+              handleJoinRaceClick();
+            }}
+            onKeyPress={(e) => handleKeyPress(e)}
+          >
+            Join Race
+            <input
+              ref={inputRef}
+              type="text"
+              className="join-input"
+              onMouseEnter={handleJoinHover}
+              placeholder="tysp8s"
+              value={inputRoomId}
+              maxLength={6}
+              spellCheck={false}
+              onChange={handleTextChange}
+            ></input>
+          </button>
+        </div>
+        <Footer></Footer>
       </div>
-      <Footer></Footer>
     </div>
   );
 };

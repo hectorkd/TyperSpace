@@ -3,6 +3,7 @@ import IPlayer from '../../interfaces/IPlayer';
 import rocketObj from '../../assets/icons/rocketObj';
 import PlayerPlacementItem from '../../components/PlayerPlacementItem/PlayerPlacementItem';
 import './styles/Results.scss';
+
 import { useParams, useHistory } from 'react-router-dom';
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
 
 const Results: React.FC<Props> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
+
   const [isAllFinished, setIsAllFinished] = useState(false);
   const [isHost, setIsHost] = useState(false);
 

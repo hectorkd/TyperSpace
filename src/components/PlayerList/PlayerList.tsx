@@ -5,6 +5,7 @@ import IPlayer from '../../interfaces/IPlayer';
 
 type PlayerListProps = {
   players: IPlayer[];
+  socket: any;
 };
 
 const PlayerList: React.FC<PlayerListProps> = (props) => {
@@ -14,8 +15,12 @@ const PlayerList: React.FC<PlayerListProps> = (props) => {
         return (
           <PlayerListItem
             key={idx}
-            userName={player.userName}
-            color={player.color}
+            player={player}
+            socket={props.socket}
+            // userName={player.userName}
+            // color={player.color}
+            // isReady={player.isReady}
+            // appliedPowerUps={player.appliedPUs}
           />
         );
       })}
