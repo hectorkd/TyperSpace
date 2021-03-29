@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Footer from '../../components/Footer/Footer';
@@ -6,9 +6,12 @@ import Footer from '../../components/Footer/Footer';
 import './styles/Landing.scss';
 
 const Landing: React.FC = () => {
-  const [isNewRaceClicked, setIsNewRaceClicked] = useState(false);
-  const [isJoinRaceClicked, setIsJoinRaceClicked] = useState(false);
+  const [newRaceBtnAnimationClass, setNewRaceBtnAnimationClass] = useState('');
+  const [joinRaceBtnAnimationClass, setJoinRaceBtnAnimationClass] = useState(
+    '',
+  );
   const [inputRoomId, setInputRoomId] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const history = useHistory();
   //generate random string
@@ -22,16 +25,23 @@ const Landing: React.FC = () => {
     }
     return outString;
   }
+
   //generate random roomID and redirect to avatar page
   function handleNewRaceClick(): void {
-    setIsNewRaceClicked(true);
+    setNewRaceBtnAnimationClass('btn-press');
     const roomId = makeString();
-    history.push(`/${roomId}`);
+    setTimeout(() => {
+      history.push(`/${roomId}`);
+    }, 400);
   }
 
   function handleJoinRaceClick(): void {
-    setIsJoinRaceClicked(true);
-    history.push(`/${inputRoomId}`);
+    if (inputRoomId.length === 6) {
+      setJoinRaceBtnAnimationClass('btn-press');
+      setTimeout(() => {
+        history.push(`/${inputRoomId}`);
+      }, 400);
+    } else alert('Please enter a valid Race ID: e.g: q0yqdo');
   }
 
   function handleTextChange(e: any): void {
@@ -39,34 +49,39 @@ const Landing: React.FC = () => {
     setInputRoomId(e.target.value);
   }
 
+  function handleJoinHover(): void {
+    inputRef.current?.focus();
+  }
+
+  function handleKeyPress(e: any): void {
+    if (e.charCode == 13) {
+      return handleJoinRaceClick();
+    }
+  }
+
   return (
     <div className="landing-bg-container">
       <h1 className="landing-main-title"> TyperSpace </h1>
       <div className="landing-buttons">
         <button
-          onClick={handleNewRaceClick}
-          className={
-            isNewRaceClicked
-              ? 'landing-buttons create-btn btn-press'
-              : 'landing-buttons create-btn'
-          }
+          className={`landing-buttons create-btn ${newRaceBtnAnimationClass}`}
+          onClick={() => handleNewRaceClick()}
         >
           New Race
         </button>
         <button
-          className={
-            isJoinRaceClicked
-              ? 'landing-buttons join-btn btn-press'
-              : 'landing-buttons join-btn'
-          }
+          className={`landing-buttons join-btn ${joinRaceBtnAnimationClass}`}
           onClick={() => {
             handleJoinRaceClick();
           }}
+          onKeyPress={(e) => handleKeyPress(e)}
         >
-          <p>Join Race</p>
+          Join Race
           <input
+            ref={inputRef}
             type="text"
             className="join-input"
+            onMouseEnter={handleJoinHover}
             placeholder="tysp8s"
             value={inputRoomId}
             maxLength={6}

@@ -56,7 +56,7 @@
   }
 
   &.create-btn:active {
-    transform: translate(5px, 5px);
+    // transform: translate(5px, 5px);
   }
   &.join-btn p {
     margin: 0;
@@ -89,17 +89,17 @@
   border: 1px solid white;
 }
 
-.btn-press:active {
-  transform: translate(5px, 5px);
-  // animation: buttonAnim;
-  // animation-duration: 0.5s;
+.btn-press {
+  // transform: translate(5px, 5px);
+  animation: buttonAnim;
+  animation-duration: 0.4s;
 }
 
-// @keyframes buttonAnim {
-//   50% {
-//     transform: translate(5px, 5px);
-//   }
-//   100% {
-//     transform: translate(0px, 0px);
-//   }
-// }
+@keyframes buttonAnim {
+  50% {
+    transform: translate(5px, 5px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}

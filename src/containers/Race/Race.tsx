@@ -93,12 +93,21 @@ const Race: React.FC<RaceProps> = (props) => {
     gsap.to('.aheadRocket', {
       duration: 0.3,
       x: aheadRef.current ? aheadRef.current.offsetLeft : 0,
+      y: aheadRef.current ? aheadRef.current.offsetTop - 57 : 0,
     });
+
     gsap.to('.behindRocket', {
       duration: 0.3,
       x: behindRef.current ? behindRef.current.offsetLeft : 0,
+      y: behindRef.current ? behindRef.current.offsetTop - 57 : 0,
     });
   }, [allPlayerCurrentIndex]);
+
+  // useEffect(() => {
+
+  // }, [ahead.player, ])
+
+  console.log(aheadRef);
 
   //go to results page automatically
   useEffect(() => {
@@ -167,12 +176,13 @@ const Race: React.FC<RaceProps> = (props) => {
                   src={rocketObj[`${ahead.color}Rocket`]}
                   className="aheadRocket"
                   style={{
+                    // opacity: 0,
                     width: '35px',
                     height: '60px',
                     transform: 'rotate(90deg)',
                     position: 'absolute',
-                    top: `${aheadRef.current.offsetTop - 57}px`,
-                    left: '-30px',
+                    top: '0px',
+                    left: '-80px',
                     zIndex: 5,
                   }}
                 />
@@ -183,12 +193,13 @@ const Race: React.FC<RaceProps> = (props) => {
                   src={rocketObj[`${behind.color}Rocket`]}
                   className="behindRocket"
                   style={{
+                    // opacity: 0,
                     width: '35px',
                     height: '60px',
                     transform: 'rotate(90deg)',
                     position: 'absolute',
-                    top: `${behindRef.current.offsetTop - 57}px`,
-                    left: '-30px',
+                    top: '0px',
+                    left: '-80px',
                     zIndex: 5,
                   }}
                 />
@@ -198,7 +209,7 @@ const Race: React.FC<RaceProps> = (props) => {
                   className="svg"
                   style={{
                     top: aheadRef.current.offsetTop - 45,
-                    left: 200,
+                    left: 135,
                     width: '100%',
                     zIndex: 4,
                   }}
@@ -217,7 +228,7 @@ const Race: React.FC<RaceProps> = (props) => {
                   className="svg"
                   style={{
                     top: behindRef.current.offsetTop - 45,
-                    left: 200,
+                    left: 135,
                     width: '100%',
                     zIndex: 4,
                   }}
