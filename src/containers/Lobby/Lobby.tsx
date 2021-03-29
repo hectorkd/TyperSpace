@@ -22,17 +22,16 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   const [isHost, setIsHost] = useState(false);
   const [rounds, setRounds] = useState<number>(0);
   const [currRound, setCurrRound] = useState<number>(0);
+  const [currPlayer, setCurrPlayer] = useState<IPlayer>();
 
   useEffect(() => {
     //get random paragpraph from server
     //TODO: now use parapgraph from playerinfo!
     props.socket.current.on(
       'getGameState',
-      (text: string, rounds: number, currRound: number) => {
-        console.log('paragraph from server ', text);
+      (rounds: number, currRound: number) => {
         console.log('number of rounds', rounds);
         console.log('current round', currRound);
-        props.setText(text); // don't nee this anymore
         setRounds(rounds);
         setCurrRound(currRound);
       },
@@ -41,17 +40,20 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
       console.log(players);
+      console.log(players[0].userParagraph);
       props.setPlayers(players);
       const player = players.filter(
         (player) => player.userId === props.socket.current.id,
       );
       // console.log('Is host?', player[0].isHost);
+      setCurrPlayer(player[0]);
       setIsHost(player[0].isHost);
+      props.setText(player[0].userParagraph);
     });
   }, []); //don't add props to array
 
   useEffect(() => {
-    //check if someone applied power ups, apply them to user and update paragraph
+    //check if someone applied power ups, apply them to user, update paragprah, send updated info to server
   });
 
   //synchronise timestart for all players
@@ -75,7 +77,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
       <h1>
         Round {currRound} from {rounds}
       </h1>
-      <PlayersList players={props.players} />
+      <PlayersList players={props.players} socket={props.socket} />
       <button
         disabled={!isHost}
         onClick={handleClickStart}

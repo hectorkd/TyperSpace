@@ -14,6 +14,7 @@ type PlayerListItemProps = {
   // userName: string;
   // color: string;
   player: IPlayer;
+  socket: any;
 };
 
 const PlayerListItem: React.FC<PlayerListItemProps> = (props) => {
@@ -24,6 +25,16 @@ const PlayerListItem: React.FC<PlayerListItemProps> = (props) => {
     pinkRocket,
     violetRocket,
   };
+
+  function handleCLick(e: any): void {
+    const id = e.target.id;
+    //TODO: decide on which event emit info to server
+    //TODO: how to understand that power up is applied?
+    props.socket.current.emit('applyPower', {
+      power: id,
+      userName: 'test',
+    });
+  }
 
   return (
     <div>
@@ -38,12 +49,16 @@ const PlayerListItem: React.FC<PlayerListItemProps> = (props) => {
           src={rocketObj[`${props.player.color}Rocket`]}
           className="player-list avatar-element"
         />
-        {/* TODO: render applied power ups as list */}
-        <div>{props.player.appliedPUs.scrambleWord ? 'Scramble' : 'False'}</div>
-        <div>
+        {/* TODO: render applied power ups as list? */}
+        <div id="scramble" onClick={handleCLick}>
+          {props.player.appliedPUs.scrambleWord ? 'Scramble' : 'False'}
+        </div>
+        <div id="longWord" onClick={handleCLick}>
           {props.player.appliedPUs.insertLongWord ? 'LongWord' : 'False'}
         </div>
-        <div>{props.player.appliedPUs.insertSymbols ? 'Symbols' : 'False'}</div>
+        <div id="symbols" onClick={handleCLick}>
+          {props.player.appliedPUs.insertSymbols ? 'Symbols' : 'False'}
+        </div>
         <div className="player-list status-element">
           {props.player.isReady ? 'Ready' : 'Not ready'}
         </div>
