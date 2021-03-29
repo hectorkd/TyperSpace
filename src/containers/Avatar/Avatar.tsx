@@ -6,11 +6,7 @@ import { FaCopy } from 'react-icons/fa';
 // const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/'; //TODO: keep in env
 const SOCKET_SERVER_URL = 'http://localhost:3005'; //TODO: keep in env
 
-import blueRocket from '../../assets/icons/rocket1blue.png';
-import yellowRocket from '../../assets/icons/rocket2yellow.png';
-import orangeRocket from '../../assets/icons/rocket3orange.png';
-import pinkRocket from '../../assets/icons/rocket4pink.png';
-import violetRocket from '../../assets/icons/rocket5violet.png';
+import rocketObj from '../../assets/icons/rocketObj';
 
 import './styles/Avatar.scss';
 
@@ -117,33 +113,51 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         <h2 className="avatar-select-h1 ">select colour</h2>
         <div className="avatar-list">
           <img
-            src={blueRocket}
+            src={rocketObj.blueRocket}
             id="blue"
             className={`avatar-images ${color === 'blue' ? 'selected' : ''}`}
             onClick={handleClick}
           />
           <img
-            src={yellowRocket}
-            id="yellow"
-            className={`avatar-images ${color === 'yellow' ? 'selected' : ''}`}
+            src={rocketObj.coralRocket}
+            id="coral"
+            className={`avatar-images ${color === 'coral' ? 'selected' : ''}`}
             onClick={handleClick}
           />
           <img
-            src={orangeRocket}
+            src={rocketObj.limeRocket}
+            id="lime"
+            className={`avatar-images ${color === 'lime' ? 'selected' : ''}`}
+            onClick={handleClick}
+          />
+          <img
+            src={rocketObj.orangeRocket}
             id="orange"
             className={`avatar-images ${color === 'orange' ? 'selected' : ''}`}
             onClick={handleClick}
           />
           <img
-            src={pinkRocket}
+            src={rocketObj.pinkRocket}
             id="pink"
             className={`avatar-images ${color === 'pink' ? 'selected' : ''}`}
             onClick={handleClick}
           />
           <img
-            src={violetRocket}
-            id="violet"
-            className={`avatar-images ${color === 'violet' ? 'selected' : ''}`}
+            src={rocketObj.purpleRocket}
+            id="purple"
+            className={`avatar-images ${color === 'purple' ? 'selected' : ''}`}
+            onClick={handleClick}
+          />
+          <img
+            src={rocketObj.redRocket}
+            id="red"
+            className={`avatar-images ${color === 'red' ? 'selected' : ''}`}
+            onClick={handleClick}
+          />
+          <img
+            src={rocketObj.tealRocket}
+            id="teal"
+            className={`avatar-images ${color === 'teal' ? 'selected' : ''}`}
             onClick={handleClick}
           />
         </div>
