@@ -90,17 +90,17 @@ const Race: React.FC<RaceProps> = (props) => {
       props.players,
     );
 
-    gsap.to('.aheadRocket', {
-      duration: 0.3,
-      x: aheadRef.current ? aheadRef.current.offsetLeft : 0,
-      y: aheadRef.current ? aheadRef.current.offsetTop - 57 : 0,
-    });
+    // gsap.to('.aheadRocket', {
+    //   duration: 0.3,
+    //   x: aheadRef.current ? aheadRef.current.offsetLeft : 0,
+    //   y: aheadRef.current ? aheadRef.current.offsetTop - 57 : 0,
+    // });
 
-    gsap.to('.behindRocket', {
-      duration: 0.3,
-      x: behindRef.current ? behindRef.current.offsetLeft : 0,
-      y: behindRef.current ? behindRef.current.offsetTop - 57 : 0,
-    });
+    // gsap.to('.behindRocket', {
+    //   duration: 0.3,
+    //   x: behindRef.current ? behindRef.current.offsetLeft : 0,
+    //   y: behindRef.current ? behindRef.current.offsetTop - 57 : 0,
+    // });
   }, [allPlayerCurrentIndex]);
 
   // useEffect(() => {
@@ -150,163 +150,218 @@ const Race: React.FC<RaceProps> = (props) => {
   //TODO: style countdown
 
   return (
-    <div className="race-bg-container">
-      {countDown >= 0 ? (
-        <div className="conditional-render">
-          {/* <div className="race-info-container left-side-bar">
-            <div className="race-info-time"></div>
-          <div className="race-info-container left-side-bar">
-            <div className="race-info-wpm"></div>
-          </div> */}
-          <div className="race-container">
-            <div
-              className="race-typing-test"
-              onKeyDown={(e) => {
-                handleKey(e.key);
-                e.preventDefault();
-              }}
-              tabIndex={0}
-              ref={autoFocus}
-            >
-              <div className="race-countdown-container">
-                <CountDown countdown={countDown} setCountDown={setCountDown} />
-              </div>
-              {aheadRef?.current && (
-                <img
-                  src={rocketObj[`${ahead.color}Rocket`]}
-                  className="aheadRocket"
-                  style={{
-                    // opacity: 0,
-                    width: '35px',
-                    height: '60px',
-                    transform: 'rotate(90deg)',
-                    position: 'absolute',
-                    top: '0px',
-                    left: '-80px',
-                    zIndex: 5,
-                  }}
-                />
-              )}
+    <div className="race-main-wrapper">
+      <div className="race-radial-blur-bg"></div>
+      <div className="race-bg-container">
+        {countDown >= 0 ? (
+          <div className="conditional-render">
+            <h1 className="race-typer-space-logo">TyperSpace</h1>
+            <div className="race-container">
+              <div
+                className="race-typing-test"
+                onKeyDown={(e) => {
+                  handleKey(e.key);
+                  e.preventDefault();
+                }}
+                tabIndex={0}
+                ref={autoFocus}
+              >
+                <div className="race-countdown-container">
+                  <CountDown
+                    countdown={countDown}
+                    setCountDown={setCountDown}
+                  />
+                </div>
 
-              {behindRef?.current && (
-                <img
-                  src={rocketObj[`${behind.color}Rocket`]}
-                  className="behindRocket"
-                  style={{
-                    // opacity: 0,
-                    width: '35px',
-                    height: '60px',
-                    transform: 'rotate(90deg)',
-                    position: 'absolute',
-                    top: '0px',
-                    left: '-80px',
-                    zIndex: 5,
-                  }}
-                />
-              )}
+                {aheadRef?.current && (
+                  <img
+                    src={rocketObj[`${ahead.color}Rocket`]}
+                    className="aheadRocket"
+                    style={{
+                      width: '35px',
+                      height: '60px',
+                      transform: 'rotate(90deg)',
+                      position: 'absolute',
+                      top: aheadRef.current.offsetTop - 50,
+                      left: aheadRef.current.offsetLeft - 30,
+                      zIndex: 5,
+                    }}
+                  />
+                )}
+
+                {behindRef?.current && (
+                  <img
+                    src={rocketObj[`${behind.color}Rocket`]}
+                    className="behindRocket"
+                    style={{
+                      width: '35px',
+                      height: '60px',
+                      transform: 'rotate(90deg)',
+                      position: 'absolute',
+                      top: behindRef.current.offsetTop - 50,
+                      left: behindRef.current.offsetLeft - 30,
+                      zIndex: 5,
+                    }}
+                  />
+                )}
+
+                {props.text.split('').map((char, index) => {
+                  const state = charsState[index];
+                  const color =
+                    state === 0
+                      ? '#393939'
+                      : state === 1
+                      ? '#165b33'
+                      : '#bb2528';
+                  const charBgcolor =
+                    state === 0
+                      ? 'transparent'
+                      : state === 1
+                      ? '#92e6b5'
+                      : '#e29b9c';
+                  return (
+                    <span
+                      key={char + index}
+                      ref={
+                        ahead.player && ahead.idx + 2 === index
+                          ? aheadRef
+                          : behind.player && behind.idx + 2 === index
+                          ? behindRef
+                          : null
+                      }
+                      style={{
+                        color,
+                        backgroundColor: charBgcolor,
+                        borderTop: '1px solid lightgrey',
+                        borderRight: '1px solid lightgrey',
+                        borderRadius: '6px',
+                      }}
+                      className={currIndex + 1 === index ? 'curr-letter' : ''}
+                    >
+                      {char}
+                    </span>
+                  );
+                })}
+              </div>
+
               {aheadRef?.current && (
                 <svg
-                  className="svg"
+                  className="svg-horizontal-ahead"
                   style={{
-                    top: aheadRef.current.offsetTop - 45,
-                    left: 135,
+                    top: aheadRef.current.offsetTop - 37,
+                    left: 35,
                     width: '100%',
                     zIndex: 4,
                   }}
                 >
                   <line
+                    className="line-horizontal-ahead"
                     style={{ stroke: `${ahead.color}` }}
                     x1="0%"
                     y1="50%"
-                    x2={aheadRef.current.offsetLeft - 220}
+                    x2={aheadRef.current.offsetLeft - 35}
                     y2="50%"
                   ></line>
                 </svg>
               )}
               {behindRef?.current && (
                 <svg
-                  className="svg"
+                  className="svg-horizontal-behind"
                   style={{
-                    top: behindRef.current.offsetTop - 45,
-                    left: 135,
+                    top: behindRef.current.offsetTop - 37,
+                    left: 28,
                     width: '100%',
                     zIndex: 4,
                   }}
                 >
                   <line
+                    className="line-horizontal-behind"
                     style={{ stroke: `${behind.color}` }}
                     x1="0%"
                     y1="50%"
-                    x2={behindRef.current.offsetLeft - 220}
+                    x2={behindRef.current.offsetLeft - 35}
                     y2="50%"
                   ></line>
                 </svg>
               )}
 
-              {props.text.split('').map((char, index) => {
-                const state = charsState[index];
-                const color =
-                  state === 0 ? 'black' : state === 1 ? 'darkgreen' : 'red';
-                const charBgcolor =
-                  state === 0
-                    ? 'transparent'
-                    : state === 1
-                    ? 'lightgreen'
-                    : 'lightcoral';
-                return (
-                  <span
-                    key={char + index}
-                    ref={
-                      ahead.player && ahead.idx + 2 === index
-                        ? aheadRef
-                        : behind.player && behind.idx + 2 === index
-                        ? behindRef
-                        : null
-                    }
-                    style={{
-                      color,
-                      backgroundColor: charBgcolor,
-                      borderTop: '1px solid lightgrey',
-                      borderRight: '1px solid lightgrey',
-                      borderRadius: '6px',
-                    }}
-                    className={currIndex + 1 === index ? 'curr-letter' : ''}
-                  >
-                    {char}
-                  </span>
-                );
-              })}
+              {aheadRef?.current && (
+                <svg
+                  className="svg-vertical-ahead"
+                  style={{
+                    top: 155,
+                    left: 23,
+                    height: '100%',
+                    width: 30,
+                  }}
+                >
+                  <line
+                    className="line-vertical-ahead"
+                    style={{ stroke: `${ahead.color}` }}
+                    x1="50%"
+                    y1="0%"
+                    x2="50%"
+                    y2={aheadRef.current.offsetTop - 177}
+                  ></line>
+                </svg>
+              )}
+              {behindRef.current && (
+                <svg
+                  className="svg-vertical-behind"
+                  style={{
+                    top: 155,
+                    left: 15,
+                    height: '100%',
+                    width: 30,
+                  }}
+                >
+                  <line
+                    className="line-vertical-behind"
+                    style={{ stroke: `${behind.color}` }}
+                    x1="50%"
+                    y1="0%"
+                    x2="50%"
+                    y2={behindRef.current.offsetTop - 177}
+                  ></line>
+                </svg>
+              )}
+            </div>
+            <div className="right-side-bar">
+              <>
+                {firstPlace.color ? (
+                  <>
+                    <h2 className="right-race-info-title">1st place</h2>
+                    <div className="race-leader-info">
+                      <img
+                        className="race-leader-icon"
+                        src={rocketObj[`${firstPlace?.color}Rocket`]}
+                      />
+                      <div className="race-leader-flame-container">
+                        <div
+                          className="race-leader-flame"
+                          style={{ top: 250, left: -65 }}
+                        ></div>
+                      </div>
+                      <h3
+                        className="race-leader-name"
+                        style={{
+                          color: `${firstPlace?.color}`,
+                        }}
+                      >
+                        {firstPlace.player ? firstPlace.player : ''}
+                      </h3>
+                    </div>
+                  </>
+                ) : (
+                  <> </>
+                )}{' '}
+              </>
             </div>
           </div>
-          <div className="right-side-bar">
-            <>
-              {firstPlace.color ? (
-                <>
-                  <h2 className="right-race-info-title">First place</h2>
-                  <div className="race-leader-info">
-                    <img
-                      className="race-leader-icon"
-                      src={rocketObj[`${firstPlace?.color}Rocket`]}
-                    />
-                    <h3
-                      className="race-leader-name"
-                      style={{
-                        color: `${firstPlace?.color}`,
-                      }}
-                    >
-                      {firstPlace.player ? firstPlace.player : ''}
-                    </h3>
-                  </div>
-                </>
-              ) : (
-                <> </>
-              )}{' '}
-            </>
-          </div>
-        </div>
-      ) : (
-        <div></div>
-      )}
+        ) : (
+          <div></div>
+        )}
+      </div>
     </div>
   );
 };
