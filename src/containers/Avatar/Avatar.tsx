@@ -30,12 +30,13 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const socketRef = useRef<SocketIOClient.Socket>();
   const [userName, setUserName] = useState<string>('');
   const [color, setColor] = useState<string>('');
+  const [rounds, setRounds] = useState<string>('');
   const [opacity, setOpacity] = useState<number>(0.5);
 
   const url = window.location.href;
 
   useEffect(() => {
-    console.log('url link', `${url}`);
+    // console.log('url link', `${url}`);
 
     socketRef.current = SocketIOCLient(SOCKET_SERVER_URL, {
       query: { roomId },
@@ -49,6 +50,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     props.socket.current.emit('userInfo', {
       userName: userName,
       color: color,
+      rounds: rounds,
     });
     //go to lobby
     history.push({
@@ -93,6 +95,19 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           type="text"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
+          name=""
+          id=""
+          className="input-field"
+        />
+      </div>
+      <div className="name-field-input input">
+        <label htmlFor="" className="input-label">
+          number of rounds
+        </label>
+        <input
+          type="text"
+          value={rounds}
+          onChange={(e) => setRounds(e.target.value)}
           name=""
           id=""
           className="input-field"
