@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
+import powerCardsObj from '../../assets/icons/powerCardsObj';
+
 import './styles/PlayerListItem.scss';
 
 import IPlayer from '../../interfaces/IPlayer';
@@ -7,23 +10,11 @@ import IPlayer from '../../interfaces/IPlayer';
 import rocketObj from '../../assets/icons/rocketObj';
 
 type PlayerListItemProps = {
-  // userName: string;
-  // color: string;
   player: IPlayer;
   socket: any;
 };
 
 const PlayerListItem: React.FC<PlayerListItemProps> = (props) => {
-  function handleCLick(e: any): void {
-    const id = e.target.id;
-    //TODO: decide on which event emit info to server
-    //TODO: how to understand that power up is applied?
-    props.socket.current.emit('applyPower', {
-      power: id,
-      userName: 'test',
-    });
-  }
-
   return (
     <div>
       <li className="player-list-element-container">
@@ -37,16 +28,35 @@ const PlayerListItem: React.FC<PlayerListItemProps> = (props) => {
           src={rocketObj[`${props.player.color}Rocket`]}
           className="player-list avatar-element"
         />
-        {/* TODO: render applied power ups as list? */}
-        <div id="scramble" onClick={handleCLick}>
-          {props.player.appliedPUs.scrambleWord ? 'Scramble' : 'False'}
-        </div>
-        <div id="longWord" onClick={handleCLick}>
-          {props.player.appliedPUs.insertLongWord ? 'LongWord' : 'False'}
-        </div>
-        <div id="symbols" onClick={handleCLick}>
-          {props.player.appliedPUs.insertSymbols ? 'Symbols' : 'False'}
-        </div>
+        <Droppable droppableId={props.player.userName}>
+          {(provided) => (
+            <div
+              className="player-applied-power-ups"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {props.player.appliedPUs.map(({ id, powerUp }, index) => {
+                return (
+                  <Draggable key={id} draggableId={id} index={index}>
+                    {(provided: any) => (
+                      <div
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      >
+                        <img
+                          className="applied-power-ups"
+                          src={powerCardsObj[powerUp]}
+                        ></img>
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
         <div className="player-list status-element">
           {props.player.isReady ? 'Ready' : 'Not ready'}
         </div>
