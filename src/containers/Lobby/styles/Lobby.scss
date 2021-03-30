@@ -22,6 +22,9 @@
   -webkit-appearance: none;
   outline: none;
 }
+.lobby-btn-start:hover {
+  background-color: #f86247;
+}
 
 .lobby-btn-start-disabled {
   @include btn-orange;

@@ -27,7 +27,7 @@
 .conditional-render {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   padding-right: 4vw;
   margin: 0;
   padding-bottom: 0;
@@ -53,7 +53,7 @@
   height: 34vw;
   margin: 2vw;
   margin-bottom: 5vh;
-  margin-left: 2vw;
+  margin-left: 6vw;
   padding-top: 5vh;
   padding-left: 5vw;
   padding-right: 3vw;
@@ -74,9 +74,10 @@
 .race-info-container {
   @include box-white-border-transparent;
   width: 10vw;
+  min-width: 200px;
   height: 50vh;
+
   background-color: transparent;
-  border-style: none;
   .left-side-bar {
   }
 }
@@ -84,12 +85,12 @@
 .right-race-info-title {
   text-align: center;
   font-family: $atariFont;
-  font-size: 1em;
+  font-size: 1.5em;
   color: $font-white;
 }
 
 .race-leader-info {
-  max-width: 10vw;
+  max-width: 20vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -113,26 +114,30 @@
   }
 
   .race-leader-name {
+    @include box-white-border-transparent;
+    // border: 2px solid yellow;
+    min-width: 200px;
     width: 8vw;
     padding: 5px;
     block-size: fit-content;
     text-align: center;
-    font-family: monospace;
-    font-size: 2em;
+    font-family: $atariFont;
+    font-size: 1.5em;
     word-wrap: break-word;
   }
 }
 
 .right-side-bar {
-  @include box-white-border-transparent;
+  // @include box-white-border-transparent;
+  display: flex;
+  flex-direction: column;
+  // border: 2px solid red;
   align-self: center;
   // border: 2px solid red;
+  min-width: 250px;
   max-height: 50vh;
   max-width: 10vw;
 }
-
-//TODO: implement caret working
-//TODO: autoscrolling with type
 
 @keyframes flash {
   0%,
@@ -156,7 +161,6 @@
 }
 
 .race-countdown-container {
-  // border: 2px solid red;
   position: absolute;
   z-index: 3;
   top: 30%;
