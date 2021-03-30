@@ -42,17 +42,22 @@ const Lobby: React.FC<LobbyProps> = (props) => {
 
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
+      console.log('THIS IS THE ONE!', players);
       props.setPlayers(players);
       const player = players.filter(
         (player) => player.userId === props.socket.current.id,
       );
       // console.log('Is host?', player[0].isHost);
       setCurrPlayer(player[0]);
-      setPlayerAvailablePowerUps(player[0].availablePUs);
+
       setIsHost(player[0].isHost);
       props.setText(player[0].userParagraph);
     });
   }, []); //don't add props to array
+
+  useEffect(() => {
+    if (currPlayer) setPlayerAvailablePowerUps(currPlayer?.availablePUs);
+  }, [currPlayer]);
 
   //synchronise timestart for all players
   function handleClickStart(): void {
@@ -72,21 +77,37 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   function onApplyPowerUp(result: any) {
     console.log(result);
     if (!result.destination) return;
+    if (result.destination.droppableId === 'my-powerups') return;
+    if (result.destination.droppableId === currPlayer?.userName) return;
+    console.log('you are here');
+    opacity = '0%';
     props.socket.current.emit('applyPower', {
       power: result.draggableId,
       userName: result.destination.droppableId,
     });
   }
 
-  let cardWidth = '150px';
+  const cardWidth = '150px';
+  let opacity = '100%';
 
-  function draggingCard() {
-    cardWidth = '50px';
+  function getStyle(style: any, snapshot: any) {
+    if (!snapshot.isDropAnimating) {
+      return style;
+    }
+    const { moveTo, curve, duration } = snapshot.dropAnimation;
+    const translate = `translate(${moveTo.x + 30}px, ${moveTo.y - 50}px)`;
+    const scale = 'scale(.4)';
+
+    return {
+      ...style,
+      transform: `${translate} ${scale}`,
+      transition: `all ${curve} ${duration + 2}s`,
+    };
   }
 
   return (
     <div className="lobby-bg-container">
-      <DragDropContext onDragEnd={onApplyPowerUp} onDragStart={draggingCard}>
+      <DragDropContext onDragEnd={onApplyPowerUp}>
         <div className="lobby-room-display-box"></div>
         {rounds ? (
           <h1>
@@ -113,15 +134,18 @@ const Lobby: React.FC<LobbyProps> = (props) => {
                 {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
                   return (
                     <Draggable key={id} draggableId={id} index={index}>
-                      {(provided: any) => (
+                      {(provided: any, snapshot) => (
                         <div
                           {...provided.draggableProps}
                           ref={provided.innerRef}
                           {...provided.dragHandleProps}
+                          style={getStyle(
+                            provided.draggableProps.style,
+                            snapshot,
+                          )}
                         >
                           <img
-                            style={{ width: cardWidth }}
-                            // className="power-card-image"
+                            style={{ width: cardWidth, opacity: opacity }}
                             src={powerCardsObj[powerUp]}
                           ></img>
                         </div>
