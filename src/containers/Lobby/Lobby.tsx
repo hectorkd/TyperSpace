@@ -91,17 +91,26 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   let opacity = '100%';
 
   function getStyle(style: any, snapshot: any) {
+    console.log(snapshot);
     if (!snapshot.isDropAnimating) {
+      return style;
+    }
+    if (
+      snapshot.draggingOver === null ||
+      snapshot.draggingOver === 'my-powerups' ||
+      snapshot.draggingOver === currPlayer?.userName
+    ) {
       return style;
     }
     const { moveTo, curve, duration } = snapshot.dropAnimation;
     const translate = `translate(${moveTo.x + 30}px, ${moveTo.y - 50}px)`;
     const scale = 'scale(.4)';
+    const rotate = 'rotate(3turn)';
 
     return {
       ...style,
-      transform: `${translate} ${scale}`,
-      transition: `all ${curve} ${duration + 2}s`,
+      transform: `${translate} ${scale} ${rotate}`,
+      transition: `all ${curve} ${duration + 1}s`,
     };
   }
 
