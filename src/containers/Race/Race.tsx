@@ -13,7 +13,6 @@ import helperFunctions from './raceHelperFunctions';
 import IPlayer from '../../interfaces/IPlayer';
 
 import CountDown from '../../components/CountDown/CountDown';
-import gsap from 'gsap';
 
 import './styles/Race.scss';
 
@@ -139,7 +138,6 @@ const Race: React.FC<RaceProps> = (props) => {
       <div className="race-bg-container">
         {countDown >= 0 ? (
           <div className="conditional-render">
-            <h1 className="race-typer-space-logo">TyperSpace</h1>
             <div className="race-container">
               <div
                 className="race-typing-test"
@@ -158,35 +156,58 @@ const Race: React.FC<RaceProps> = (props) => {
                 </div>
 
                 {aheadRef?.current && (
-                  <img
-                    src={rocketObj[`${ahead.color}Rocket`]}
-                    className="aheadRocket"
-                    style={{
-                      width: '35px',
-                      height: '60px',
-                      transform: 'rotate(90deg)',
-                      position: 'absolute',
-                      top: aheadRef.current.offsetTop - 50,
-                      left: aheadRef.current.offsetLeft - 30,
-                      zIndex: 5,
-                    }}
-                  />
+                  <div className="aheadRocket-and-flame-container">
+                    <img
+                      src={rocketObj[`${ahead.color}Rocket`]}
+                      className="aheadRocket"
+                      style={{
+                        width: '35px',
+                        height: '60px',
+                        position: 'absolute',
+                        transform: 'rotate(90deg)',
+                        top: aheadRef.current.offsetTop - 186,
+                        left: aheadRef.current.offsetLeft - 200,
+                        zIndex: 5,
+                      }}
+                    />
+                    <div
+                      className="ahead-flame-container"
+                      style={{
+                        top: `${aheadRef.current.offsetTop - 159.5}px`,
+                        left: `${aheadRef.current.offsetLeft - 230}px`,
+                        zIndex: 4,
+                      }}
+                    >
+                      <div className="ahead-flame"></div>
+                    </div>
+                  </div>
                 )}
-
                 {behindRef?.current && (
-                  <img
-                    src={rocketObj[`${behind.color}Rocket`]}
-                    className="behindRocket"
-                    style={{
-                      width: '35px',
-                      height: '60px',
-                      transform: 'rotate(90deg)',
-                      position: 'absolute',
-                      top: behindRef.current.offsetTop - 50,
-                      left: behindRef.current.offsetLeft - 30,
-                      zIndex: 5,
-                    }}
-                  />
+                  <div className="behindRocket-and-flame-container">
+                    <img
+                      src={rocketObj[`${behind.color}Rocket`]}
+                      className="aheadRocket"
+                      style={{
+                        width: '35px',
+                        height: '60px',
+                        position: 'absolute',
+                        transform: 'rotate(90deg)',
+                        top: behindRef.current.offsetTop - 186,
+                        left: behindRef.current.offsetLeft - 200,
+                        zIndex: 5,
+                      }}
+                    />
+                    <div
+                      className="behind-flame-container"
+                      style={{
+                        top: `${behindRef.current.offsetTop - 159.5}px`,
+                        left: `${behindRef.current.offsetLeft - 230}px`,
+                        zIndex: 4,
+                      }}
+                    >
+                      <div className="behind-flame"></div>
+                    </div>
+                  </div>
                 )}
 
                 {props.text.split('').map((char, index) => {
@@ -216,9 +237,10 @@ const Race: React.FC<RaceProps> = (props) => {
                       style={{
                         color,
                         backgroundColor: charBgcolor,
-                        borderTop: '1px solid lightgrey',
-                        borderRight: '1px solid lightgrey',
+                        borderTop: '2px solid #808080',
+                        borderRight: '2px solid #808080',
                         borderRadius: '6px',
+                        minWidth: '20px,',
                       }}
                       className={currIndex + 1 === index ? 'curr-letter' : ''}
                     >
@@ -233,17 +255,20 @@ const Race: React.FC<RaceProps> = (props) => {
                   className="svg-horizontal-ahead"
                   style={{
                     top: aheadRef.current.offsetTop - 37,
-                    left: 35,
+                    left: 100,
                     width: '100%',
-                    zIndex: 4,
+                    zIndex: 3,
                   }}
                 >
                   <line
                     className="line-horizontal-ahead"
-                    style={{ stroke: `${ahead.color}` }}
+                    style={{
+                      stroke: `${ahead.color}`,
+                      filter: `drop-shadow(10px 50px 100px ${ahead.color}) blur(1px)`,
+                    }}
                     x1="0%"
                     y1="50%"
-                    x2={aheadRef.current.offsetLeft - 35}
+                    x2={aheadRef.current.offsetLeft - 120}
                     y2="50%"
                   ></line>
                 </svg>
@@ -253,17 +278,20 @@ const Race: React.FC<RaceProps> = (props) => {
                   className="svg-horizontal-behind"
                   style={{
                     top: behindRef.current.offsetTop - 37,
-                    left: 28,
+                    left: 123,
                     width: '100%',
-                    zIndex: 4,
+                    zIndex: 3,
                   }}
                 >
                   <line
                     className="line-horizontal-behind"
-                    style={{ stroke: `${behind.color}` }}
+                    style={{
+                      stroke: `${behind.color}`,
+                      filter: `drop-shadow(10px 50px 100px ${behind.color}) blur(1px)`,
+                    }}
                     x1="0%"
                     y1="50%"
-                    x2={behindRef.current.offsetLeft - 35}
+                    x2={behindRef.current.offsetLeft - 150}
                     y2="50%"
                   ></line>
                 </svg>
@@ -274,14 +302,17 @@ const Race: React.FC<RaceProps> = (props) => {
                   className="svg-vertical-ahead"
                   style={{
                     top: 155,
-                    left: 23,
+                    left: 43,
                     height: '100%',
                     width: 30,
                   }}
                 >
                   <line
                     className="line-vertical-ahead"
-                    style={{ stroke: `${ahead.color}` }}
+                    style={{
+                      stroke: `${ahead.color}`,
+                      filter: `drop-shadow(10px 50px 100px ${ahead.color}) blur(1px)`,
+                    }}
                     x1="50%"
                     y1="0%"
                     x2="50%"
@@ -294,14 +325,17 @@ const Race: React.FC<RaceProps> = (props) => {
                   className="svg-vertical-behind"
                   style={{
                     top: 155,
-                    left: 15,
+                    left: 35,
                     height: '100%',
                     width: 30,
                   }}
                 >
                   <line
                     className="line-vertical-behind"
-                    style={{ stroke: `${behind.color}` }}
+                    style={{
+                      stroke: `${behind.color}`,
+                      filter: `drop-shadow(10px 50px 100px ${behind.color}) blur(1px)`,
+                    }}
                     x1="50%"
                     y1="0%"
                     x2="50%"
