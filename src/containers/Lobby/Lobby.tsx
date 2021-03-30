@@ -25,6 +25,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   const [rounds, setRounds] = useState<number>(0);
   const [currRound, setCurrRound] = useState<number>(0);
   const [currPlayer, setCurrPlayer] = useState<IPlayer>();
+  const [gamemode, setGamemode] = useState<string>('');
   const [playerAvailablePowerUps, setPlayerAvailablePowerUps] = useState<
     { id: string; powerUp: string }[]
   >([]);
@@ -32,9 +33,10 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   useEffect(() => {
     props.socket.current.on(
       'getGameState',
-      (rounds: number, currRound: number) => {
+      (rounds: number, currRound: number, gamemode: string) => {
         setRounds(rounds);
         setCurrRound(currRound);
+        setGamemode(gamemode);
       },
     );
 
@@ -100,36 +102,38 @@ const Lobby: React.FC<LobbyProps> = (props) => {
           {' '}
           Start Race{' '}
         </button>
-        <Droppable droppableId="my-powerups">
-          {(provided: any) => (
-            <div
-              className="my-power-ups"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
-                return (
-                  <Draggable key={id} draggableId={id} index={index}>
-                    {(provided: any) => (
-                      <div
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                        {...provided.dragHandleProps}
-                      >
-                        <img
-                          style={{ width: cardWidth }}
-                          // className="power-card-image"
-                          src={powerCardsObj[powerUp]}
-                        ></img>
-                      </div>
-                    )}
-                  </Draggable>
-                );
-              })}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+        {gamemode ? (
+          <Droppable droppableId="my-powerups">
+            {(provided: any) => (
+              <div
+                className="my-power-ups"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
+                  return (
+                    <Draggable key={id} draggableId={id} index={index}>
+                      {(provided: any) => (
+                        <div
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                          {...provided.dragHandleProps}
+                        >
+                          <img
+                            style={{ width: cardWidth }}
+                            // className="power-card-image"
+                            src={powerCardsObj[powerUp]}
+                          ></img>
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        ) : null}
       </DragDropContext>
     </div>
   );
