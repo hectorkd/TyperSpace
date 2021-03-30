@@ -13,7 +13,6 @@ import helperFunctions from './raceHelperFunctions';
 import IPlayer from '../../interfaces/IPlayer';
 
 import CountDown from '../../components/CountDown/CountDown';
-import gsap from 'gsap';
 
 import './styles/Race.scss';
 
@@ -93,18 +92,6 @@ const Race: React.FC<RaceProps> = (props) => {
       setFirstPlace,
       props.players,
     );
-
-    // gsap.to('.aheadRocket', {
-    //   duration: 0.3,
-    //   x: aheadRef.current ? aheadRef.current.offsetLeft : 0,
-    //   y: aheadRef.current ? aheadRef.current.offsetTop - 57 : 0,
-    // });
-
-    // gsap.to('.behindRocket', {
-    //   duration: 0.3,
-    //   x: behindRef.current ? behindRef.current.offsetLeft : 0,
-    //   y: behindRef.current ? behindRef.current.offsetTop - 57 : 0,
-    // });
   }, [allPlayerCurrentIndex]);
 
   console.log(aheadRef);
@@ -155,7 +142,6 @@ const Race: React.FC<RaceProps> = (props) => {
       <div className="race-bg-container">
         {countDown >= 0 ? (
           <div className="conditional-render">
-            <h1 className="race-typer-space-logo">TyperSpace</h1>
             <div className="race-container">
               <div
                 className="race-typing-test"
@@ -232,9 +218,10 @@ const Race: React.FC<RaceProps> = (props) => {
                       style={{
                         color,
                         backgroundColor: charBgcolor,
-                        borderTop: '1px solid lightgrey',
-                        borderRight: '1px solid lightgrey',
+                        borderTop: '1px solid #808080',
+                        borderRight: '1px solid #808080',
                         borderRadius: '6px',
+                        minWidth: '20px,',
                       }}
                       className={currIndex + 1 === index ? 'curr-letter' : ''}
                     >
@@ -249,7 +236,7 @@ const Race: React.FC<RaceProps> = (props) => {
                   className="svg-horizontal-ahead"
                   style={{
                     top: aheadRef.current.offsetTop - 37,
-                    left: 35,
+                    left: 55,
                     width: '100%',
                     zIndex: 4,
                   }}
@@ -269,7 +256,7 @@ const Race: React.FC<RaceProps> = (props) => {
                   className="svg-horizontal-behind"
                   style={{
                     top: behindRef.current.offsetTop - 37,
-                    left: 28,
+                    left: 48,
                     width: '100%',
                     zIndex: 4,
                   }}
@@ -290,7 +277,7 @@ const Race: React.FC<RaceProps> = (props) => {
                   className="svg-vertical-ahead"
                   style={{
                     top: 155,
-                    left: 23,
+                    left: 43,
                     height: '100%',
                     width: 30,
                   }}
@@ -310,7 +297,7 @@ const Race: React.FC<RaceProps> = (props) => {
                   className="svg-vertical-behind"
                   style={{
                     top: 155,
-                    left: 15,
+                    left: 35,
                     height: '100%',
                     width: 30,
                   }}
@@ -362,7 +349,7 @@ const Race: React.FC<RaceProps> = (props) => {
           <div></div>
         )}
       </div>
-     </div>
+    </div>
   );
 };
 

@@ -35,12 +35,13 @@
       @include box-white-border-transparent;
       width: 25vw;
       height: 8vh;
+
       .room-id-text {
         display: flex;
         justify-content: center;
         align-items: center;
         flex: 5;
-        opacity: 0.6;
+        color: $font-darkgrey;
       }
       .copy-button {
         flex: 1;
@@ -51,6 +52,7 @@
       }
       .copy-button {
         background-color: transparent;
+        opacity: 0.5;
         width: 80px;
         border: none;
       }
@@ -58,6 +60,17 @@
       .copy-button:active {
         opacity: 1;
         transform: scale(0.8);
+        -webkit-appearance: none;
+        outline: none;
+      }
+      .copy-button:focus {
+        -webkit-appearance: none;
+        outline: none;
+      }
+      .copy-button:hover {
+        opacity: 1;
+        -webkit-appearance: none;
+        outline: none;
       }
 
       .copy-to-clipboard {
@@ -78,12 +91,24 @@
     font-size: 5vh;
     font-weight: 600;
     font-family: $atariFont;
+    background: rgba(255, 255, 255, 0.5);
+    color: $font-darkgrey;
+
+    -webkit-appearance: none;
+    outline: none;
     .room-id-input {
       display: flex;
       align-items: center;
       justify-content: space-between;
       user-select: none;
     }
+  }
+
+  .input-field:focus {
+    background: rgba(255, 255, 255, 0.7);
+  }
+  .input-field:hover {
+    background: rgba(255, 255, 255, 0.6);
   }
 
   .avatar-select-container {
@@ -147,8 +172,27 @@
     }
   }
   .btn-ready {
+    -webkit-appearance: none;
+    outline: none;
     @include btn-orange;
     flex: 1;
-    margin: 2vh;
+    margin-top: 2vh;
+  }
+  .btn-ready:hover {
+    background-color: #f86247;
+  }
+
+  .btn-press {
+    animation: buttonAnim;
+    animation-duration: 0.3s;
+  }
+
+  @keyframes buttonAnim {
+    50% {
+      transform: translate(5px, 5px);
+    }
+    100% {
+      transform: translate(0px, 0px);
+    }
   }
 }

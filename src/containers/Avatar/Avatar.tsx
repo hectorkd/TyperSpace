@@ -37,6 +37,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const [rounds, setRounds] = useState<string>('');
   const [opacity, setOpacity] = useState<number>(0.5);
   //const [pla]
+  const [readyBtnAnimationClass, setReadyBtnAnimationClass] = useState('');
 
   const [selectedColors, setSelectedColors] = useState<colorState>({
     blue: false,
@@ -82,6 +83,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   }, [props.players]);
 
   function handleClickReady(): void {
+    setReadyBtnAnimationClass('btn-press');
     //get useinfo from form and send to server
     props.socket.current.emit('userInfo', {
       userName: userName,
@@ -89,9 +91,12 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       rounds: rounds,
     });
     //go to lobby
-    history.push({
-      pathname: `/${roomId}/lobby`,
-    });
+
+    setTimeout(() => {
+      history.push({
+        pathname: `/${roomId}/lobby`,
+      });
+    }, 400);
   }
 
   const handleClick = (e: any) => {
@@ -117,7 +122,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         <div className="avatar-input-container">
           <div className="room-id-input input">
             <label htmlFor="" className="input-label">
-              Race #
+              race id
             </label>
             <div className="room-id-display">
               <div className="room-id-text">{roomId}</div>
@@ -136,6 +141,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
               enter name
             </label>
             <input
+              spellCheck="false"
               type="text"
               value={userName}
               maxLength={13}
@@ -148,6 +154,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
               number of rounds
             </label>
             <input
+              spellCheck="false"
               type="text"
               value={rounds}
               onChange={(e) => setRounds(e.target.value)}
@@ -179,7 +186,10 @@ const Avatar: React.FC<AvatarProps> = (props) => {
               );
             })}
           </div>
-          <button className="btn-ready" onClick={handleClickReady}>
+          <button
+            className={`btn-ready ${readyBtnAnimationClass}`}
+            onClick={handleClickReady}
+          >
             Ready
           </button>
         </div>
