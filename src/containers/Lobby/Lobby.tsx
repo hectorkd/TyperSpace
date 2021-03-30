@@ -25,6 +25,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   const [rounds, setRounds] = useState<number>(0);
   const [currRound, setCurrRound] = useState<number>(0);
   const [currPlayer, setCurrPlayer] = useState<IPlayer>();
+  const [gamemode, setGamemode] = useState<string>('');
   const [playerAvailablePowerUps, setPlayerAvailablePowerUps] = useState<
     { id: string; powerUp: string }[]
   >([]);
@@ -32,30 +33,33 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   useEffect(() => {
     props.socket.current.on(
       'getGameState',
-      (rounds: number, currRound: number) => {
+      (rounds: number, currRound: number, gamemode: string) => {
         setRounds(rounds);
         setCurrRound(currRound);
+        setGamemode(gamemode);
       },
     );
 
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
-      console.log('THIS IS THE ONE!', players);
+      console.log('listening');
       props.setPlayers(players);
-      const player = players.filter(
-        (player) => player.userId === props.socket.current.id,
-      );
-      // console.log('Is host?', player[0].isHost);
-      setCurrPlayer(player[0]);
-
-      setIsHost(player[0].isHost);
-      props.setText(player[0].userParagraph);
     });
   }, []); //don't add props to array
 
   useEffect(() => {
-    if (currPlayer) setPlayerAvailablePowerUps(currPlayer?.availablePUs);
-  }, [currPlayer]);
+    const player = props.players.filter(
+      (player) => player.userId === props.socket.current.id,
+    );
+    console.log('------------', player[0].availablePUs);
+    setCurrPlayer(player[0]);
+    setPlayerAvailablePowerUps(player[0].availablePUs);
+
+    setIsHost(player[0].isHost);
+    props.setText(player[0].userParagraph);
+    console.log(playerAvailablePowerUps);
+    console.log(currPlayer);
+  }, [props.players]);
 
   //synchronise timestart for all players
   function handleClickStart(): void {
@@ -116,9 +120,11 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     <div className="lobby-bg-container">
       <DragDropContext onDragEnd={onApplyPowerUp}>
         <div className="lobby-room-display-box"></div>
-        <h1>
-          Round {currRound} from {rounds}
-        </h1>
+        {rounds ? (
+          <h1>
+            Round {currRound} of {rounds}
+          </h1>
+        ) : null}
         <PlayersList players={props.players} socket={props.socket} />
         <button
           disabled={!isHost}
@@ -128,39 +134,41 @@ const Lobby: React.FC<LobbyProps> = (props) => {
           {' '}
           Start Race{' '}
         </button>
-        <Droppable droppableId="my-powerups">
-          {(provided: any) => (
-            <div
-              className="my-power-ups"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
-                return (
-                  <Draggable key={id} draggableId={id} index={index}>
-                    {(provided: any, snapshot) => (
-                      <div
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                        {...provided.dragHandleProps}
-                        style={getStyle(
-                          provided.draggableProps.style,
-                          snapshot,
-                        )}
-                      >
-                        <img
-                          style={{ width: cardWidth, opacity: opacity }}
-                          src={powerCardsObj[powerUp]}
-                        ></img>
-                      </div>
-                    )}
-                  </Draggable>
-                );
-              })}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+        {!gamemode ? (
+          <Droppable droppableId="my-powerups">
+            {(provided: any) => (
+              <div
+                className="my-power-ups"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
+                  return (
+                    <Draggable key={id} draggableId={id} index={index}>
+                      {(provided: any, snapshot: any) => (
+                        <div
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                          {...provided.dragHandleProps}
+                          style={getStyle(
+                            provided.draggableProps.style,
+                            snapshot,
+                          )}
+                        >
+                          <img
+                            style={{ width: cardWidth, opacity: opacity }}
+                            src={powerCardsObj[powerUp]}
+                          ></img>
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        ) : null}
       </DragDropContext>
     </div>
   );
