@@ -5,7 +5,7 @@ import './index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App location={location} />
   </React.StrictMode>,
   document.getElementById('root'),
 );

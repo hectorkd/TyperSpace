@@ -25,6 +25,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   const [rounds, setRounds] = useState<number>(0);
   const [currRound, setCurrRound] = useState<number>(0);
   const [currPlayer, setCurrPlayer] = useState<IPlayer>();
+  const [gamemode, setGamemode] = useState<string>('');
   const [playerAvailablePowerUps, setPlayerAvailablePowerUps] = useState<
     { id: string; powerUp: string }[]
   >([]);
@@ -32,30 +33,33 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   useEffect(() => {
     props.socket.current.on(
       'getGameState',
-      (rounds: number, currRound: number) => {
+      (rounds: number, currRound: number, gamemode: string) => {
         setRounds(rounds);
         setCurrRound(currRound);
+        setGamemode(gamemode);
       },
     );
 
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
-      console.log('THIS IS THE ONE!', players);
+      console.log('listening');
       props.setPlayers(players);
-      const player = players.filter(
-        (player) => player.userId === props.socket.current.id,
-      );
-      // console.log('Is host?', player[0].isHost);
-      setCurrPlayer(player[0]);
-
-      setIsHost(player[0].isHost);
-      props.setText(player[0].userParagraph);
     });
   }, []); //don't add props to array
 
   useEffect(() => {
-    if (currPlayer) setPlayerAvailablePowerUps(currPlayer?.availablePUs);
-  }, [currPlayer]);
+    const player = props.players.filter(
+      (player) => player.userId === props.socket.current.id,
+    );
+    console.log('------------', player[0].availablePUs);
+    setCurrPlayer(player[0]);
+    setPlayerAvailablePowerUps(player[0].availablePUs);
+
+    setIsHost(player[0].isHost);
+    props.setText(player[0].userParagraph);
+    console.log(playerAvailablePowerUps);
+    console.log(currPlayer);
+  }, [props.players]);
 
   //synchronise timestart for all players
   function handleClickStart(): void {
@@ -89,17 +93,26 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   let opacity = '100%';
 
   function getStyle(style: any, snapshot: any) {
+    console.log(snapshot);
     if (!snapshot.isDropAnimating) {
+      return style;
+    }
+    if (
+      snapshot.draggingOver === null ||
+      snapshot.draggingOver === 'my-powerups' ||
+      snapshot.draggingOver === currPlayer?.userName
+    ) {
       return style;
     }
     const { moveTo, curve, duration } = snapshot.dropAnimation;
     const translate = `translate(${moveTo.x + 30}px, ${moveTo.y - 50}px)`;
     const scale = 'scale(.4)';
+    const rotate = 'rotate(3turn)';
 
     return {
       ...style,
-      transform: `${translate} ${scale}`,
-      transition: `all ${curve} ${duration + 2}s`,
+      transform: `${translate} ${scale} ${rotate}`,
+      transition: `all ${curve} ${duration + 1}s`,
     };
   }
 
@@ -108,9 +121,12 @@ const Lobby: React.FC<LobbyProps> = (props) => {
       <DragDropContext onDragEnd={onApplyPowerUp}>
         <div className="lobby-room-display-box">
           <div className="fixed-elements-display">
-            <h1 className="round-count">
+  {rounds ? (
+         <h1 className="round-count">
               Round {currRound} of {rounds}
             </h1>
+        ) : null}
+            
             <PlayersList players={props.players} socket={props.socket} />
             <button
               disabled={!isHost}
@@ -123,6 +139,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
               Start Race{' '}
             </button>
           </div>
+                {!gamemode ? (
           <Droppable droppableId="my-powerups">
             {(provided: any) => (
               <div
@@ -133,7 +150,10 @@ const Lobby: React.FC<LobbyProps> = (props) => {
                 {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
                   return (
                     <Draggable key={id} draggableId={id} index={index}>
-                      {(provided: any, snapshot) => (
+
+                     
+                      {(provided: any, snapshot: any) => (
+
                         <div
                           {...provided.draggableProps}
                           ref={provided.innerRef}
@@ -156,7 +176,9 @@ const Lobby: React.FC<LobbyProps> = (props) => {
               </div>
             )}
           </Droppable>
-        </div>
+        ) : null}
+
+</div>
       </DragDropContext>
     </div>
   );
