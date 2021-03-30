@@ -19,7 +19,9 @@ const PlayerListItem: React.FC<PlayerPlacementItemProps> = ({
   // })
   function placeEnd(rank: number): string {
     let end;
-    if (rank === 2) {
+    if (rank == 1) {
+      end = 'st';
+    } else if (rank === 2) {
       end = 'nd';
     } else if (rank === 3) {
       end = 'rd';
