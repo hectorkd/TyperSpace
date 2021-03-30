@@ -29,7 +29,7 @@ const PlayerListItem: React.FC<PlayerListItemProps> = (props) => {
           className="player-list avatar-element"
         />
         <Droppable droppableId={props.player.userName}>
-          {(provided) => (
+          {(provided: any) => (
             <div
               className="player-applied-power-ups"
               {...provided.droppableProps}

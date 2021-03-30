@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+} from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import Landing from './containers/Landing/Landing';
 import Lobby from './containers/Lobby/Lobby';
@@ -12,9 +18,13 @@ const App: React.FC = () => {
   const [socket, setSocket] = useState();
   const [text, setText] = useState<string>('');
   const [players, setPlayers] = useState<IPlayer[]>([]);
+  // const location = useLocation();
 
   return (
     <div>
+      {/* <TransitionGroup>
+        <CSSTransition timeout={300} classNames="slide" key={location.key}>
+          <Switch location={location}> */}
       <Router>
         <Route path="/" exact component={Landing} />
         <Route
@@ -77,6 +87,9 @@ const App: React.FC = () => {
           )}
         />
       </Router>
+      {/* </Switch>
+        </CSSTransition>
+      </TransitionGroup> */}
     </div>
   );
 };
