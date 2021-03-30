@@ -42,22 +42,24 @@ const Lobby: React.FC<LobbyProps> = (props) => {
 
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
-      console.log('THIS IS THE ONE!', players);
+      console.log('listening');
       props.setPlayers(players);
-      const player = players.filter(
-        (player) => player.userId === props.socket.current.id,
-      );
-      // console.log('Is host?', player[0].isHost);
-      setCurrPlayer(player[0]);
-
-      setIsHost(player[0].isHost);
-      props.setText(player[0].userParagraph);
     });
   }, []); //don't add props to array
 
   useEffect(() => {
-    if (currPlayer) setPlayerAvailablePowerUps(currPlayer?.availablePUs);
-  }, [currPlayer]);
+    const player = props.players.filter(
+      (player) => player.userId === props.socket.current.id,
+    );
+    console.log('------------', player[0].availablePUs);
+    setCurrPlayer(player[0]);
+    setPlayerAvailablePowerUps(player[0].availablePUs);
+
+    setIsHost(player[0].isHost);
+    props.setText(player[0].userParagraph);
+    console.log(playerAvailablePowerUps);
+    console.log(currPlayer);
+  }, [props.players]);
 
   //synchronise timestart for all players
   function handleClickStart(): void {
@@ -143,7 +145,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
                 {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
                   return (
                     <Draggable key={id} draggableId={id} index={index}>
-                      {(provided: any, snapshot) => (
+                      {(provided: any, snapshot: any) => (
                         <div
                           {...provided.draggableProps}
                           ref={provided.innerRef}
