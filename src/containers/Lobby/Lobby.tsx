@@ -86,9 +86,11 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     <div className="lobby-bg-container">
       <DragDropContext onDragEnd={onApplyPowerUp} onDragStart={draggingCard}>
         <div className="lobby-room-display-box"></div>
-        <h1>
-          Round {currRound} from {rounds}
-        </h1>
+        {rounds ? (
+          <h1>
+            Round {currRound} of {rounds}
+          </h1>
+        ) : null}
         <PlayersList players={props.players} socket={props.socket} />
         <button
           disabled={!isHost}
