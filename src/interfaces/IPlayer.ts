@@ -1,5 +1,4 @@
 import IGameData from './IGameData';
-import IPowerUps from './IPowerUps';
 
 export default interface IPlayer {
   userId: string;

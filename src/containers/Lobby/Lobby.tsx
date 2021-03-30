@@ -40,17 +40,22 @@ const Lobby: React.FC<LobbyProps> = (props) => {
 
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
+      console.log('THIS IS THE ONE!', players);
       props.setPlayers(players);
       const player = players.filter(
         (player) => player.userId === props.socket.current.id,
       );
       // console.log('Is host?', player[0].isHost);
       setCurrPlayer(player[0]);
-      setPlayerAvailablePowerUps(player[0].availablePUs);
+
       setIsHost(player[0].isHost);
       props.setText(player[0].userParagraph);
     });
   }, []); //don't add props to array
+
+  useEffect(() => {
+    if (currPlayer) setPlayerAvailablePowerUps(currPlayer?.availablePUs);
+  }, [currPlayer]);
 
   //synchronise timestart for all players
   function handleClickStart(): void {
