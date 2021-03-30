@@ -119,22 +119,27 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   return (
     <div className="lobby-bg-container">
       <DragDropContext onDragEnd={onApplyPowerUp}>
-        <div className="lobby-room-display-box"></div>
-        {rounds ? (
-          <h1>
-            Round {currRound} of {rounds}
-          </h1>
+        <div className="lobby-room-display-box">
+          <div className="fixed-elements-display">
+  {rounds ? (
+         <h1 className="round-count">
+              Round {currRound} of {rounds}
+            </h1>
         ) : null}
-        <PlayersList players={props.players} socket={props.socket} />
-        <button
-          disabled={!isHost}
-          onClick={handleClickStart}
-          className={isHost ? 'lobby-btn-start' : 'lobby-btn-start-disabled'}
-        >
-          {' '}
-          Start Race{' '}
-        </button>
-        {!gamemode ? (
+            
+            <PlayersList players={props.players} socket={props.socket} />
+            <button
+              disabled={!isHost}
+              onClick={handleClickStart}
+              className={
+                isHost ? 'lobby-btn-start' : 'lobby-btn-start-disabled'
+              }
+            >
+              {' '}
+              Start Race{' '}
+            </button>
+          </div>
+                {!gamemode ? (
           <Droppable droppableId="my-powerups">
             {(provided: any) => (
               <div
@@ -145,7 +150,10 @@ const Lobby: React.FC<LobbyProps> = (props) => {
                 {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
                   return (
                     <Draggable key={id} draggableId={id} index={index}>
+
+                     
                       {(provided: any, snapshot: any) => (
+
                         <div
                           {...provided.draggableProps}
                           ref={provided.innerRef}
@@ -169,6 +177,8 @@ const Lobby: React.FC<LobbyProps> = (props) => {
             )}
           </Droppable>
         ) : null}
+
+</div>
       </DragDropContext>
     </div>
   );
