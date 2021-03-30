@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState, ReactNode } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import SocketIOCLient from 'socket.io-client';
-
 import { FaCopy } from 'react-icons/fa';
 import Slider from 'react-slick';
 
@@ -39,9 +38,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [rounds, setRounds] = useState<string>('');
   const [opacity, setOpacity] = useState<number>(0.5);
-  //const [pla]
   const [readyBtnAnimationClass, setReadyBtnAnimationClass] = useState('');
-
   const [selectedColors, setSelectedColors] = useState<colorState>({
     blue: false,
     coral: false,
@@ -56,7 +53,6 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const url = window.location.href;
 
   //Carousel selection options:
-
   const settings = {
     // dots: true,
     infinite: true,
