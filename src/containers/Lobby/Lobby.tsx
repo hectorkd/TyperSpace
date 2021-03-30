@@ -123,7 +123,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
           {' '}
           Start Race{' '}
         </button>
-        {gamemode ? (
+        {!gamemode ? (
           <Droppable droppableId="my-powerups">
             {(provided: any) => (
               <div

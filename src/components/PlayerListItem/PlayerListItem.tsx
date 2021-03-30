@@ -5,7 +5,6 @@ import powerCardsObj from '../../assets/icons/powerCardsObj';
 import './styles/PlayerListItem.scss';
 
 import IPlayer from '../../interfaces/IPlayer';
-// import rocket1 from '../../assets/icons/rocket1blue.png';
 
 import rocketObj from '../../assets/icons/rocketObj';
 
@@ -29,27 +28,15 @@ const PlayerListItem: React.FC<PlayerListItemProps> = (props) => {
           className="player-list avatar-element"
         />
         <Droppable droppableId={props.player.userName}>
-          {(provided: any, snapshot: any) => (
+          {(provided: any) => (
             <div
               className="player-applied-power-ups"
               {...provided.droppableProps}
               ref={provided.innerRef}
-              isDraggingOver={snapshot.isDraggingOver}
-              style={{
-                borderRadius: '10px',
-                backgroundColor: snapshot.isDraggingOver
-                  ? 'rgba(0, 0, 255, 0.1)'
-                  : 'transparent',
-              }}
             >
               {props.player.appliedPUs.map(({ id, powerUp }, index) => {
                 return (
-                  <Draggable
-                    key={id}
-                    draggableId={id}
-                    index={index}
-                    isDragDisabled={true}
-                  >
+                  <Draggable key={id} draggableId={id} index={index}>
                     {(provided: any) => (
                       <div
                         {...provided.draggableProps}

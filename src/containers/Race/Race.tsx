@@ -75,8 +75,6 @@ const Race: React.FC<RaceProps> = (props) => {
 
   useEffect(() => {
     props.socket.current.on('startTime', (startTime: number) => {
-      console.log('received startTime! ', startTime);
-      console.log('time diff', Math.round((startTime - Date.now()) / 1000));
       setStart(startTime);
       setCountDown(Math.round((startTime - Date.now()) / 1000));
     });
@@ -93,21 +91,7 @@ const Race: React.FC<RaceProps> = (props) => {
       setFirstPlace,
       props.players,
     );
-
-    // gsap.to('.aheadRocket', {
-    //   duration: 0.3,
-    //   x: aheadRef.current ? aheadRef.current.offsetLeft : 0,
-    //   y: aheadRef.current ? aheadRef.current.offsetTop - 57 : 0,
-    // });
-
-    // gsap.to('.behindRocket', {
-    //   duration: 0.3,
-    //   x: behindRef.current ? behindRef.current.offsetLeft : 0,
-    //   y: behindRef.current ? behindRef.current.offsetTop - 57 : 0,
-    // });
   }, [allPlayerCurrentIndex]);
-
-  console.log(aheadRef);
 
   //go to results page automatically
   useEffect(() => {
@@ -362,7 +346,7 @@ const Race: React.FC<RaceProps> = (props) => {
           <div></div>
         )}
       </div>
-     </div>
+    </div>
   );
 };
 
