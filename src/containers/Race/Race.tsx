@@ -74,8 +74,6 @@ const Race: React.FC<RaceProps> = (props) => {
 
   useEffect(() => {
     props.socket.current.on('startTime', (startTime: number) => {
-      console.log('received startTime! ', startTime);
-      console.log('time diff', Math.round((startTime - Date.now()) / 1000));
       setStart(startTime);
       setCountDown(Math.round((startTime - Date.now()) / 1000));
     });
@@ -93,8 +91,6 @@ const Race: React.FC<RaceProps> = (props) => {
       props.players,
     );
   }, [allPlayerCurrentIndex]);
-
-  console.log(aheadRef);
 
   //go to results page automatically
   useEffect(() => {
