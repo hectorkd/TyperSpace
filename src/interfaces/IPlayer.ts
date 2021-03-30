@@ -8,7 +8,7 @@ export default interface IPlayer {
   isHost: boolean;
   gameData: IGameData;
   userParagraph: string;
-  appliedPUs: IPowerUps;
-  availablePUs: IPowerUps;
+  appliedPUs: { id: string; powerUp: string }[];
+  availablePUs: { id: string; powerUp: string }[];
   isReady: boolean;
 }
