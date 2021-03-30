@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import powerCardsObj from '../../assets/icons/powerCardsObj';
 
@@ -15,9 +15,27 @@ type PlayerListItemProps = {
 };
 
 const PlayerListItem: React.FC<PlayerListItemProps> = (props) => {
+  function placeEnd(rank: number): string {
+    let end;
+    if (rank === 2) {
+      end = 'nd';
+    } else if (rank === 3) {
+      end = 'rd';
+    } else {
+      end = 'th';
+    }
+    return '' + rank + end;
+  }
+
   return (
     <div>
       <li className="player-list-element-container">
+        <div
+          className="player-list name-element"
+          style={{ color: props.player.color }}
+        >
+          {props.player.rank ? placeEnd(props.player.rank) : ''}
+        </div>
         <div
           className="player-list name-element"
           style={{ color: props.player.color }}

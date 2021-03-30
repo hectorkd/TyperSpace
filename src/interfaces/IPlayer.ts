@@ -10,4 +10,6 @@ export default interface IPlayer {
   appliedPUs: { id: string; powerUp: string }[];
   availablePUs: { id: string; powerUp: string }[];
   isReady: boolean;
+  rank: number;
+  WPMAverage: number;
 }
