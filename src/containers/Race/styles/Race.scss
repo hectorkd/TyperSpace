@@ -11,11 +11,12 @@
   background-size: cover;
   background-repeat: repeat;
   background: url('../../../assets/backgrounds/radialBlur.svg');
+  transform: scale(0.75);
   position: absolute;
   width: 1840px;
   height: 1280px;
   top: -40%;
-  left: -25%;
+  left: -20%;
   animation-name: spin;
   animation-duration: 600s;
   animation-iteration-count: infinite;
@@ -92,7 +93,6 @@
   border-style: none;
   .left-side-bar {
   }
-
 }
 
 .right-race-info-title {
