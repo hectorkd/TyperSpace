@@ -6,16 +6,43 @@
 
 .lobby-bg-container {
   @include bg-container;
-  background: url('../../../assets/backgrounds/nightsky1.png');
-  flex-direction: column;
+  // background: url('../../../assets/backgrounds/nightsky1.png');
+  // flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.lobby-room-display-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .fixed-elements-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .round-count {
+      // @include label-font;
+      margin: 0;
+      font-family: $atariFont;
+      color: $font-white;
+    }
+  }
 }
 
 .lobby-btn-start {
   @include btn-orange;
   width: 20vw;
   height: 5vw;
+}
+.lobby-btn-start:focus,
+.lobby-btn-start:active {
+  -webkit-appearance: none;
+  outline: none;
+}
+.lobby-btn-start:hover {
+  background-color: #f86247;
 }
 
 .lobby-btn-start-disabled {
@@ -32,4 +59,18 @@
   width: 100px;
   height: 100px;
   background-color: transparent;
+}
+
+.btn-press {
+  animation: buttonAnim;
+  animation-duration: 0.3s;
+}
+
+@keyframes buttonAnim {
+  50% {
+    transform: translate(5px, 5px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
 }

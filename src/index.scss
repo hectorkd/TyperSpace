@@ -1,3 +1,5 @@
+@import './globalStyles/globalMixins';
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -35,4 +37,38 @@ code {
 
 .slide-exit-active {
   transform: translateX(-100%);
+}
+
+//Moving background:
+.moving-bg {
+  @include bg-container;
+  background: url('./assets/backgrounds/noLargeStarsBG2.png');
+  height: 2500px;
+  width: 5000px;
+  position: absolute;
+  align-items: center;
+  animation-name: MOVEBG;
+  animation-duration: 150s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  margin: 0;
+  z-index: -1;
+}
+
+@keyframes MOVEBG {
+  0% {
+    transform: translateX(0%) translateY(0%);
+  }
+  25% {
+    transform: translateX(-15%) translateY(-55%);
+  }
+  50% {
+    transform: translateX(-65%) translateY(-55%);
+  }
+  75% {
+    transform: translateX(-60%) translateY(-25%);
+  }
+  100% {
+    transform: translateX(0%) translateY(0%);
+  }
 }

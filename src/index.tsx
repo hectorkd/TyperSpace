@@ -5,6 +5,7 @@ import './index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
+    <div className="moving-bg"> </div>
     <App location={location} />
   </React.StrictMode>,
   document.getElementById('root'),

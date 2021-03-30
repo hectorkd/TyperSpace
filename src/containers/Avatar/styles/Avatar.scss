@@ -7,49 +7,83 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  background-image: url('../../../assets/backgrounds/nightsky2.png');
+}
 
-  .input {
+.avatar-wrapper {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  width: 70vw;
+  height: 70vh;
+
+  height: fit-content;
+
+  .avatar-input-container {
     display: flex;
     flex-direction: column;
-  }
-
-  .avatar-select-h1 {
-    @include label-font;
-    text-align: center;
-    margin-bottom: 4px;
-    margin-top: 4px;
-  }
-
-  .input-label {
-    @include label-font;
-    text-align: center;
-  }
-
-  .room-id-display {
-    display: flex;
     justify-content: space-around;
-    align-items: center;
-    @include box-white-border-transparent;
-    width: 25vw;
-    height: 8vh;
-  }
+    // justify-content: space-evenly;
+    min-height: 80vh;
+    .input {
+      display: flex;
+      flex-direction: column;
+    }
+    .input-label {
+      @include label-font;
+      text-align: left;
+      padding: 1vh;
+    }
+    .room-id-display {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      @include box-white-border-transparent;
+      width: 25vw;
+      height: 8vh;
 
-  .room-id-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 5;
-    opacity: 0.6;
-  }
+      .room-id-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 5;
+        color: $font-darkgrey;
+      }
+      .copy-to-clipboard {
+        color: white;
+        width: 50px;
+      }
+      .copy-button {
+        background-color: transparent;
+        flex: 1;
+        opacity: 0.5;
+        width: 80px;
+        border: none;
+      }
 
-  .copy-button {
-    flex: 1;
-  }
+      .copy-button:active {
+        opacity: 1;
+        transform: scale(0.8);
+        -webkit-appearance: none;
+        outline: none;
+      }
+      .copy-button:focus {
+        -webkit-appearance: none;
+        outline: none;
+      }
+      .copy-button:hover {
+        opacity: 1;
+        -webkit-appearance: none;
+        outline: none;
+      }
 
-  .copy-to-clipboard {
-    color: white;
-    width: 50px;
+      .copy-to-clipboard {
+        fill: white;
+        // background-color: white;
+        color: white;
+        width: 40px;
+        background-color: transparent;
+      }
+    }
   }
 
   .input-field {
@@ -59,8 +93,13 @@
     text-align: center;
     font-size: 5vh;
     font-weight: 600;
-    font-family: $sanchezRegular;
-    & .room-id-input {
+    font-family: $atariFont;
+    background: rgba(255, 255, 255, 0.5);
+    color: $font-darkgrey;
+
+    -webkit-appearance: none;
+    outline: none;
+    .room-id-input {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -68,78 +107,93 @@
     }
   }
 
-  .copy-button {
-    background-color: transparent;
-    width: 80px;
-    border: none;
+  .input-field:focus {
+    background: rgba(255, 255, 255, 0.7);
+  }
+  .input-field:hover {
+    background: rgba(255, 255, 255, 0.6);
   }
 
-  .copy-button:active {
-    opacity: 1;
-    transform: scale(0.8);
-  }
+  .avatar-select-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 
-  .copy-to-clipboard {
-    fill: white;
-    // background-color: white;
-    color: white;
-    width: 40px;
-    background-color: transparent;
-  }
-
-  .btn-ready {
-    @include btn-orange;
-  }
-
-  .avatar-list {
-    @include box-white-border-transparent;
-    // box-sizing: border-box;
-    // min-height: 25vh;
-    height: 24vh;
-    width: 15vw;
-
-    .slick-arrow.slick-prev {
-      left: 0.1vw;
-      z-index: 1;
+    height: 100%;
+    .avatar-select-h1 {
+      @include label-font;
+      text-align: center;
+      margin: 0;
     }
-    .slick-arrow.slick-next {
-      right: 0.1vw;
+    .avatar-list {
+      // @include box-white-border-transparent;
+
+      // box-sizing: border-box;
+      // padding-top: 4vh;
+      // padding-bottom: 4vh;
+      height: 40vh;
+      width: 30vw;
+
+      .slick-arrow.slick-prev {
+        left: 0.1vw;
+        z-index: 1;
+      }
+      .slick-arrow.slick-next {
+        right: 0.1vw;
+      }
+      .avatar-images {
+        width: 20vw;
+        height: 40vh;
+        // padding-top: 5vh;
+        margin-bottom: 0;
+        &::selection {
+          background-color: yellow;
+        }
+      }
+      .selected {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .avatar-images:hover {
+        background-color: white;
+        // border: 0.5vw solid white;
+        // opacity: 0.5;
+        background-color: rgba(255, 255, 255, 0.3);
+
+        cursor: pointer;
+      }
+      .avatar-images:active {
+        background-color: rgba(200, 200, 200, 0.3);
+      }
     }
-  }
-
-  .avatar-images {
-    width: 4vw;
-    height: 24vh;
-    // padding-top: 5vh;
-    margin-bottom: 0;
-    &::selection {
-      background-color: yellow;
+    .btn-ready {
+      -webkit-appearance: none;
+      outline: none;
+      @include btn-orange;
+      margin-top: 2vh;
     }
-  }
+    .btn-ready:hover {
+      background-color: #f86247;
+    }
+    .btn-ready:focus,
+    .btn-ready:active {
+      -webkit-appearance: none;
+      outline: none;
+    }
 
-  .selected {
-    background-color: rgba(255, 255, 255, 0.5);
-  }
+    .btn-press {
+      animation: buttonAnim;
+      animation-duration: 0.3s;
+    }
 
-  .avatar-images:hover {
-    background-color: white;
-    // border: 0.5vw solid white;
-    // opacity: 0.5;
-    background-color: rgba(255, 255, 255, 0.3);
-
-    cursor: pointer;
-  }
-  .avatar-images:active {
-    background-color: $colour-green;
-  }
-
-  .avatar-images::selection {
-    background-color: yellow;
-  }
-
-  .taken {
-    background-color: rgba(0, 0, 50, 0.2);
-    filter: brightness(40%);
-    pointer-events: none;
+    @keyframes buttonAnim {
+      50% {
+        transform: translate(5px, 5px);
+      }
+      100% {
+        transform: translate(0px, 0px);
+      }
+    }
   }
 }
