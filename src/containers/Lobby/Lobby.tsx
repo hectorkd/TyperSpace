@@ -99,7 +99,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
           Start Race{' '}
         </button>
         <Droppable droppableId="my-powerups">
-          {(provided) => (
+          {(provided: any) => (
             <div
               className="my-power-ups"
               {...provided.droppableProps}
