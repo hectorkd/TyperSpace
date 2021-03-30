@@ -54,3 +54,33 @@
   justify-content: center;
   align-items: center;
 }
+
+@mixin flame {
+  width: 150px;
+  height: 250px;
+  background: linear-gradient(-45deg, red, orange);
+  border-radius: 150px 150px 0px 150px;
+  transform: rotate(-135deg);
+  animation: 0.1s flame infinite;
+  filter: blur(9px);
+  position: relative;
+  box-shadow: 17px 20px 90px #700;
+  border: 1px solid black;
+  border-left-width: 10px;
+  border-top-width: 10px;
+
+  &:after,
+  &:before {
+    content: '';
+    width: 150px;
+    height: 150px;
+    display: block;
+    position: absolute;
+    background: linear-gradient(-45deg, blue, white);
+    animation: 0.2s flame infinite;
+    transform: scale(0.7) rotate(0deg);
+    border-radius: 100px 100px 0px 100px;
+    top: 20px;
+    left: 10px;
+  }
+}
