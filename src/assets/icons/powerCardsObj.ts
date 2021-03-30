@@ -1,5 +1,6 @@
-import ScrambleCard from './scramble-powerup.png';
-import SymbolsCard from './ReplaceSymbol-powerup.png';
+import ScrambleCard from './ScrambleCard.png';
+import SymbolsCard from './SymbolsCard.png';
+import LongWordCard from './LongWordCard.png';
 
 type PowerUpObj = {
   [powerUp: string]: string;
@@ -8,6 +9,7 @@ type PowerUpObj = {
 const powerCardsObj: PowerUpObj = {
   ScrambleCard,
   SymbolsCard,
+  LongWordCard,
 };
 
 export default powerCardsObj;

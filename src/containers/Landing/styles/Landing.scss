@@ -4,21 +4,6 @@
 @import './mixins';
 @import './variables';
 
-.landing-bg {
-  @include bg-container;
-  // background: url('../../../assets/backgrounds/testBG.png');
-  height: 1440px;
-  width: 2560px;
-  position: absolute;
-  align-items: center;
-  animation-name: MOVEBG;
-  animation-duration: 150s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  margin: 0;
-  z-index: -1;
-}
-
 .landing-container {
   display: flex;
   flex-direction: column;
@@ -27,24 +12,6 @@
   top: 200px;
   position: absolute;
   // border: 2px solid red;
-}
-
-@keyframes MOVEBG {
-  0% {
-    transform: translateX(0%) translateY(0%);
-  }
-  25% {
-    transform: translateX(-5%) translateY(-25%);
-  }
-  50% {
-    transform: translateX(-35%) translateY(-35%);
-  }
-  75% {
-    transform: translateX(-25%) translateY(-5%);
-  }
-  100% {
-    transform: translateX(0%) translateY(0%);
-  }
 }
 
 .landing-main-title {

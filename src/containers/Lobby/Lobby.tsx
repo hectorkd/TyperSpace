@@ -28,6 +28,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   const [playerAvailablePowerUps, setPlayerAvailablePowerUps] = useState<
     { id: string; powerUp: string }[]
   >([]);
+  const [startBtnAnimationClass, setStartBtnAnimationClass] = useState('');
 
   useEffect(() => {
     props.socket.current.on(
@@ -40,20 +41,26 @@ const Lobby: React.FC<LobbyProps> = (props) => {
 
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
+      console.log('THIS IS THE ONE!', players);
       props.setPlayers(players);
       const player = players.filter(
         (player) => player.userId === props.socket.current.id,
       );
       // console.log('Is host?', player[0].isHost);
       setCurrPlayer(player[0]);
-      setPlayerAvailablePowerUps(player[0].availablePUs);
+
       setIsHost(player[0].isHost);
       props.setText(player[0].userParagraph);
     });
   }, []); //don't add props to array
 
+  useEffect(() => {
+    if (currPlayer) setPlayerAvailablePowerUps(currPlayer?.availablePUs);
+  }, [currPlayer]);
+
   //synchronise timestart for all players
   function handleClickStart(): void {
+    // setStartBtnAnimationClass('btn-press');
     props.socket.current.emit('syncStart');
     history.push({
       pathname: `/${roomId}/race`,
@@ -84,17 +91,26 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   let opacity = '100%';
 
   function getStyle(style: any, snapshot: any) {
+    console.log(snapshot);
     if (!snapshot.isDropAnimating) {
+      return style;
+    }
+    if (
+      snapshot.draggingOver === null ||
+      snapshot.draggingOver === 'my-powerups' ||
+      snapshot.draggingOver === currPlayer?.userName
+    ) {
       return style;
     }
     const { moveTo, curve, duration } = snapshot.dropAnimation;
     const translate = `translate(${moveTo.x + 30}px, ${moveTo.y - 50}px)`;
     const scale = 'scale(.4)';
+    const rotate = 'rotate(3turn)';
 
     return {
       ...style,
-      transform: `${translate} ${scale}`,
-      transition: `all ${curve} ${duration + 2}s`,
+      transform: `${translate} ${scale} ${rotate}`,
+      transition: `all ${curve} ${duration + 1}s`,
     };
   }
 
@@ -109,7 +125,11 @@ const Lobby: React.FC<LobbyProps> = (props) => {
         <button
           disabled={!isHost}
           onClick={handleClickStart}
-          className={isHost ? 'lobby-btn-start' : 'lobby-btn-start-disabled'}
+          className={
+            isHost
+              ? `lobby-btn-start ${startBtnAnimationClass}`
+              : 'lobby-btn-start-disabled'
+          }
         >
           {' '}
           Start Race{' '}

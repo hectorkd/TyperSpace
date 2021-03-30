@@ -14,18 +14,37 @@ import Race from './containers/Race/Race';
 import Results from './containers/Results/Results';
 import IPlayer from './interfaces/IPlayer';
 
-const App: React.FC = () => {
+type AppProps = {
+  location: any;
+};
+
+const duration = 300;
+
+const defaultStyle = {
+  transition: `opacity ${duration}ms ease-in-out`,
+  opacity: 0,
+};
+
+const transitionStyles = {
+  entering: { opacity: 1 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0 },
+  exited: { opacity: 0 },
+};
+
+const App: React.FC<AppProps> = ({ location }) => {
   const [socket, setSocket] = useState();
   const [text, setText] = useState<string>('');
   const [players, setPlayers] = useState<IPlayer[]>([]);
   // const location = useLocation();
+  console.log('location', location);
 
   return (
     <div>
-      {/* <TransitionGroup>
-        <CSSTransition timeout={300} classNames="slide" key={location.key}>
-          <Switch location={location}> */}
+      {/* <TransitionGroup in={transitionStyles} timeout={duration}>
+        <CSSTransition timeout={1000} classNames="slide" key={location.key}> */}
       <Router>
+        {/* <Switch location={location}> */}
         <Route path="/" exact component={Landing} />
         <Route
           exact
@@ -86,9 +105,9 @@ const App: React.FC = () => {
             />
           )}
         />
+        {/* </Switch> */}
       </Router>
-      {/* </Switch>
-        </CSSTransition>
+      {/* </CSSTransition>
       </TransitionGroup> */}
     </div>
   );

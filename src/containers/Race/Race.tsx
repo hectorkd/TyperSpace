@@ -218,8 +218,8 @@ const Race: React.FC<RaceProps> = (props) => {
                       style={{
                         color,
                         backgroundColor: charBgcolor,
-                        borderTop: '1px solid #808080',
-                        borderRight: '1px solid #808080',
+                        borderTop: '2px solid #808080',
+                        borderRight: '2px solid #808080',
                         borderRadius: '6px',
                         minWidth: '20px,',
                       }}

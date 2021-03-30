@@ -176,6 +176,11 @@
     .btn-ready:hover {
       background-color: #f86247;
     }
+    .btn-ready:focus,
+    .btn-ready:active {
+      -webkit-appearance: none;
+      outline: none;
+    }
 
     .btn-press {
       animation: buttonAnim;
