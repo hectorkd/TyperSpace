@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import IGameData from '../../interfaces/IGameData';
 import './styles/PlayerPlacementItem.scss';
 
@@ -15,8 +15,6 @@ const PlayerListItem: React.FC<PlayerPlacementItemProps> = ({
   gameData,
   rank,
 }) => {
-  // useEffect(() => {
-  // })
   function placeEnd(rank: number): string {
     let end;
     if (rank === 2) {
