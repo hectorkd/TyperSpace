@@ -6,7 +6,7 @@
 
 .results-bg-container {
   @include bg-container;
-  background: url('../../#{$nightsky1}');
+
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
