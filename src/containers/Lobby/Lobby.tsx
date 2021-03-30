@@ -106,52 +106,57 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   return (
     <div className="lobby-bg-container">
       <DragDropContext onDragEnd={onApplyPowerUp}>
-        <div className="lobby-room-display-box"></div>
-        <h1>
-          Round {currRound} from {rounds}
-        </h1>
-        <PlayersList players={props.players} socket={props.socket} />
-        <button
-          disabled={!isHost}
-          onClick={handleClickStart}
-          className={isHost ? 'lobby-btn-start' : 'lobby-btn-start-disabled'}
-        >
-          {' '}
-          Start Race{' '}
-        </button>
-        <Droppable droppableId="my-powerups">
-          {(provided: any) => (
-            <div
-              className="my-power-ups"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
+        <div className="lobby-room-display-box">
+          <div className="fixed-elements-display">
+            <h1 className="round-count">
+              Round {currRound} of {rounds}
+            </h1>
+            <PlayersList players={props.players} socket={props.socket} />
+            <button
+              disabled={!isHost}
+              onClick={handleClickStart}
+              className={
+                isHost ? 'lobby-btn-start' : 'lobby-btn-start-disabled'
+              }
             >
-              {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
-                return (
-                  <Draggable key={id} draggableId={id} index={index}>
-                    {(provided: any, snapshot) => (
-                      <div
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                        {...provided.dragHandleProps}
-                        style={getStyle(
-                          provided.draggableProps.style,
-                          snapshot,
-                        )}
-                      >
-                        <img
-                          style={{ width: cardWidth, opacity: opacity }}
-                          src={powerCardsObj[powerUp]}
-                        ></img>
-                      </div>
-                    )}
-                  </Draggable>
-                );
-              })}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+              {' '}
+              Start Race{' '}
+            </button>
+          </div>
+          <Droppable droppableId="my-powerups">
+            {(provided: any) => (
+              <div
+                className="my-power-ups"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
+                  return (
+                    <Draggable key={id} draggableId={id} index={index}>
+                      {(provided: any, snapshot) => (
+                        <div
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                          {...provided.dragHandleProps}
+                          style={getStyle(
+                            provided.draggableProps.style,
+                            snapshot,
+                          )}
+                        >
+                          <img
+                            style={{ width: cardWidth, opacity: opacity }}
+                            src={powerCardsObj[powerUp]}
+                          ></img>
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
       </DragDropContext>
     </div>
   );

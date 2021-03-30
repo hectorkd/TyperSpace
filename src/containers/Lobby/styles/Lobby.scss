@@ -7,9 +7,28 @@
 .lobby-bg-container {
   @include bg-container;
   background: url('../../../assets/backgrounds/nightsky1.png');
-  flex-direction: column;
+  // flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.lobby-room-display-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .fixed-elements-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .round-count {
+      // @include label-font;
+      margin: 0;
+      font-family: $atariFont;
+      color: $font-white;
+    }
+  }
 }
 
 .lobby-btn-start {
