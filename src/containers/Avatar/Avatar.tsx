@@ -3,16 +3,19 @@ import { useParams, useHistory } from 'react-router-dom';
 import SocketIOCLient from 'socket.io-client';
 
 import { FaCopy } from 'react-icons/fa';
+import Slider from 'react-slick';
 
 // const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/'; //TODO: keep in env
 const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 
 import rocketObj from '../../assets/icons/rocketObj';
 
-import './styles/Avatar.scss';
-
 import IPlayer from '../../interfaces/IPlayer';
 import { isConstructorDeclaration } from 'typescript';
+
+import './styles/Avatar.scss';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 type AvatarProps = {
   socket: any;
@@ -51,6 +54,20 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   });
 
   const url = window.location.href;
+
+  //Carousel selection options:
+
+  const settings = {
+    // dots: true,
+    infinite: true,
+    // className: 'center',
+    // centerMode: true,
+    // centerPadding: '50px',
+    // fade: true,
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
 
   useEffect(() => {
     socketRef.current = SocketIOCLient(SOCKET_SERVER_URL, {
@@ -151,7 +168,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           </div>
           <div className="name-field-input input">
             <label htmlFor="" className="input-label">
-              number of rounds
+              rounds
             </label>
             <input
               spellCheck="false"
@@ -167,24 +184,26 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         <div className="avatar-select-container">
           <h2 className="avatar-select-h1 ">select colour</h2>
           <div className="avatar-list">
-            {Object.keys(selectedColors).map((color, idx) => {
-              return (
-                <img
-                  key={idx}
-                  id={color}
-                  src={rocketObj[`${color}Rocket`]}
-                  className={`avatar-images ${
-                    selectedColors[color]
-                      ? 'taken'
-                      : selectedColor === color
-                      ? 'selected'
-                      : ''
-                  }`}
-                  alt=""
-                  onClick={selectedColors[color] ? undefined : handleClick}
-                />
-              );
-            })}
+            <Slider {...settings}>
+              {Object.keys(selectedColors).map((color, idx) => {
+                return (
+                  <img
+                    key={idx}
+                    id={color}
+                    src={rocketObj[`${color}Rocket`]}
+                    className={`avatar-images ${
+                      selectedColors[color]
+                        ? 'taken'
+                        : selectedColor === color
+                        ? 'selected'
+                        : ''
+                    }`}
+                    alt=""
+                    onClick={selectedColors[color] ? undefined : handleClick}
+                  />
+                );
+              })}
+            </Slider>
           </div>
           <button
             className={`btn-ready ${readyBtnAnimationClass}`}

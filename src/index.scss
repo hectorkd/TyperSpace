@@ -1,3 +1,5 @@
+@import './globalStyles/globalMixins';
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -35,4 +37,19 @@ code {
 
 .slide-exit-active {
   transform: translateX(-100%);
+}
+
+.moving-bg {
+  @include bg-container;
+  background: url('./assets/backgrounds/testBG.png');
+  height: 1440px;
+  width: 2560px;
+  position: absolute;
+  align-items: center;
+  animation-name: MOVEBG;
+  animation-duration: 150s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  margin: 0;
+  z-index: -1;
 }
