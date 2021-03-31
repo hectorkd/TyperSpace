@@ -35,8 +35,6 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   useEffect(() => {
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
-      console.log(players);
-      // if (players.every((player) => player.isReady)) setIsReady(true);
       props.setPlayers(players);
     });
     props.socket.current.on(
