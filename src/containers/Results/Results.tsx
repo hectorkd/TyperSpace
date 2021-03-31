@@ -65,7 +65,7 @@ const Results: React.FC<Props> = (props) => {
     history.push({
       pathname: `/${roomId}/lobby`,
     });
-    props.socket.current.emit('getParagraph');
+    // props.socket.current.emit('getParagraph');
   }
 
   function handleNextRoundClick() {
