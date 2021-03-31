@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  padding-right: 4vw;
+  padding-right: 0vw;
   margin: 0;
   padding-bottom: 0;
   margin-bottom: 0;
@@ -216,8 +216,8 @@
 }
 
 .race-leader-icon {
-  width: 6vw;
-  height: 25vh;
+  width: 130px;
+  height: 260px;
   //transform: 'rotate(90deg)';
   border: none;
   border-image-width: 0;
@@ -235,17 +235,15 @@
 }
 .race-leader-flame-container {
   top: 0px;
-  width: fit-content;
-  height: fit-content;
-  transform: rotate(180deg) scale(0.16) scaleY(2.5);
+  transform: rotate(180deg) scale(0.2) scaleY(2.5);
   position: absolute;
-  top: 47vh;
-  right: 8vw;
+  top: 55vh;
+  right: 7.4%;
+  // border: 51px solid red;
   // box-sizing: border-box;
 }
 .race-leader-flame {
   @include flame;
-  position: relative;
 }
 
 .race-leader-avatar-container {

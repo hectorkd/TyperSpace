@@ -24,6 +24,7 @@
 
 .landing-buttons {
   @include atari-button;
+  font-size: 1.6em;
   &.create-btn {
     background-color: $font-white;
     color: $font-dark-blue;

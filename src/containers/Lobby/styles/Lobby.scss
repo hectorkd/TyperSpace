@@ -4,31 +4,18 @@
 @import './mixins';
 @import './variables';
 
-.lobby-bg-container {
-  @include bg-container;
-  background: url('../../../assets/backgrounds/2840x\ \ 1976blur.png');
-  position: absolute;
-  top: -90%;
-  left: -60%;
-  height: 1976px;
-  width: 2840px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  // animation-name: MOVEBG;
-  animation-duration: 150s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  margin: 0;
-  z-index: -1;
-}
+// .lobby-bg-container {
+//   // @include bg-container;
+//   // position: absolute;
+// }
 
 .lobby-container {
-  // @include bg-container;
-  // background: url('../../../assets/backgrounds/nightsky1.png');
-  // flex-direction: column;
+  // border: 2px solid red;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  min-height: 80vh;
+  // justify-content: center;
+  // align-items: center;
 }
 
 .lobby-room-display-box {

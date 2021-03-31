@@ -54,6 +54,7 @@ const Race: React.FC<RaceProps> = (props) => {
 
   const aheadRef = useRef<HTMLElement>(null);
   const behindRef = useRef<HTMLElement>(null);
+  const leaderRef = useRef<HTMLImageElement>(null);
 
   const {
     states: {
@@ -361,13 +362,24 @@ const Race: React.FC<RaceProps> = (props) => {
                   <h2 className="right-race-info-title">1st place</h2>
                   <div className="race-leader-info">
                     <div className="race-leader-avatar-container">
-                      <img
-                        className="race-leader-icon"
-                        src={rocketObj[`${firstPlace?.color}Rocket`]}
-                      />
-                      <div className="race-leader-flame-container">
-                        <div className="race-leader-flame"></div>
-                      </div>
+                      <>
+                        <img
+                          className="race-leader-icon"
+                          src={rocketObj[`${firstPlace?.color}Rocket`]}
+                          ref={leaderRef}
+                        />
+                        {leaderRef?.current && (
+                          <div
+                            className="race-leader-flame-container"
+                            style={{
+                              top: leaderRef.current?.offsetTop + 100,
+                              left: leaderRef.current?.offsetLeft + 50,
+                            }}
+                          >
+                            <div className="race-leader-flame"></div>
+                          </div>
+                        )}
+                      </>
                     </div>
                     <h3
                       className="race-leader-name"
