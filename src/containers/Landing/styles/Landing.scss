@@ -4,17 +4,25 @@
 @import './mixins';
 @import './variables';
 
+.stars-layer {
+  background: url('../../../assets/backgrounds/starsLayer1.png');
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  // border: 2px solid red;
+  z-index: -1;
+}
 .landing-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  // justify-content: space-around;
-  top: 200px;
+  justify-content: center;
+  // top: 200px;
   position: absolute;
-  // border: 2px solid red;
 }
 
 .landing-main-title {
+  padding-top: 200px;
   font-family: $atariFont;
   color: $font-white;
   font-size: 9.5vw;
@@ -106,5 +114,41 @@
   }
   100% {
     transform: translate(0px, 0px);
+  }
+}
+
+.flying-rocket1 {
+  position: absolute;
+  transform: rotate(90deg) scale(0.3);
+  animation-name: flyaccross;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  animation-delay: 2s;
+}
+.flying-rocket1 img {
+  position: relative;
+  z-index: 4;
+}
+
+.flying-rocket1-flame {
+  @include flame;
+  transform: rotate(182deg) scale(0.5) scaleY(2.5);
+  left: 20px;
+  top: -100px;
+}
+
+.flying-rocket-1-flame-container {
+  position: absolute;
+}
+
+@keyframes flyaccross {
+  0% {
+    left: -10%;
+    top: 20%;
+  }
+
+  100% {
+    left: 110%;
+    top: 50%;
   }
 }
