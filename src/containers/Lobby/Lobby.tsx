@@ -16,14 +16,14 @@ type LobbyProps = {
   children?: ReactNode;
   players: IPlayer[];
   setPlayers: React.Dispatch<React.SetStateAction<IPlayer[]>>;
+  rounds: number;
+  currRound: number;
 };
 
 const Lobby: React.FC<LobbyProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
   const [isHost, setIsHost] = useState(false);
-  const [rounds, setRounds] = useState<number>(0);
-  const [currRound, setCurrRound] = useState<number>(0);
   const [currPlayer, setCurrPlayer] = useState<IPlayer>();
   const [gamemode, setGamemode] = useState<string>('');
   const [playerAvailablePowerUps, setPlayerAvailablePowerUps] = useState<
@@ -35,18 +35,14 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   useEffect(() => {
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
+      // console.log('--------', players);
       if (players.every((player) => player.isReady)) setIsReady(true);
 
       props.setPlayers(players);
     });
-    props.socket.current.on(
-      'getGameState',
-      (rounds: number, currRound: number, gamemode: string) => {
-        setRounds(rounds);
-        setCurrRound(currRound);
-        setGamemode(gamemode);
-      },
-    );
+    props.socket.current.on('gamestate', (gamestate: any) => {
+      console.log('gamestate', gamestate);
+    });
   }, []); //don't add props to array
 
   useEffect(() => {
@@ -128,9 +124,9 @@ const Lobby: React.FC<LobbyProps> = (props) => {
         <DragDropContext onDragEnd={onApplyPowerUp}>
           <div className="lobby-room-display-box">
             <div className="fixed-elements-display">
-              {rounds ? (
+              {props.rounds ? (
                 <h1 className="round-count">
-                  Round {currRound} of {rounds}
+                  Round {props.currRound} of {props.rounds}
                 </h1>
               ) : null}
             </div>

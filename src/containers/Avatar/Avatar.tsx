@@ -24,6 +24,9 @@ type AvatarProps = {
   children?: ReactNode;
   players: any;
   setPlayers: any;
+  rounds: number;
+  setRounds: any;
+  setCurrRound: any;
 };
 
 interface colorState {
@@ -36,7 +39,6 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const socketRef = useRef<SocketIOClient.Socket>();
   const [userName, setUserName] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
-  const [rounds, setRounds] = useState<string>('');
   const [opacity, setOpacity] = useState<number>(0.5);
   const [readyBtnAnimationClass, setReadyBtnAnimationClass] = useState('');
   const [selectedColors, setSelectedColors] = useState<colorState>({
@@ -101,8 +103,10 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     props.socket.current.emit('userInfo', {
       userName: userName,
       color: selectedColor,
-      rounds: rounds,
+      rounds: props.rounds,
     });
+
+    props.setCurrRound(1);
     //go to lobby
 
     setTimeout(() => {
@@ -169,8 +173,8 @@ const Avatar: React.FC<AvatarProps> = (props) => {
             <input
               spellCheck="false"
               type="text"
-              value={rounds}
-              onChange={(e) => setRounds(e.target.value)}
+              value={props.rounds}
+              onChange={(e) => props.setRounds(e.target.value)}
               name=""
               id=""
               className="input-field"
