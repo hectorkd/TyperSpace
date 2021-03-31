@@ -35,23 +35,10 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   useEffect(() => {
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
-      console.log('listening');
       if (players.every((player) => player.isReady)) setIsReady(true);
+
       props.setPlayers(players);
     });
-  }, []); //don't add props to array
-
-  useEffect(() => {
-    const player = props.players.filter(
-      (player) => player.userId === props.socket.current.id,
-    );
-    console.log('------------', player[0].availablePUs);
-    setCurrPlayer(player[0]);
-    setPlayerAvailablePowerUps(player[0].availablePUs);
-
-    setIsHost(player[0].isHost);
-    props.setText(player[0].userParagraph);
-
     props.socket.current.on(
       'getGameState',
       (rounds: number, currRound: number, gamemode: string) => {
@@ -60,8 +47,17 @@ const Lobby: React.FC<LobbyProps> = (props) => {
         setGamemode(gamemode);
       },
     );
-    console.log(rounds);
-    console.log(currRound);
+  }, []); //don't add props to array
+
+  useEffect(() => {
+    const player = props.players.filter(
+      (player) => player.userId === props.socket.current.id,
+    );
+    setCurrPlayer(player[0]);
+    setPlayerAvailablePowerUps(player[0].availablePUs);
+
+    setIsHost(player[0].isHost);
+    props.setText(player[0].userParagraph);
   }, [props.players]);
 
   // useEffect(() => {
