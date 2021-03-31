@@ -2,15 +2,17 @@ import React, { useRef, useEffect, useState, ReactNode } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import SocketIOCLient from 'socket.io-client';
 import { FaCopy } from 'react-icons/fa';
+import { GiCheckMark, GiCrossMark } from 'react-icons/gi';
 import Slider from 'react-slick';
 
 // const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/'; //TODO: keep in env
 const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 
 import rocketObj from '../../assets/icons/rocketObj';
+import checkMarker from '../../assets/icons/checkMarker.svg';
+import crossMarker from '../../assets/icons/crossMarker.svg';
 
 import IPlayer from '../../interfaces/IPlayer';
-import { isConstructorDeclaration } from 'typescript';
 
 import './styles/Avatar.scss';
 import 'slick-carousel/slick/slick.css';
@@ -58,10 +60,6 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const settings = {
     // dots: true,
     infinite: true,
-    // className: 'center',
-    // centerMode: true,
-    // centerPadding: '50px',
-    // fade: true,
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -92,7 +90,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       }
     }
     setSelectedColors((prevState) => {
-      console.log({ ...prevState, ...newSelectedColors });
+      console.log('NEW SELECTED COLOR', { ...prevState, ...newSelectedColors });
       return { ...prevState, ...newSelectedColors };
     });
   }, [props.players]);
@@ -118,6 +116,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
 
   const handleClick = (e: any) => {
     const id = e.target.id;
+
     setSelectedColor(id);
   };
 
@@ -187,20 +186,43 @@ const Avatar: React.FC<AvatarProps> = (props) => {
             <Slider {...settings}>
               {Object.keys(selectedColors).map((color, idx) => {
                 return (
-                  <img
-                    key={idx}
-                    id={color}
-                    src={rocketObj[`${color}Rocket`]}
-                    className={`avatar-images ${
-                      selectedColors[color]
-                        ? 'taken'
-                        : selectedColor === color
-                        ? 'selected'
-                        : ''
-                    }`}
-                    alt=""
-                    onClick={selectedColors[color] ? undefined : handleClick}
-                  />
+                  <div key={idx} className="img-item-container">
+                    <img
+                      id={color}
+                      src={rocketObj[`${color}Rocket`]}
+                      className={`avatar-images ${
+                        selectedColors[color]
+                          ? 'taken'
+                          : selectedColor === color
+                          ? 'selected'
+                          : ''
+                      }`}
+                      alt=""
+                      onClick={selectedColors[color] ? undefined : handleClick}
+                    />
+                    <img
+                      src={checkMarker}
+                      className={`${
+                        selectedColor === color ? 'check-mark' : 'not-visible'
+                      }`}
+                    />
+                    {/* <GiCheckMark
+                      className={`${
+                        selectedColor === color ? 'check-mark' : 'not-visible'
+                      }`}
+                    /> */}
+                    <img
+                      src={crossMarker}
+                      className={`${
+                        selectedColors[color] ? 'cross-mark' : 'not-visible'
+                      }`}
+                    />
+                    {/* <GiCrossMark
+                      className={`${
+                        selectedColors[color] ? 'cross-mark' : 'not-visible'
+                      }`}
+                    /> */}
+                  </div>
                 );
               })}
             </Slider>
