@@ -7,7 +7,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  // overflow: hidden;
+  min-width: 1280px;
+  min-height: 720px;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -63,7 +65,7 @@ code {
     transform: translateX(-15%) translateY(-55%);
   }
   50% {
-    transform: translateX(-65%) translateY(-55%);
+    transform: translateX(-55%) translateY(-55%);
   }
   75% {
     transform: translateX(-60%) translateY(-25%);
