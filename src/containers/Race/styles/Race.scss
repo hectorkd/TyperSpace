@@ -10,7 +10,7 @@
 .race-radial-blur-bg {
   background-size: cover;
   background-repeat: no-repeat;
-  background: url('../../../assets/backgrounds/1280x720RadialBlurNew.png');
+  // background: url('../../../assets/backgrounds/1280x720RadialBlurNew.png');
   transform: scale(1.3);
   position: absolute;
   left: 150px;
@@ -46,8 +46,6 @@
 
 .race-typing-test {
   @include box-white-border-transparent;
-  border-style: none;
-
   border-radius: 10px;
   width: 60vw;
   height: 34vw;
@@ -170,14 +168,12 @@
 
 .svg-horizontal-ahead,
 .svg-horizontal-behind {
-  height: 35px;
   width: 100%;
   position: absolute;
 }
 
 .svg-vertical-ahead,
 .svg-vertical-behind {
-  height: 60px;
   width: 35px;
   position: absolute;
 }
@@ -218,7 +214,7 @@
 
 .aheadRocket-and-flame-container,
 .behindRocket-and-flame-container {
-  position: relative;
+  position: absolute;
   z-index: 5;
   animation-name: floatRocket;
   animation-duration: 1.5s;
@@ -234,6 +230,7 @@
 
 .ahead-flame-container,
 .behind-flame-container {
+  // border: 2px solid red;
   position: absolute;
   width: 20px;
   height: 20px;
