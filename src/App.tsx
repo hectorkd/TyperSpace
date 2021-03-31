@@ -18,20 +18,6 @@ type AppProps = {
   location: any;
 };
 
-const duration = 300;
-
-const defaultStyle = {
-  transition: `opacity ${duration}ms ease-in-out`,
-  opacity: 0,
-};
-
-const transitionStyles = {
-  entering: { opacity: 1 },
-  entered: { opacity: 1 },
-  exiting: { opacity: 0 },
-  exited: { opacity: 0 },
-};
-
 const App: React.FC<AppProps> = ({ location }) => {
   const [socket, setSocket] = useState();
   const [text, setText] = useState<string>('');
@@ -45,87 +31,87 @@ const App: React.FC<AppProps> = ({ location }) => {
       {/* <TransitionGroup in={transitionStyles} timeout={duration}>
         <CSSTransition timeout={1000} classNames="slide" key={location.key}> */}
       <Router>
-        {/* <Switch location={location}> */}
-        <Route path="/" exact component={Landing} />
-        <Route
-          exact
-          path="/:roomId"
-          render={(props) => (
-            <Avatar
-              {...props}
-              socket={socket}
-              setSocket={setSocket}
-              text={text}
-              setText={setText}
-              players={players}
-              setPlayers={setPlayers}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/:roomId/lobby"
-          render={(props) => (
-            <Lobby
-              {...props}
-              socket={socket}
-              setSocket={setSocket}
-              text={text}
-              setText={setText}
-              players={players}
-              setPlayers={setPlayers}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/:roomId/race"
-          render={(props) => (
-            <Race
-              {...props}
-              socket={socket}
-              setSocket={setSocket}
-              text={text}
-              setText={setText}
-              players={players}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/:roomId/results"
-          render={(props) => (
-            <Results
-              {...props}
-              socket={socket}
-              setSocket={setSocket}
-              text={text}
-              setText={setText}
-              players={players}
-              setPlayers={setPlayers}
-              final={final}
-              setFinal={setFinal}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/:roomId/final"
-          render={(props) => (
-            <Results
-              {...props}
-              socket={socket}
-              setSocket={setSocket}
-              text={text}
-              setText={setText}
-              players={players}
-              setPlayers={setPlayers}
-              final={final}
-              setFinal={setFinal}
-            />
-          )}
-        />
-        {/* </Switch> */}
+        <Switch location={location}>
+          <Route path="/" exact component={Landing} />
+          <Route
+            exact
+            path="/:roomId"
+            render={(props) => (
+              <Avatar
+                {...props}
+                socket={socket}
+                setSocket={setSocket}
+                text={text}
+                setText={setText}
+                players={players}
+                setPlayers={setPlayers}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/:roomId/lobby"
+            render={(props) => (
+              <Lobby
+                {...props}
+                socket={socket}
+                setSocket={setSocket}
+                text={text}
+                setText={setText}
+                players={players}
+                setPlayers={setPlayers}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/:roomId/race"
+            render={(props) => (
+              <Race
+                {...props}
+                socket={socket}
+                setSocket={setSocket}
+                text={text}
+                setText={setText}
+                players={players}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/:roomId/results"
+            render={(props) => (
+              <Results
+                {...props}
+                socket={socket}
+                setSocket={setSocket}
+                text={text}
+                setText={setText}
+                players={players}
+                setPlayers={setPlayers}
+                final={final}
+                setFinal={setFinal}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/:roomId/final"
+            render={(props) => (
+              <Results
+                {...props}
+                socket={socket}
+                setSocket={setSocket}
+                text={text}
+                setText={setText}
+                players={players}
+                setPlayers={setPlayers}
+                final={final}
+                setFinal={setFinal}
+              />
+            )}
+          />
+        </Switch>
       </Router>
       {/* </CSSTransition>
       </TransitionGroup> */}

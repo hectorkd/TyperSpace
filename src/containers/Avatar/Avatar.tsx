@@ -3,6 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import SocketIOCLient from 'socket.io-client';
 import { FaCopy } from 'react-icons/fa';
 import Slider from 'react-slick';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { v4 as uuidv4 } from 'uuid';
 
 // const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/'; //TODO: keep in env
 const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
@@ -49,6 +51,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     red: false,
     teal: false,
   });
+  const [randomUuid, setRandomUuid] = useState(uuidv4());
 
   const url = window.location.href;
 
@@ -131,84 +134,90 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   //TODO: rocket selection: make it clear for user that he chose the rocket
   return (
     <div className="avatar-bg-container">
-      <div className="avatar-wrapper">
-        <div className="avatar-input-container">
-          <div className="room-id-input input">
-            <label htmlFor="" className="input-label">
-              race id
-            </label>
-            <div className="room-id-display">
-              <div className="room-id-text">{roomId}</div>
-              <button className="copy-button">
-                <FaCopy
-                  className="copy-to-clipboard"
-                  size="40px"
-                  style={{ opacity: opacity }}
-                  onClick={onCopy}
+      <TransitionGroup>
+        <CSSTransition key={randomUuid} classNames="slide" timeout={500}>
+          <div className="avatar-wrapper">
+            <div className="avatar-input-container">
+              <div className="room-id-input input">
+                <label htmlFor="" className="input-label">
+                  race id
+                </label>
+                <div className="room-id-display">
+                  <div className="room-id-text">{roomId}</div>
+                  <button className="copy-button">
+                    <FaCopy
+                      className="copy-to-clipboard"
+                      size="40px"
+                      style={{ opacity: opacity }}
+                      onClick={onCopy}
+                    />
+                  </button>
+                </div>
+              </div>
+              <div className="name-field-input input">
+                <label htmlFor="" className="input-label">
+                  enter name
+                </label>
+                <input
+                  spellCheck="false"
+                  type="text"
+                  value={userName}
+                  maxLength={13}
+                  onChange={(e) => setUserName(e.target.value)}
+                  className="input-field"
                 />
+              </div>
+              <div className="name-field-input input">
+                <label htmlFor="" className="input-label">
+                  rounds
+                </label>
+                <input
+                  spellCheck="false"
+                  type="text"
+                  value={rounds}
+                  onChange={(e) => setRounds(e.target.value)}
+                  name=""
+                  id=""
+                  className="input-field"
+                />
+              </div>
+            </div>
+            <div className="avatar-select-container">
+              <h2 className="avatar-select-h1 ">select colour</h2>
+              <div className="avatar-list">
+                <Slider {...settings}>
+                  {Object.keys(selectedColors).map((color, idx) => {
+                    return (
+                      <img
+                        key={idx}
+                        id={color}
+                        src={rocketObj[`${color}Rocket`]}
+                        className={`avatar-images ${
+                          selectedColors[color]
+                            ? 'taken'
+                            : selectedColor === color
+                            ? 'selected'
+                            : ''
+                        }`}
+                        alt=""
+                        onClick={
+                          selectedColors[color] ? undefined : handleClick
+                        }
+                      />
+                    );
+                  })}
+                </Slider>
+              </div>
+              <button
+                className={`btn-ready ${readyBtnAnimationClass}`}
+                onClick={handleClickReady}
+              >
+                Ready
               </button>
             </div>
           </div>
-          <div className="name-field-input input">
-            <label htmlFor="" className="input-label">
-              enter name
-            </label>
-            <input
-              spellCheck="false"
-              type="text"
-              value={userName}
-              maxLength={13}
-              onChange={(e) => setUserName(e.target.value)}
-              className="input-field"
-            />
-          </div>
-          <div className="name-field-input input">
-            <label htmlFor="" className="input-label">
-              rounds
-            </label>
-            <input
-              spellCheck="false"
-              type="text"
-              value={rounds}
-              onChange={(e) => setRounds(e.target.value)}
-              name=""
-              id=""
-              className="input-field"
-            />
-          </div>
-        </div>
-        <div className="avatar-select-container">
-          <h2 className="avatar-select-h1 ">select colour</h2>
-          <div className="avatar-list">
-            <Slider {...settings}>
-              {Object.keys(selectedColors).map((color, idx) => {
-                return (
-                  <img
-                    key={idx}
-                    id={color}
-                    src={rocketObj[`${color}Rocket`]}
-                    className={`avatar-images ${
-                      selectedColors[color]
-                        ? 'taken'
-                        : selectedColor === color
-                        ? 'selected'
-                        : ''
-                    }`}
-                    alt=""
-                    onClick={selectedColors[color] ? undefined : handleClick}
-                  />
-                );
-              })}
-            </Slider>
-          </div>
-          <button
-            className={`btn-ready ${readyBtnAnimationClass}`}
-            onClick={handleClickReady}
-          >
-            Ready
-          </button>
-        </div>
-      </div>
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   );
 };
