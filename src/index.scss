@@ -50,7 +50,7 @@ code {
   position: absolute;
   align-items: center;
   animation-name: MOVEBG;
-  animation-duration: 150s;
+  animation-duration: 130s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   margin: 0;
@@ -62,13 +62,13 @@ code {
     transform: translateX(0%) translateY(0%);
   }
   25% {
-    transform: translateX(-200px) translateY(-800px);
+    transform: translateX(-200px) translateY(-600px);
   }
   50% {
-    transform: translateX(-2100px) translateY(-1000px);
+    transform: translateX(-2100px) translateY(-1100px);
   }
   75% {
-    transform: translateX(-1900px) translateY(-100px);
+    transform: translateX(-1300px) translateY(-100px);
   }
   100% {
     transform: translateX(0%) translateY(0%);

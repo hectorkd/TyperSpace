@@ -52,6 +52,7 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     setIsHost(player[0].isHost);
     // props.setText(player[0].userParagraph);
     props.setText('test');
+    // 'This is 200 characters: amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec123 This is 200 characters: amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec123',
   }, [props.players]);
 
   //synchronise timestart for all players
@@ -111,8 +112,6 @@ const Lobby: React.FC<LobbyProps> = (props) => {
       transition: `all ${curve} ${duration + 1}s`,
     };
   }
-
-  console.log(playerAvailablePowerUps);
 
   return (
     <>

@@ -188,50 +188,52 @@ const Results: React.FC<Props> = (props) => {
                   })}
                 </div>
               </div>
-              {props.rounds && props.currRound !== props.rounds ? (
-                <button
-                  disabled={!isHost || !isAllFinished}
-                  onClick={handleNextRoundClick}
-                  className={
-                    isHost && isAllFinished
-                      ? 'lobby-btn-start'
-                      : 'lobby-btn-start-disabled'
-                  }
-                >
-                  {' '}
-                  Next Round{' '}
-                </button>
-              ) : props.rounds && props.currRound === props.rounds ? (
-                <button
-                  disabled={!isHost || !isAllFinished}
-                  onClick={handleFinalResultsClick}
-                  className={
-                    isHost && isAllFinished
-                      ? 'lobby-btn-start'
-                      : 'lobby-btn-start-disabled'
-                  }
-                >
-                  {' '}
-                  Final Results{' '}
-                </button>
-              ) : (
-                <button
-                  disabled={!isHost || !isAllFinished}
-                  onClick={handlePlayAgainClick}
-                  className={
-                    isHost && isAllFinished
-                      ? 'lobby-btn-start'
-                      : 'lobby-btn-start-disabled'
-                  }
-                >
-                  {' '}
-                  Play Again{' '}
-                </button>
-              )}
             </div>
           </div>
         ) : (
           <h1>No ones finished the race yet!</h1>
+        )}
+      </div>
+      <div className="result-page-btn-container">
+        {props.rounds && props.currRound !== props.rounds ? (
+          <button
+            disabled={!isHost || !isAllFinished}
+            onClick={handleNextRoundClick}
+            className={
+              isHost && isAllFinished
+                ? 'lobby-btn-start'
+                : 'lobby-btn-start-disabled'
+            }
+          >
+            {' '}
+            Next Round{' '}
+          </button>
+        ) : props.rounds && props.currRound === props.rounds ? (
+          <button
+            disabled={!isHost || !isAllFinished}
+            onClick={handleFinalResultsClick}
+            className={
+              isHost && isAllFinished
+                ? 'lobby-btn-start'
+                : 'lobby-btn-start-disabled'
+            }
+          >
+            {' '}
+            Final Results{' '}
+          </button>
+        ) : (
+          <button
+            disabled={!isHost || !isAllFinished}
+            onClick={handlePlayAgainClick}
+            className={
+              isHost && isAllFinished
+                ? 'lobby-btn-start'
+                : 'lobby-btn-start-disabled'
+            }
+          >
+            {' '}
+            Play Again{' '}
+          </button>
         )}
       </div>
     </div>
