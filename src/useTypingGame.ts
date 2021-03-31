@@ -192,17 +192,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       let newHasError = hasError;
 
       const errorIndex = charsState.indexOf(2);
-      console.log('insert wrong letter with index', errorIndex);
       if (errorIndex !== -1 && currIndex - errorIndex >= 4) {
-        console.log('errorIndex again', errorIndex);
-        console.log(
-          'currentIndex',
-          currIndex,
-          'errorIndex',
-          errorIndex,
-          'indexes between error and current',
-          currIndex - errorIndex,
-        );
         newHasError = true;
       }
 
@@ -300,7 +290,6 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       // }
 
       if (phase !== 1 || currIndex === -1) {
-        console.log('checking game phase.....');
         //game is finished or never started, no changes for state
         return state;
       }
@@ -308,7 +297,6 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       const newCharsState = [...charsState];
 
       if (payload) {
-        console.log('payload is true!');
         let newIndex = chars.lastIndexOf(' ', currIndex);
         newIndex = newIndex === -1 ? 0 : newIndex + 1;
         for (let i = currIndex; i >= newIndex; i--) {
@@ -321,12 +309,9 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         }
         newCurrIndex = newIndex;
       } else {
-        console.log('payload is false!!!!');
         if (newCharsState[currIndex] === 1) {
-          console.log('letter was correct');
           newCorrectChar -= 1;
         } else if (newCharsState[currIndex] === 2) {
-          console.log('letter was incorrect');
           newErrorChar -= 1;
         }
         newCharsState[currIndex] = 0;
@@ -338,7 +323,6 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
 
       const errorIndex = newCharsState.indexOf(2);
       if (errorIndex === -1) {
-        console.log('inside deleting, errorIndex=', errorIndex);
         newHasError = false;
       }
 

@@ -30,8 +30,15 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     { id: string; powerUp: string }[]
   >([]);
   const [startBtnAnimationClass, setStartBtnAnimationClass] = useState('');
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
+    //get players
+    props.socket.current.on('playerInfo', (players: IPlayer[]) => {
+      if (players.every((player) => player.isReady)) setIsReady(true);
+
+      props.setPlayers(players);
+    });
     props.socket.current.on(
       'getGameState',
       (rounds: number, currRound: number, gamemode: string) => {
@@ -40,27 +47,22 @@ const Lobby: React.FC<LobbyProps> = (props) => {
         setGamemode(gamemode);
       },
     );
-
-    //get players
-    props.socket.current.on('playerInfo', (players: IPlayer[]) => {
-      console.log('listening');
-      props.setPlayers(players);
-    });
   }, []); //don't add props to array
 
   useEffect(() => {
     const player = props.players.filter(
       (player) => player.userId === props.socket.current.id,
     );
-    console.log('------------', player[0].availablePUs);
     setCurrPlayer(player[0]);
     setPlayerAvailablePowerUps(player[0].availablePUs);
 
     setIsHost(player[0].isHost);
     props.setText(player[0].userParagraph);
-    console.log(playerAvailablePowerUps);
-    console.log(currPlayer);
   }, [props.players]);
+
+  // useEffect(() => {
+
+  // }, []);
 
   //synchronise timestart for all players
   function handleClickStart(): void {
@@ -180,6 +182,19 @@ const Lobby: React.FC<LobbyProps> = (props) => {
                 )}
               </Droppable>
             ) : null}
+            <PlayersList players={props.players} socket={props.socket} />
+            <button
+              disabled={!isHost || !isReady}
+              onClick={handleClickStart}
+              className={
+                isHost && isReady
+                  ? `lobby-btn-start ${startBtnAnimationClass}`
+                  : 'lobby-btn-start-disabled'
+              }
+            >
+              {' '}
+              Start Race{' '}
+            </button>
           </div>
         </DragDropContext>
       </div>
