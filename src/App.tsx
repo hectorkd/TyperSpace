@@ -36,6 +36,7 @@ const App: React.FC<AppProps> = ({ location }) => {
   const [socket, setSocket] = useState();
   const [text, setText] = useState<string>('');
   const [players, setPlayers] = useState<IPlayer[]>([]);
+  const [final, setFinal] = useState(false);
   // const location = useLocation();
   console.log('location', location);
 
@@ -102,6 +103,25 @@ const App: React.FC<AppProps> = ({ location }) => {
               setText={setText}
               players={players}
               setPlayers={setPlayers}
+              final={final}
+              setFinal={setFinal}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/:roomId/final"
+          render={(props) => (
+            <Results
+              {...props}
+              socket={socket}
+              setSocket={setSocket}
+              text={text}
+              setText={setText}
+              players={players}
+              setPlayers={setPlayers}
+              final={final}
+              setFinal={setFinal}
             />
           )}
         />
