@@ -55,7 +55,8 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     setCurrPlayer(player[0]);
     setPlayerAvailablePowerUps(player[0].availablePUs);
     setIsHost(player[0].isHost);
-    props.setText(player[0].userParagraph);
+    // props.setText(player[0].userParagraph);
+    props.setText('test');
   }, [props.players]);
 
   //synchronise timestart for all players
@@ -116,6 +117,8 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     };
   }
 
+  console.log(playerAvailablePowerUps);
+
   return (
     <>
       <div className="lobby-container">
@@ -127,55 +130,57 @@ const Lobby: React.FC<LobbyProps> = (props) => {
                   Round {currRound} of {rounds}
                 </h1>
               ) : null}
+              <PlayersList players={props.players} socket={props.socket} />
             </div>
-            {!gamemode ? (
-              <Droppable droppableId="my-powerups">
-                {(provided: any) => (
-                  <div
-                    className="my-power-ups"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
-                      return (
-                        <Draggable key={id} draggableId={id} index={index}>
-                          {(provided: any, snapshot: any) => (
-                            <div
-                              {...provided.draggableProps}
-                              ref={provided.innerRef}
-                              {...provided.dragHandleProps}
-                              style={getStyle(
-                                provided.draggableProps.style,
-                                snapshot,
-                              )}
-                            >
-                              <img
-                                style={{ width: cardWidth, opacity: opacity }}
-                                src={powerCardsObj[powerUp]}
-                              ></img>
-                            </div>
-                          )}
-                        </Draggable>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            ) : null}
-            <PlayersList players={props.players} socket={props.socket} />
-            <button
-              disabled={!isHost || !isReady}
-              onClick={handleClickStart}
-              className={
-                isHost && isReady
-                  ? `lobby-btn-start ${startBtnAnimationClass}`
-                  : 'lobby-btn-start-disabled'
-              }
-            >
-              {' '}
-              Start Race{' '}
-            </button>
+            <div className="card-and-button-container">
+              {!gamemode ? (
+                <Droppable droppableId="my-powerups">
+                  {(provided: any) => (
+                    <div
+                      className="my-power-ups"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {playerAvailablePowerUps.map(({ id, powerUp }, index) => {
+                        return (
+                          <Draggable key={id} draggableId={id} index={index}>
+                            {(provided: any, snapshot: any) => (
+                              <div
+                                {...provided.draggableProps}
+                                ref={provided.innerRef}
+                                {...provided.dragHandleProps}
+                                style={getStyle(
+                                  provided.draggableProps.style,
+                                  snapshot,
+                                )}
+                              >
+                                <img
+                                  style={{ width: cardWidth, opacity: opacity }}
+                                  src={powerCardsObj[powerUp]}
+                                ></img>
+                              </div>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              ) : null}
+              <button
+                disabled={!isHost || !isReady}
+                onClick={handleClickStart}
+                className={
+                  isHost && isReady
+                    ? `lobby-btn-start ${startBtnAnimationClass}`
+                    : 'lobby-btn-start-disabled'
+                }
+              >
+                {' '}
+                Start Race{' '}
+              </button>
+            </div>
           </div>
         </DragDropContext>
       </div>
