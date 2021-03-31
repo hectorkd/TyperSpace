@@ -30,20 +30,13 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     { id: string; powerUp: string }[]
   >([]);
   const [startBtnAnimationClass, setStartBtnAnimationClass] = useState('');
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    props.socket.current.on(
-      'getGameState',
-      (rounds: number, currRound: number, gamemode: string) => {
-        setRounds(rounds);
-        setCurrRound(currRound);
-        setGamemode(gamemode);
-      },
-    );
-
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
       console.log('listening');
+      if (players.every((player) => player.isReady)) setIsReady(true);
       props.setPlayers(players);
     });
   }, []); //don't add props to array
@@ -58,9 +51,22 @@ const Lobby: React.FC<LobbyProps> = (props) => {
 
     setIsHost(player[0].isHost);
     props.setText(player[0].userParagraph);
-    console.log(playerAvailablePowerUps);
-    console.log(currPlayer);
+
+    props.socket.current.on(
+      'getGameState',
+      (rounds: number, currRound: number, gamemode: string) => {
+        setRounds(rounds);
+        setCurrRound(currRound);
+        setGamemode(gamemode);
+      },
+    );
+    console.log(rounds);
+    console.log(currRound);
   }, [props.players]);
+
+  // useEffect(() => {
+
+  // }, []);
 
   //synchronise timestart for all players
   function handleClickStart(): void {
@@ -131,10 +137,10 @@ const Lobby: React.FC<LobbyProps> = (props) => {
 
             <PlayersList players={props.players} socket={props.socket} />
             <button
-              disabled={!isHost}
+              disabled={!isHost || !isReady}
               onClick={handleClickStart}
               className={
-                isHost
+                isHost && isReady
                   ? `lobby-btn-start ${startBtnAnimationClass}`
                   : 'lobby-btn-start-disabled'
               }
