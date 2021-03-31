@@ -66,11 +66,13 @@ const Lobby: React.FC<LobbyProps> = (props) => {
 
   //synchronise timestart for all players
   function handleClickStart(): void {
-    // setStartBtnAnimationClass('btn-press');
-    props.socket.current.emit('syncStart');
-    history.push({
-      pathname: `/${roomId}/race`,
-    });
+    setStartBtnAnimationClass('btn-press');
+    setTimeout(() => {
+      props.socket.current.emit('syncStart');
+      history.push({
+        pathname: `/${roomId}/race`,
+      });
+    }, 400);
   }
 
   // go to race when host clicked Start Sace
@@ -122,7 +124,6 @@ const Lobby: React.FC<LobbyProps> = (props) => {
 
   return (
     <>
-      <div className="lobby-bg-container"> </div>
       <div className="lobby-container">
         <DragDropContext onDragEnd={onApplyPowerUp}>
           <div className="lobby-room-display-box">
@@ -132,20 +133,6 @@ const Lobby: React.FC<LobbyProps> = (props) => {
                   Round {currRound} of {rounds}
                 </h1>
               ) : null}
-
-              <PlayersList players={props.players} socket={props.socket} />
-              <button
-                disabled={!isHost}
-                onClick={handleClickStart}
-                className={
-                  isHost
-                    ? `lobby-btn-start ${startBtnAnimationClass}`
-                    : 'lobby-btn-start-disabled'
-                }
-              >
-                {' '}
-                Start Race{' '}
-              </button>
             </div>
             {!gamemode ? (
               <Droppable droppableId="my-powerups">
