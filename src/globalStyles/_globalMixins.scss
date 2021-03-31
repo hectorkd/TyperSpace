@@ -48,6 +48,9 @@
 @mixin box-white-border-transparent {
   background: $colour-opaque-white;
   border: 4px solid white;
+
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.4),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 @mixin flex-center {
