@@ -356,35 +356,30 @@ const Race: React.FC<RaceProps> = (props) => {
               </div>
             </div>
             <div className="right-side-bar">
-              <>
-                {firstPlace.color ? (
-                  <>
-                    <h2 className="right-race-info-title">1st place</h2>
-                    <div className="race-leader-info">
+              {firstPlace.color && (
+                <>
+                  <h2 className="right-race-info-title">1st place</h2>
+                  <div className="race-leader-info">
+                    <div className="race-leader-avatar-container">
                       <img
                         className="race-leader-icon"
                         src={rocketObj[`${firstPlace?.color}Rocket`]}
                       />
                       <div className="race-leader-flame-container">
-                        <div
-                          className="race-leader-flame"
-                          style={{ top: 250, left: -65 }}
-                        ></div>
+                        <div className="race-leader-flame"></div>
                       </div>
-                      <h3
-                        className="race-leader-name"
-                        style={{
-                          color: `${firstPlace?.color}`,
-                        }}
-                      >
-                        {firstPlace.player ? firstPlace.player : ''}
-                      </h3>
                     </div>
-                  </>
-                ) : (
-                  <> </>
-                )}{' '}
-              </>
+                    <h3
+                      className="race-leader-name"
+                      style={{
+                        color: `${firstPlace?.color}`,
+                      }}
+                    >
+                      {firstPlace.player ? firstPlace.player : ''}
+                    </h3>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         ) : (

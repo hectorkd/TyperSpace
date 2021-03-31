@@ -69,74 +69,6 @@
   outline: none;
 }
 
-.race-info-container {
-  @include box-white-border-transparent;
-  width: 10vw;
-  min-width: 200px;
-  height: 50vh;
-
-  background-color: transparent;
-  .left-side-bar {
-  }
-}
-
-.right-race-info-title {
-  text-align: center;
-  font-family: $atariFont;
-  font-size: 1.5em;
-  color: $font-white;
-}
-
-.race-leader-info {
-  max-width: 20vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .race-leader-icon {
-    width: 6vw;
-    height: 25vh;
-    //transform: 'rotate(90deg)';
-    border: none;
-    border-image-width: 0;
-    -webkit-appearance: none;
-    animation-name: shake;
-    animation-iteration-count: infinite;
-    animation-duration: 0.3s;
-    border-style: none;
-    &:focus {
-      -webkit-appearance: none;
-      border-style: none;
-    }
-    z-index: 4;
-  }
-
-  .race-leader-name {
-    @include box-white-border-transparent;
-    // border: 2px solid yellow;
-    min-width: 200px;
-    width: 8vw;
-    padding: 5px;
-    block-size: fit-content;
-    text-align: center;
-    font-family: $atariFont;
-    font-size: 1.5em;
-    word-wrap: break-word;
-  }
-}
-
-.right-side-bar {
-  // @include box-white-border-transparent;
-  display: flex;
-  flex-direction: column;
-  // border: 2px solid red;
-  align-self: center;
-  // border: 2px solid red;
-  min-width: 250px;
-  max-height: 50vh;
-  max-width: 10vw;
-}
-
 @keyframes flash {
   0%,
   100% {
@@ -202,16 +134,6 @@
   }
 }
 
-.race-leader-flame-container {
-  position: absolute;
-  // border: 2px solid red;
-  width: 20px;
-  height: 20px;
-  transform: rotate(0deg) scale(0.16) scaleY(2.5);
-
-  // box-sizing: border-box;
-}
-
 .aheadRocket-and-flame-container,
 .behindRocket-and-flame-container {
   position: absolute;
@@ -243,8 +165,90 @@
   @include flame;
 }
 
+.race-info-container {
+  @include box-white-border-transparent;
+  width: 10vw;
+  min-width: 200px;
+  height: 50vh;
+
+  background-color: transparent;
+  .left-side-bar {
+  }
+}
+
+.right-race-info-title {
+  text-align: center;
+  font-family: $atariFont;
+  font-size: 1.5em;
+  color: $font-white;
+}
+
+.race-leader-info {
+  max-width: 20vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .race-leader-name {
+    @include box-white-border-transparent;
+    // border: 2px solid yellow;
+    min-width: 200px;
+    width: 8vw;
+    padding: 5px;
+    block-size: fit-content;
+    text-align: center;
+    font-family: $atariFont;
+    font-size: 1.5em;
+    word-wrap: break-word;
+  }
+}
+
+.right-side-bar {
+  // @include box-white-border-transparent;
+  display: flex;
+  flex-direction: column;
+  // border: 2px solid red;
+  align-self: center;
+  // border: 2px solid red;
+  min-width: 250px;
+  max-height: 50vh;
+  max-width: 10vw;
+}
+
+.race-leader-icon {
+  width: 6vw;
+  height: 25vh;
+  //transform: 'rotate(90deg)';
+  border: none;
+  border-image-width: 0;
+  -webkit-appearance: none;
+  animation-name: shake;
+  animation-iteration-count: infinite;
+  animation-duration: 0.3s;
+  border-style: none;
+  &:focus {
+    -webkit-appearance: none;
+    border-style: none;
+  }
+  position: relative;
+  z-index: 5;
+}
+.race-leader-flame-container {
+  top: 0px;
+  width: fit-content;
+  height: fit-content;
+  transform: rotate(180deg) scale(0.16) scaleY(2.5);
+  position: absolute;
+  top: 47vh;
+  right: 8vw;
+  // box-sizing: border-box;
+}
 .race-leader-flame {
   @include flame;
+  position: relative;
+}
+
+.race-leader-avatar-container {
 }
 
 @keyframes flame {
