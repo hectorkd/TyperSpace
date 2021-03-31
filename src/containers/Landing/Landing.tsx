@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Footer from '../../components/Footer/Footer';
 
 import './styles/Landing.scss';
+import rocketObj from '../../assets/icons/rocketObj';
 
 const Landing: React.FC = () => {
   const [newRaceBtnAnimationClass, setNewRaceBtnAnimationClass] = useState('');
@@ -11,6 +12,7 @@ const Landing: React.FC = () => {
     '',
   );
   const [inputRoomId, setInputRoomId] = useState('');
+  const [allTheStars, setAllTheStars] = useState([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const history = useHistory();
@@ -58,9 +60,52 @@ const Landing: React.FC = () => {
       return handleJoinRaceClick();
     }
   }
+  // const starGenerator = () => {
+  //   let starSize = `${Math.random() * 20 + 5}px`;
+  //   return (
+  //     <div
+  //       className="single-star"
+  //       style={{
+  //         width: starSize,
+  //         height: starSize,
+  //         top: `${Math.random() * 720}px`,
+  //         left: `${Math.random() * 1280}px`,
+  //         transform: `rotate(${Math.random() * 180}deg)`,
+  //         // animationDelay: `${Math.random() * 6}s`,
+  //         // animationDuration: `${Math.random() * 3 + 1}s`,
+  //       }}
+  //     ></div>
+  //   );
+  // };
+
+  // useEffect(() => {
+  //   let starArray: Array<number> = [];
+
+  //   for (let i = 0; i < 90; i++) {
+  //     starArray.push(i);
+  //   }
+
+  //   setAllTheStars(
+  //     starArray.map(() => {
+  //       return starGenerator();
+  //     })
+  //   );
+
+  // }, []);
 
   return (
     <div className="landing-container">
+      <div className="stars-layer"> </div>
+      <div className="flying-rocket1">
+        <img src={rocketObj['blueRocket']} />
+        <div className="flying-rocket-1-flame-container">
+          <div className="flying-rocket1-flame"></div>
+        </div>
+      </div>
+      {/* {allTheStars.map((el) => {
+        console.log(allTheStars);
+        return <div className="single-star" style={el.props.style}></div>;
+      })} */}
       <h1 className="landing-main-title"> TyperSpace </h1>
       <div className="landing-buttons">
         <button

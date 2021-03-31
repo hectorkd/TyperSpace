@@ -222,7 +222,7 @@ const Race: React.FC<RaceProps> = (props) => {
                   </div>
                 )}
 
-                {aheadRef?.current && (
+                {/* {aheadRef?.current && (
                   <svg
                     className="svg-vertical-ahead"
                     style={{
@@ -244,8 +244,8 @@ const Race: React.FC<RaceProps> = (props) => {
                       y2={aheadRef.current.offsetTop - 20}
                     ></line>
                   </svg>
-                )}
-                {behindRef.current && (
+                )} */}
+                {/* {behindRef.current && (
                   <svg
                     className="svg-vertical-behind"
                     style={{
@@ -267,7 +267,7 @@ const Race: React.FC<RaceProps> = (props) => {
                       y2={behindRef.current.offsetTop - 20}
                     ></line>
                   </svg>
-                )}
+                )} */}
 
                 {aheadRef?.current && (
                   <svg
@@ -287,7 +287,7 @@ const Race: React.FC<RaceProps> = (props) => {
                       }}
                       x1="0%"
                       y1="50%"
-                      x2={aheadRef.current.offsetLeft - 160}
+                      x2={aheadRef.current.offsetLeft - 180}
                       y2="50%"
                     ></line>
                   </svg>
@@ -297,7 +297,7 @@ const Race: React.FC<RaceProps> = (props) => {
                     className="svg-horizontal-behind"
                     style={{
                       top: behindRef.current.offsetTop - 95,
-                      left: '7.9vw',
+                      left: '8.8vw',
                       width: '100%',
                       zIndex: 3,
                     }}
