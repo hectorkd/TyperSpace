@@ -195,7 +195,7 @@ const Results: React.FC<Props> = (props) => {
         )}
       </div>
       <div className="result-page-btn-container">
-        {rounds && currRound !== rounds ? (
+        {props.rounds && props.currRound !== props.rounds ? (
           <button
             disabled={!isHost || !isAllFinished}
             onClick={handleNextRoundClick}
@@ -208,7 +208,7 @@ const Results: React.FC<Props> = (props) => {
             {' '}
             Next Round{' '}
           </button>
-        ) : rounds && currRound === rounds ? (
+        ) : props.rounds && props.currRound === props.rounds ? (
           <button
             disabled={!isHost || !isAllFinished}
             onClick={handleFinalResultsClick}
