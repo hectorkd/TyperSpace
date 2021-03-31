@@ -101,7 +101,7 @@ const Results: React.FC<Props> = (props) => {
   return (
     <div className="results-bg-container">
       <div className="room-id-display-box">
-        {props.rounds ? (
+        {props.rounds && !props.final ? (
           <h1 className="room-id-text">
             Round {props.currRound} of {props.rounds}
           </h1>
@@ -208,7 +208,7 @@ const Results: React.FC<Props> = (props) => {
             {' '}
             Next Round{' '}
           </button>
-        ) : props.rounds && props.currRound === props.rounds ? (
+        ) : props.rounds && !props.final && props.currRound === props.rounds ? (
           <button
             disabled={!isHost || !isAllFinished}
             onClick={handleFinalResultsClick}
