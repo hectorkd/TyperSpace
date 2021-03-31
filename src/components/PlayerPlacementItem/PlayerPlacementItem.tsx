@@ -7,6 +7,8 @@ type PlayerPlacementItemProps = {
   name: string;
   gameData: IGameData;
   rank: number;
+  WPMAverage: number | undefined;
+  final: boolean;
 };
 
 const PlayerListItem: React.FC<PlayerPlacementItemProps> = ({
@@ -14,6 +16,8 @@ const PlayerListItem: React.FC<PlayerPlacementItemProps> = ({
   name,
   gameData,
   rank,
+  WPMAverage,
+  final,
 }) => {
   function placeEnd(rank: number): string {
     let end;
@@ -28,31 +32,6 @@ const PlayerListItem: React.FC<PlayerPlacementItemProps> = ({
   }
   return (
     <div className="placement-container">
-      {/* <div className="placement-name-container">
-        {gameData ? (
-          <div className="conditional-render">
-            <div className="placement-place">
-              <h3 className="finishing-place">{placeEnd(rank)}</h3>
-            </div>
-            <div className="placement-name">
-              <h3 className="racer-name" style={{ color: rocketColor }}>
-                {name}
-              </h3>
-            </div>
-          </div>
-        ) : (
-          <h1>{name} is still in the drivers seat!</h1>
-        )}
-      </div>
-      <div className="placement-wpm-container">
-        <h3 className="placement-wpm">{gameData.WPM}</h3>
-      </div>
-      <div className="placement-accuracy-container">
-        <h3 className="placement-accuracy">{gameData.accuracy}</h3>
-      </div>
-      <div className="placement-time-container">
-        <h3 className="placement-time">{gameData.finishTime}</h3>
-      </div> */}
       {gameData.WPM ? (
         <div className="conditional-render">
           <div className="placement-name-container">
@@ -66,14 +45,22 @@ const PlayerListItem: React.FC<PlayerPlacementItemProps> = ({
             </div>
           </div>
           <div className="placement-wpm-container">
-            <h3 className="placement-wpm">{gameData.WPM}</h3>
+            <h3 className="placement-wpm">
+              {final ? WPMAverage : gameData.WPM}
+            </h3>
           </div>
-          <div className="placement-accuracy-container">
-            <h3 className="placement-accuracy">{gameData.accuracy}%</h3>
-          </div>
-          <div className="placement-time-container">
-            <h3 className="placement-time">{gameData.finishTime}</h3>
-          </div>
+          {final ? null : (
+            <div className="placement-accuracy-container">
+              <h3 className="placement-accuracy">{gameData.accuracy}%</h3>
+            </div>
+          )}
+          {final ? null : (
+            <div className="placement-time-container">
+              <h3 className="placement-time">
+                {final ? null : gameData.finishTime}
+              </h3>
+            </div>
+          )}
         </div>
       ) : (
         <h2>
