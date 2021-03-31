@@ -1,6 +1,6 @@
-import ScrambleCard from './ScrambleCard.png';
-import SymbolsCard from './SymbolsCard.png';
-import LongWordCard from './LongWordCard.png';
+import ScrambleCard from './ScrambleCard.svg';
+import SymbolsCard from './SymbolsCard.svg';
+import LongWordCard from './LongWordCard.svg';
 
 type PowerUpObj = {
   [powerUp: string]: string;

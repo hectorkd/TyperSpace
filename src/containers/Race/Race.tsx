@@ -130,12 +130,6 @@ const Race: React.FC<RaceProps> = (props) => {
     setAllPlayerCurrentIndex(data);
   });
 
-  //TODO: optimise font size to paragraph length
-  //TODO: style countdown
-
-  console.log(behindRef.current?.offsetLeft);
-  console.log(behindRef.current?.offsetTop);
-
   return (
     <div className="race-main-wrapper">
       <div className="race-radial-blur-bg"></div>

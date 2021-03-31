@@ -16,14 +16,14 @@ type LobbyProps = {
   children?: ReactNode;
   players: IPlayer[];
   setPlayers: React.Dispatch<React.SetStateAction<IPlayer[]>>;
+  rounds: number;
+  currRound: number;
 };
 
 const Lobby: React.FC<LobbyProps> = (props) => {
   const { roomId } = useParams<Record<string, string | undefined>>();
   const history = useHistory();
   const [isHost, setIsHost] = useState(false);
-  const [rounds, setRounds] = useState<number>(0);
-  const [currRound, setCurrRound] = useState<number>(0);
   const [currPlayer, setCurrPlayer] = useState<IPlayer>();
   const [gamemode, setGamemode] = useState<string>('');
   const [playerAvailablePowerUps, setPlayerAvailablePowerUps] = useState<
@@ -35,37 +35,26 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   useEffect(() => {
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
-      if (players.every((player) => player.isReady)) setIsReady(true);
-
       props.setPlayers(players);
     });
-    props.socket.current.on(
-      'getGameState',
-      (rounds: number, currRound: number, gamemode: string) => {
-        setRounds(rounds);
-        setCurrRound(currRound);
-        setGamemode(gamemode);
-      },
-    );
+    props.socket.current.on('gamestate', (gamestate: any) => {
+      console.log('gamestate', gamestate);
+    });
   }, []); //don't add props to array
 
   useEffect(() => {
+    if (props.players.every((player) => player.isReady)) setIsReady(true);
     const player = props.players.filter(
       (player) => player.userId === props.socket.current.id,
     );
     setCurrPlayer(player[0]);
     setPlayerAvailablePowerUps(player[0].availablePUs);
-
     setIsHost(player[0].isHost);
     // props.setText(player[0].userParagraph);
     props.setText(
       'This is 200 characters: amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec123 This is 200 characters: amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec123',
     );
   }, [props.players]);
-
-  // useEffect(() => {
-
-  // }, []);
 
   //synchronise timestart for all players
   function handleClickStart(): void {
@@ -131,9 +120,9 @@ const Lobby: React.FC<LobbyProps> = (props) => {
         <DragDropContext onDragEnd={onApplyPowerUp}>
           <div className="lobby-room-display-box">
             <div className="fixed-elements-display">
-              {rounds ? (
+              {props.rounds ? (
                 <h1 className="round-count">
-                  Round {currRound} of {rounds}
+                  Round {props.currRound} of {props.rounds}
                 </h1>
               ) : null}
               <PlayersList players={props.players} socket={props.socket} />

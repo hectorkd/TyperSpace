@@ -37,6 +37,8 @@ const App: React.FC<AppProps> = ({ location }) => {
   const [text, setText] = useState<string>('');
   const [players, setPlayers] = useState<IPlayer[]>([]);
   const [final, setFinal] = useState(false);
+  const [rounds, setRounds] = useState(1);
+  const [currRound, setCurrRound] = useState(0);
   // const location = useLocation();
   console.log('location', location);
 
@@ -59,6 +61,9 @@ const App: React.FC<AppProps> = ({ location }) => {
               setText={setText}
               players={players}
               setPlayers={setPlayers}
+              rounds={rounds}
+              setRounds={setRounds}
+              setCurrRound={setCurrRound}
             />
           )}
         />
@@ -74,6 +79,8 @@ const App: React.FC<AppProps> = ({ location }) => {
               setText={setText}
               players={players}
               setPlayers={setPlayers}
+              rounds={rounds}
+              currRound={currRound}
             />
           )}
         />
@@ -105,6 +112,10 @@ const App: React.FC<AppProps> = ({ location }) => {
               setPlayers={setPlayers}
               final={final}
               setFinal={setFinal}
+              rounds={rounds}
+              setRounds={setRounds}
+              currRound={currRound}
+              setCurrRound={setCurrRound}
             />
           )}
         />
@@ -122,6 +133,10 @@ const App: React.FC<AppProps> = ({ location }) => {
               setPlayers={setPlayers}
               final={final}
               setFinal={setFinal}
+              rounds={rounds}
+              setRounds={setRounds}
+              currRound={currRound}
+              setCurrRound={setCurrRound}
             />
           )}
         />
