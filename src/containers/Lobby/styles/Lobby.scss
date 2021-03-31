@@ -10,12 +10,11 @@
 // }
 
 .lobby-container {
-  // border: 2px solid red;
   display: flex;
-  flex-direction: row;
+  // flex-direction: row;
   min-height: 80vh;
-  // justify-content: center;
-  // align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .lobby-room-display-box {
@@ -54,17 +53,30 @@
 .lobby-btn-start-disabled {
   @include btn-orange;
   width: 20vw;
-  height: 5vw;
+  height: 2vh;
   opacity: 0.5;
 }
 
+.card-and-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .my-power-ups {
-  padding: 20px;
-  margin-top: 10px;
-  margin-bottom: 50px;
-  width: 100px;
-  height: 100px;
+  display: flex;
+  justify-content: center;
+  min-height: fit-content;
+  min-width: 25vw;
+  width: fit-content;
+  height: fit-content;
   background-color: transparent;
+}
+
+.my-power-ups img {
+  min-width: 15vw;
+  padding: 2vw;
 }
 
 .btn-press {
