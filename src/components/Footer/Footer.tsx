@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
           <p className="item-name">help</p>
         </li>
         <li className="footer-list-item">
-          <p className="item-name">support</p>
+          <p className="item-name">insert coin</p>
         </li>
         <li className="footer-list-item">
           <p className="item-name">contact</p>

@@ -1,9 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { v4 as uuidv4 } from 'uuid';
 
 import Footer from '../../components/Footer/Footer';
 
 import './styles/Landing.scss';
+import rocketObj from '../../assets/icons/rocketObj';
 
 const Landing: React.FC = () => {
   const [newRaceBtnAnimationClass, setNewRaceBtnAnimationClass] = useState('');
@@ -11,7 +14,14 @@ const Landing: React.FC = () => {
     '',
   );
   const [inputRoomId, setInputRoomId] = useState('');
+  const [allTheStars, setAllTheStars] = useState([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [randomUuid, setRandomUuid] = useState<string>();
+
+  useEffect(() => {
+    setRandomUuid(uuidv4());
+  }, []);
+  // console.log(randomUuid);
 
   const history = useHistory();
   //generate random string
@@ -30,17 +40,13 @@ const Landing: React.FC = () => {
   function handleNewRaceClick(): void {
     setNewRaceBtnAnimationClass('btn-press');
     const roomId = makeString();
-    setTimeout(() => {
-      history.push(`/${roomId}`);
-    }, 400);
+    history.push(`/${roomId}`);
   }
 
   function handleJoinRaceClick(): void {
     if (inputRoomId.length === 6) {
       setJoinRaceBtnAnimationClass('btn-press');
-      setTimeout(() => {
-        history.push(`/${inputRoomId}`);
-      }, 400);
+      history.push(`/${inputRoomId}`);
     } else alert('Please enter a valid Race ID: e.g: q0yqdo');
   }
 
@@ -58,9 +64,60 @@ const Landing: React.FC = () => {
       return handleJoinRaceClick();
     }
   }
+  // const starGenerator = () => {
+  //   let starSize = `${Math.random() * 20 + 5}px`;
+  //   return (
+  //     <div
+  //       className="single-star"
+  //       style={{
+  //         width: starSize,
+  //         height: starSize,
+  //         top: `${Math.random() * 720}px`,
+  //         left: `${Math.random() * 1280}px`,
+  //         transform: `rotate(${Math.random() * 180}deg)`,
+  //         // animationDelay: `${Math.random() * 6}s`,
+  //         // animationDuration: `${Math.random() * 3 + 1}s`,
+  //       }}
+  //     ></div>
+  //   );
+  // };
+
+  // useEffect(() => {
+  //   let starArray: Array<number> = [];
+
+  //   for (let i = 0; i < 90; i++) {
+  //     starArray.push(i);
+  //   }
+
+  //   setAllTheStars(
+  //     starArray.map(() => {
+  //       return starGenerator();
+  //     })
+  //   );
+
+  // }, []);
 
   return (
-    <div className="landing-bg-container">
+    <TransitionGroup>
+      <CSSTransition
+        key={randomUuid}
+        classNames={{ exit: 'slide-leave', exitActive: 'slide-leave-active' }}
+        timeout={1000}
+        appear
+        on
+      >
+    <div className="landing-container">
+      <div className="stars-layer"> </div>
+      <div className="flying-rocket1">
+        <img src={rocketObj['blueRocket']} />
+        <div className="flying-rocket-1-flame-container">
+          <div className="flying-rocket1-flame"></div>
+        </div>
+      </div>
+      {/* {allTheStars.map((el) => {
+        console.log(allTheStars);
+        return <div className="single-star" style={el.props.style}></div>;
+      })} */}
       <h1 className="landing-main-title"> TyperSpace </h1>
       <div className="landing-buttons">
         <button
@@ -92,6 +149,8 @@ const Landing: React.FC = () => {
       </div>
       <Footer></Footer>
     </div>
+      </CSSTransition>
+    </TransitionGroup>
   );
 };
 export default Landing;

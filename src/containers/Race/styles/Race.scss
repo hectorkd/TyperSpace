@@ -4,19 +4,38 @@
 @import './mixins';
 @import './variables';
 
+.race-main-wrapper {
+}
+
+.race-radial-blur-bg {
+  background-size: cover;
+  background-repeat: no-repeat;
+  // background: url('../../../assets/backgrounds/1280x720RadialBlurNew.png');
+  transform: scale(1.3);
+  position: absolute;
+  left: 150px;
+  width: 1280px;
+  height: 720px;
+  z-index: -1;
+}
+
 .race-bg-container {
   @include bg-container;
-  background: url('../../../assets/backgrounds/nightsky1.png');
+  display: flex;
+}
+
+.conditional-render {
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: center;
+  padding-right: 0vw;
+  margin: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .race-container {
-  border: 2px soild red;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-self: center;
 }
 
 .race-btn-finish {
@@ -27,80 +46,28 @@
 
 .race-typing-test {
   @include box-white-border-transparent;
-  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
   width: 60vw;
-  height: 30vw;
+  height: 34vw;
   margin: 2vw;
-  padding: 3vw;
+  margin-bottom: 5vh;
+  margin-left: 6vw;
+  padding-top: 5vh;
+  padding-left: 5vw;
+  padding-right: 3vw;
+
   overflow-y: scroll;
-  line-height: 500%;
-  // position: absolute;
-  left: 20%;
+  line-height: 430%;
   span {
     font-family: monospace;
-    font-size: 270%;
+    font-size: 240%;
   }
   z-index: 2;
 }
 
-.race-info-container {
-  @include box-white-border-transparent;
-  width: 10vw;
-  height: 50vh;
-  background-color: transparent;
-  border-style: none;
-  .left-side-bar {
-  }
-
+.race-typing-test:focus {
+  outline: none;
 }
-
-.right-race-info-title {
-  flex: 1;
-  text-align: center;
-  font-family: $sanchezRegular;
-  color: $font-white;
-}
-
-.race-leader-info {
-  max-width: 10vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .race-leader-icon {
-    width: 6vw;
-    height: 25vh;
-    //transform: 'rotate(90deg)';
-    border: none;
-    border-image-width: 0;
-    -webkit-appearance: none;
-    animation-name: shake;
-    animation-iteration-count: infinite;
-    animation-duration: 0.3s;
-    // transition: 0.2s;
-    &:focus {
-      -webkit-appearance: none;
-      border-style: none;
-    }
-  }
-
-  .race-leader-name {
-    width: 10vw;
-    block-size: fit-content;
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    font-size: 1.4rem;
-  }
-}
-
-.right-side-bar {
-  min-height: 50vh;
-  min-width: 10vw;
-}
-
-//TODO: implement caret working
-//TODO: autoscrolling with type
 
 @keyframes flash {
   0%,
@@ -123,16 +90,7 @@
   text-decoration: underline;
 }
 
-.conditional-render {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
-
 .race-countdown-container {
-  // border: 2px solid red;
   position: absolute;
   z-index: 3;
   top: 30%;
@@ -140,13 +98,27 @@
   text-align: center;
 }
 
-.svg {
-  height: 35px;
+.svg-horizontal-ahead,
+.svg-horizontal-behind {
   width: 100%;
   position: absolute;
 }
 
-line {
+.svg-vertical-ahead,
+.svg-vertical-behind {
+  width: 35px;
+  position: absolute;
+}
+
+.line-horizontal-ahead,
+.line-horizontal-behind {
+  stroke-width: 5px;
+}
+.line-vertical-ahead {
+  stroke-width: 5px;
+}
+
+.line-vertical-behind {
   stroke-width: 5px;
 }
 
@@ -154,20 +126,152 @@ line {
   0% {
   }
   50% {
-    transform: translate(random(2) + px, 0px);
+    transform: translate(random(1) + px, 0px);
   }
 
   100% {
-    transform: translate(0px, random(2) + px);
+    transform: translate(0px, random(1) + px);
   }
 }
 
-.aheadRocket,
-.behindRocket {
-  // opacity: 0;
+.aheadRocket-and-flame-container,
+.behindRocket-and-flame-container {
+  position: absolute;
+  z-index: 5;
+  animation-name: floatRocket;
+  animation-duration: 1.5s;
+  transition-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
-.aheadRocket,
 .behindRocket {
-  transform: opacity 1s ease-in-out;
-  opacity: 1;
+  animation-name: floatRocket;
+  animation-duration: 1.5s;
+  transition-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.ahead-flame-container,
+.behind-flame-container {
+  // border: 2px solid red;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform: rotate(-90deg) scale(0.09) scaleY(2.5);
+}
+.behind-flame {
+  @include flame;
+}
+.ahead-flame {
+  @include flame;
+}
+
+.race-info-container {
+  @include box-white-border-transparent;
+  width: 10vw;
+  min-width: 200px;
+  height: 50vh;
+
+  background-color: transparent;
+  .left-side-bar {
+  }
+}
+
+.right-race-info-title {
+  text-align: center;
+  font-family: $atariFont;
+  font-size: 1.5em;
+  color: $font-white;
+}
+
+.race-leader-info {
+  max-width: 20vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .race-leader-name {
+    @include box-white-border-transparent;
+    // border: 2px solid yellow;
+    min-width: 200px;
+    width: 8vw;
+    padding: 5px;
+    block-size: fit-content;
+    text-align: center;
+    font-family: $atariFont;
+    font-size: 1.5em;
+    word-wrap: break-word;
+  }
+}
+
+.right-side-bar {
+  // @include box-white-border-transparent;
+  display: flex;
+  flex-direction: column;
+  // border: 2px solid red;
+  align-self: center;
+  // border: 2px solid red;
+  min-width: 250px;
+  max-height: 50vh;
+  max-width: 10vw;
+}
+
+.race-leader-icon {
+  width: 130px;
+  height: 260px;
+  //transform: 'rotate(90deg)';
+  border: none;
+  border-image-width: 0;
+  -webkit-appearance: none;
+  animation-name: shake;
+  animation-iteration-count: infinite;
+  animation-duration: 0.3s;
+  border-style: none;
+  &:focus {
+    -webkit-appearance: none;
+    border-style: none;
+  }
+  position: relative;
+  z-index: 5;
+}
+.race-leader-flame-container {
+  top: 0px;
+  transform: rotate(180deg) scale(0.2) scaleY(2.5);
+  position: absolute;
+  top: 55vh;
+  right: 7.4%;
+  // border: 51px solid red;
+  // box-sizing: border-box;
+}
+.race-leader-flame {
+  @include flame;
+}
+
+.race-leader-avatar-container {
+}
+
+@keyframes flame {
+  0% {
+    height: 150px;
+    width: 150px;
+  }
+  50% {
+    height: 140px;
+    width: 140px;
+  }
+  100% {
+    height: 150px;
+    width: 150px;
+  }
+}
+
+@keyframes floatRocket {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }

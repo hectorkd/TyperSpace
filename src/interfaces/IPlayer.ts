@@ -6,4 +6,10 @@ export default interface IPlayer {
   color: string;
   isHost: boolean;
   gameData: IGameData;
+  userParagraph: string;
+  appliedPUs: { id: string; powerUp: string }[];
+  availablePUs: { id: string; powerUp: string }[];
+  isReady: boolean;
+  rank: number;
+  WPMAverage: number;
 }

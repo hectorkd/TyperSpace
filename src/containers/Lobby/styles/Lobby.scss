@@ -4,23 +4,106 @@
 @import './mixins';
 @import './variables';
 
-.lobby-bg-container {
-  @include bg-container;
-  background: url('../../../assets/backgrounds/nightsky1.png');
-  flex-direction: column;
+// .lobby-bg-container {
+//   // @include bg-container;
+//   // position: absolute;
+// }
+
+.lobby-container {
+  display: flex;
+  // flex-direction: row;
+  min-height: 80vh;
   justify-content: center;
   align-items: center;
+}
+
+.lobby-room-display-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .fixed-elements-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .round-count {
+      // @include label-font;
+      margin: 0;
+      font-family: $atariFont;
+      color: $font-white;
+    }
+  }
 }
 
 .lobby-btn-start {
   @include btn-orange;
   width: 20vw;
-  height: 5vw;
+  // height: 5vw;
+}
+.lobby-btn-start:focus,
+.lobby-btn-start:active {
+  -webkit-appearance: none;
+  outline: none;
+}
+.lobby-btn-start:hover {
+  background-color: #f86247;
 }
 
 .lobby-btn-start-disabled {
   @include btn-orange;
   width: 20vw;
-  height: 5vw;
+  height: 2vh;
   opacity: 0.5;
+}
+
+.card-and-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-power-ups {
+  display: flex;
+  justify-content: center;
+  min-height: fit-content;
+  min-width: 25vw;
+  width: fit-content;
+  height: fit-content;
+  background-color: transparent;
+}
+
+.my-power-ups img {
+  min-width: 15vw;
+  padding: 2vw;
+}
+
+.btn-press {
+  animation: buttonAnim;
+  animation-duration: 0.3s;
+}
+
+@keyframes buttonAnim {
+  50% {
+    transform: translate(5px, 5px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+.slide-enter {
+  opacity: 0;
+}
+.slide-enter.slide-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.slide-leave {
+  opacity: 1;
+}
+.slide-leave.slide-leave-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
 }

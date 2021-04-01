@@ -4,15 +4,25 @@
 @import './mixins';
 @import './variables';
 
-.landing-bg-container {
-  @include bg-container;
-  background: url('../../../assets/backgrounds/nightsky1.png');
+.stars-layer {
+  background: url('../../../assets/backgrounds/starsLayer1.png');
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  // border: 2px solid red;
+  z-index: -1;
+}
+.landing-container {
+  display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  // top: 200px;
+  position: absolute;
 }
 
 .landing-main-title {
+  padding-top: 200px;
   font-family: $atariFont;
   color: $font-white;
   font-size: 9.5vw;
@@ -22,6 +32,7 @@
 
 .landing-buttons {
   @include atari-button;
+  font-size: 1.6em;
   &.create-btn {
     background-color: $font-white;
     color: $font-dark-blue;
@@ -43,7 +54,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    transition: height 1s ease-in-out;
+    transition: height 0.5s ease-in-out;
     height: 8vh;
     z-index: 1;
   }
@@ -56,7 +67,7 @@
   }
 
   &.create-btn:active {
-    // transform: translate(5px, 5px);
+    transform: translate(5px, 5px);
   }
   &.join-btn p {
     margin: 0;
@@ -93,6 +104,8 @@
   // transform: translate(5px, 5px);
   animation: buttonAnim;
   animation-duration: 0.4s;
+  -webkit-appearance: none;
+  outline: none;
 }
 
 @keyframes buttonAnim {
@@ -101,5 +114,56 @@
   }
   100% {
     transform: translate(0px, 0px);
+  }
+}
+
+.slide-enter {
+  opacity: 0;
+}
+.slide-enter.slide-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.slide-leave {
+  opacity: 1;
+}
+.slide-leave.slide-leave-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+
+.flying-rocket1 {
+  position: absolute;
+  transform: rotate(90deg) scale(0.3);
+  animation-name: flyaccross;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  animation-delay: 2s;
+}
+.flying-rocket1 img {
+  position: relative;
+  z-index: 4;
+}
+
+.flying-rocket1-flame {
+  @include flame;
+  transform: rotate(182deg) scale(0.5) scaleY(2.5);
+  left: 20px;
+  top: -100px;
+}
+
+.flying-rocket-1-flame-container {
+  position: absolute;
+}
+
+@keyframes flyaccross {
+  0% {
+    left: -10%;
+    top: 20%;
+  }
+
+  100% {
+    left: 110%;
+    top: 50%;
   }
 }

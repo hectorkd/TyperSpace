@@ -6,11 +6,16 @@
 
 .player-list-element-container {
   @include box-white-border-transparent;
+  margin-top: 10px;
+  // border: none;
+  // border-radius: 5px;
   display: flex;
-  min-width: 100%;
-  min-height: 10vh;
-  max-width: fit-content;
-  max-height: 20vh;
+  //min-width: 100%;
+  //min-height: 10vh;
+  //max-width: 80%;
+  width: 60vw;
+  height: 10vh;
+  // max-height: 15vh;
   align-items: center;
   justify-content: space-around;
 }
@@ -18,11 +23,12 @@
 .player-list {
   font-family: $atariFont;
   color: $font-white;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   padding-right: 0.5vw;
   padding-left: 0.5vw;
   display: flex;
   flex-direction: column;
+  flex: 1;
 
   &.name-element {
     color: $colour-avatar-blue;
@@ -32,11 +38,27 @@
     height: 12vh;
     max-width: 110px;
     transform: rotate(90deg);
-    margin-right: 30px;
-    margin-left: 30px;
+    // margin-right: 30px;
+    // margin-left: 30px;
   }
   &.status-element {
     color: $colour-green;
     max-width: 160px;
+    padding: 0 10px;
   }
+}
+
+.player-applied-power-ups {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 200px;
+  flex: 1;
+}
+
+.applied-power-ups {
+  width: 50px;
+  margin-left: 5px;
+  flex: 1;
 }
