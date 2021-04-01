@@ -167,87 +167,93 @@ const Avatar: React.FC<AvatarProps> = (props) => {
                   </button>
                 </div>
               </div>
-          <div className="name-field-input input">
-            <label htmlFor="" className="input-label">
-              enter name
-            </label>
-            <input
-              spellCheck="false"
-              type="text"
-              value={userName}
-              maxLength={13}
-              onChange={(e) => setUserName(e.target.value)}
-              className="input-field"
-            />
-          </div>
-          <div className="name-field-input input">
-            <label htmlFor="" className="input-label">
-              rounds
-            </label>
-            <input
-              spellCheck="false"
-              type="text"
-              value={props.rounds}
-              onChange={(e) => props.setRounds(e.target.value)}
-              name=""
-              id=""
-              className="input-field"
-            />
-          </div>
-        </div>
-        <div className="avatar-select-container">
-          <h2 className="avatar-select-h1 ">select colour</h2>
-          <div className="avatar-list">
-            <Slider {...settings}>
-              {Object.keys(selectedColors).map((color, idx) => {
-                return (
-                  <div key={idx} className="img-item-container">
-                    <img
-                      id={color}
-                      src={rocketObj[`${color}Rocket`]}
-                      className={`avatar-images ${
-                        selectedColors[color]
-                          ? 'taken'
-                          : selectedColor === color
-                          ? 'selected'
-                          : ''
-                      }`}
-                      alt=""
-                      onClick={selectedColors[color] ? undefined : handleClick}
-                    />
-                    <img
-                      src={checkMarker}
-                      className={`${
-                        selectedColor === color ? 'check-mark' : 'not-visible'
-                      }`}
-                    />
-                    {/* <GiCheckMark
+              <div className="name-field-input input">
+                <label htmlFor="" className="input-label">
+                  enter name
+                </label>
+                <input
+                  spellCheck="false"
+                  type="text"
+                  value={userName}
+                  maxLength={13}
+                  onChange={(e) => setUserName(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+              <div className="name-field-input input">
+                <label htmlFor="" className="input-label">
+                  rounds
+                </label>
+                <input
+                  spellCheck="false"
+                  type="text"
+                  value={props.rounds}
+                  onChange={(e) => props.setRounds(e.target.value)}
+                  name=""
+                  id=""
+                  className="input-field"
+                />
+              </div>
+            </div>
+            <div className="avatar-select-container">
+              <h2 className="avatar-select-h1 ">select colour</h2>
+              <div className="avatar-list">
+                <Slider {...settings}>
+                  {Object.keys(selectedColors).map((color, idx) => {
+                    return (
+                      <div key={idx} className="img-item-container">
+                        <img
+                          id={color}
+                          src={rocketObj[`${color}Rocket`]}
+                          className={`avatar-images ${
+                            selectedColors[color]
+                              ? 'taken'
+                              : selectedColor === color
+                              ? 'selected'
+                              : ''
+                          }`}
+                          alt=""
+                          onClick={
+                            selectedColors[color] ? undefined : handleClick
+                          }
+                        />
+                        <img
+                          src={checkMarker}
+                          className={`${
+                            selectedColor === color
+                              ? 'check-mark'
+                              : 'not-visible'
+                          }`}
+                        />
+                        {/* <GiCheckMark
                       className={`${
                         selectedColor === color ? 'check-mark' : 'not-visible'
                       }`}
                     /> */}
-                    <img
-                      src={crossMarker}
-                      className={`${
-                        selectedColors[color] ? 'cross-mark' : 'not-visible'
-                      }`}
-                    />
-                    {/* <GiCrossMark
+                        <img
+                          src={crossMarker}
+                          className={`${
+                            selectedColors[color] ? 'cross-mark' : 'not-visible'
+                          }`}
+                        />
+                        {/* <GiCrossMark
                       className={`${
                         selectedColors[color] ? 'cross-mark' : 'not-visible'
                       }`}
                     /> */}
-                  </div>
-                );
-              })}
-            </Slider>
+                      </div>
+                    );
+                  })}
+                </Slider>
+              </div>
+              <button
+                className={`btn-ready ${readyBtnAnimationClass}`}
+                onClick={handleClickReady}
+              >
+                Ready
+              </button>
+            </div>
           </div>
-          <button
-            className={`btn-ready ${readyBtnAnimationClass}`}
-            onClick={handleClickReady}
-          >
-            Ready
-          </button>
         </div>
       </CSSTransition>
     </TransitionGroup>

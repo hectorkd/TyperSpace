@@ -33,39 +33,41 @@ const App: React.FC<AppProps> = ({ location }) => {
       <div>
         <TransitionGroup>
           <Switch location={location}>
-        <Route path="/" exact component={Landing} />
-        <Route
-          exact
-          path="/:roomId"
-          render={(props) => (
-            <Avatar
-              {...props}
-              socket={socket}
-              setSocket={setSocket}
-              text={text}
-              setText={setText}
-              players={players}
-              setPlayers={setPlayers}
-              rounds={rounds}
-              setRounds={setRounds}
-              setCurrRound={setCurrRound}
+            <Route path="/" exact component={Landing} />
+            <Route
+              exact
+              path="/:roomId"
+              render={(props) => (
+                <Avatar
+                  {...props}
+                  socket={socket}
+                  setSocket={setSocket}
+                  text={text}
+                  setText={setText}
+                  players={players}
+                  setPlayers={setPlayers}
+                  rounds={rounds}
+                  setRounds={setRounds}
+                  setCurrRound={setCurrRound}
+                />
+              )}
             />
-          )}
-        />
-        <Route
-          exact
-          path="/:roomId/lobby"
-          render={(props) => (
-            <Lobby
-              {...props}
-              socket={socket}
-              setSocket={setSocket}
-              text={text}
-              setText={setText}
-              players={players}
-              setPlayers={setPlayers}
-              rounds={rounds}
-              currRound={currRound}
+            <Route
+              exact
+              path="/:roomId/lobby"
+              render={(props) => (
+                <Lobby
+                  {...props}
+                  socket={socket}
+                  setSocket={setSocket}
+                  text={text}
+                  setText={setText}
+                  players={players}
+                  setPlayers={setPlayers}
+                  rounds={rounds}
+                  currRound={currRound}
+                />
+              )}
             />
             <Route
               exact
@@ -81,47 +83,47 @@ const App: React.FC<AppProps> = ({ location }) => {
                 />
               )}
             />
-          )}
-        />
-        <Route
-          exact
-          path="/:roomId/results"
-          render={(props) => (
-            <Results
-              {...props}
-              socket={socket}
-              setSocket={setSocket}
-              text={text}
-              setText={setText}
-              players={players}
-              setPlayers={setPlayers}
-              final={final}
-              setFinal={setFinal}
-              rounds={rounds}
-              setRounds={setRounds}
-              currRound={currRound}
-              setCurrRound={setCurrRound}
+            <Route
+              exact
+              path="/:roomId/results"
+              render={(props) => (
+                <Results
+                  {...props}
+                  socket={socket}
+                  setSocket={setSocket}
+                  text={text}
+                  setText={setText}
+                  players={players}
+                  setPlayers={setPlayers}
+                  final={final}
+                  setFinal={setFinal}
+                  rounds={rounds}
+                  setRounds={setRounds}
+                  currRound={currRound}
+                  setCurrRound={setCurrRound}
+                />
+              )}
             />
-          )}
-        />
-        <Route
-          exact
-          path="/:roomId/final"
-          render={(props) => (
-            <Results
-              {...props}
-              socket={socket}
-              setSocket={setSocket}
-              text={text}
-              setText={setText}
-              players={players}
-              setPlayers={setPlayers}
-              final={final}
-              setFinal={setFinal}
-              rounds={rounds}
-              setRounds={setRounds}
-              currRound={currRound}
-              setCurrRound={setCurrRound}
+            <Route
+              exact
+              path="/:roomId/final"
+              render={(props) => (
+                <Results
+                  {...props}
+                  socket={socket}
+                  setSocket={setSocket}
+                  text={text}
+                  setText={setText}
+                  players={players}
+                  setPlayers={setPlayers}
+                  final={final}
+                  setFinal={setFinal}
+                  rounds={rounds}
+                  setRounds={setRounds}
+                  currRound={currRound}
+                  setCurrRound={setCurrRound}
+                />
+              )}
             />
           </Switch>
           {/* </CSSTransition> */}

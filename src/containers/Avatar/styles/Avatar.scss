@@ -225,11 +225,25 @@
         .cross-mark {
           position: absolute;
           // font-size: 8vw;
-          // color: #ff2600;
+          // color: #FF2600;
+          animation-name: appear;
+          animation-duration: 1s;
+          // animation-delay: 1s;
           top: 25%;
           right: 28%;
           width: 8vw;
           height: 14vh;
+        }
+        @keyframes appear {
+          0% {
+            opacity: 0;
+          }
+          90% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 100%;
+          }
         }
 
         .not-visible {
