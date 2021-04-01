@@ -51,7 +51,12 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     red: false,
     teal: false,
   });
-  const [randomUuid, setRandomUuid] = useState(uuidv4());
+  const [randomUuid, setRandomUuid] = useState<string>();
+
+  useEffect(() => {
+    setRandomUuid(uuidv4());
+  }, []);
+  // console.log(randomUuid);
 
   const url = window.location.href;
 
@@ -133,9 +138,14 @@ const Avatar: React.FC<AvatarProps> = (props) => {
 
   //TODO: rocket selection: make it clear for user that he chose the rocket
   return (
-    <div className="avatar-bg-container">
-      <TransitionGroup>
-        <CSSTransition key={randomUuid} classNames="slide" timeout={500}>
+    <TransitionGroup>
+      <CSSTransition
+        key={randomUuid}
+        classNames={{ enter: 'slide-enter', enterActive: 'slide-enter-active' }}
+        timeout={1000}
+        appear
+      >
+        <div className="avatar-bg-container">
           <div className="avatar-wrapper">
             <div className="avatar-input-container">
               <div className="room-id-input input">
@@ -216,9 +226,9 @@ const Avatar: React.FC<AvatarProps> = (props) => {
               </button>
             </div>
           </div>
-        </CSSTransition>
-      </TransitionGroup>
-    </div>
+        </div>
+      </CSSTransition>
+    </TransitionGroup>
   );
 };
 

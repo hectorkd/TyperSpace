@@ -108,21 +108,17 @@
   }
 }
 
-.slide-exit {
-  transform: translateX(-30px);
-  -webkit-transform: translateX(-30px);
-  -moz-transform: translateX(-30px);
-  -o-transform: translateX(-30px);
-  -ms-transform: translateX(-30px);
+.slide-enter {
+  opacity: 0;
+}
+.slide-enter.slide-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.slide-leave {
   opacity: 1;
 }
-
-.slide-exit-active {
+.slide-leave.slide-leave-active {
   opacity: 0;
-  transform: translateX(0);
-  -webkit-transform: translateX(0);
-  -moz-transform: translateX(0);
-  -o-transform: translateX(0);
-  -ms-transform: translateX(0);
-  transition: all 0.2s linear 0.4s;
+  transition: opacity 500ms ease-in;
 }

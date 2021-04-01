@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,7 +14,12 @@ const Landing: React.FC = () => {
   );
   const [inputRoomId, setInputRoomId] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const [randomUuid, setRandomUuid] = useState(uuidv4());
+  const [randomUuid, setRandomUuid] = useState<string>();
+
+  useEffect(() => {
+    setRandomUuid(uuidv4());
+  }, []);
+  // console.log(randomUuid);
 
   const history = useHistory();
   //generate random string
@@ -59,44 +64,48 @@ const Landing: React.FC = () => {
   }
 
   return (
-    <div className="landing-container">
-      <TransitionGroup>
-        <CSSTransition key={randomUuid} classNames="slide" timeout={500} appear>
-          <div>
-            <h1 className="landing-main-title"> TyperSpace </h1>
-            <div className="landing-buttons">
-              <button
-                className={`landing-buttons create-btn `}
-                onClick={() => handleNewRaceClick()}
-              >
-                New Race
-              </button>
-              <button
-                className={`landing-buttons join-btn `}
-                onClick={() => {
-                  handleJoinRaceClick();
-                }}
-                onKeyPress={(e) => handleKeyPress(e)}
-              >
-                Join Race
-                <input
-                  ref={inputRef}
-                  type="text"
-                  className="join-input"
-                  onMouseEnter={handleJoinHover}
-                  placeholder="tysp8s"
-                  value={inputRoomId}
-                  maxLength={6}
-                  spellCheck={false}
-                  onChange={handleTextChange}
-                ></input>
-              </button>
-            </div>
-            <Footer></Footer>
+    <TransitionGroup>
+      <CSSTransition
+        key={randomUuid}
+        classNames={{ exit: 'slide-leave', exitActive: 'slide-leave-active' }}
+        timeout={1000}
+        appear
+        on
+      >
+        <div className="landing-container">
+          <h1 className="landing-main-title"> TyperSpace </h1>
+          <div className="landing-buttons">
+            <button
+              className={`landing-buttons create-btn `}
+              onClick={() => handleNewRaceClick()}
+            >
+              New Race
+            </button>
+            <button
+              className={`landing-buttons join-btn `}
+              onClick={() => {
+                handleJoinRaceClick();
+              }}
+              onKeyPress={(e) => handleKeyPress(e)}
+            >
+              Join Race
+              <input
+                ref={inputRef}
+                type="text"
+                className="join-input"
+                onMouseEnter={handleJoinHover}
+                placeholder="tysp8s"
+                value={inputRoomId}
+                maxLength={6}
+                spellCheck={false}
+                onChange={handleTextChange}
+              ></input>
+            </button>
           </div>
-        </CSSTransition>
-      </TransitionGroup>
-    </div>
+          <Footer></Footer>
+        </div>
+      </CSSTransition>
+    </TransitionGroup>
   );
 };
 export default Landing;
