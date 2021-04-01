@@ -18,20 +18,6 @@ type AppProps = {
   location: any;
 };
 
-const duration = 300;
-
-const defaultStyle = {
-  transition: `opacity ${duration}ms ease-in-out`,
-  opacity: 0,
-};
-
-const transitionStyles = {
-  entering: { opacity: 1 },
-  entered: { opacity: 1 },
-  exiting: { opacity: 0 },
-  exited: { opacity: 0 },
-};
-
 const App: React.FC<AppProps> = ({ location }) => {
   const [socket, setSocket] = useState();
   const [text, setText] = useState<string>('');
@@ -43,11 +29,10 @@ const App: React.FC<AppProps> = ({ location }) => {
   console.log('location', location);
 
   return (
-    <div>
-      {/* <TransitionGroup in={transitionStyles} timeout={duration}>
-        <CSSTransition timeout={1000} classNames="slide" key={location.key}> */}
-      <Router>
-        {/* <Switch location={location}> */}
+    <Router>
+      <div>
+        <TransitionGroup>
+          <Switch location={location}>
         <Route path="/" exact component={Landing} />
         <Route
           exact
@@ -82,19 +67,19 @@ const App: React.FC<AppProps> = ({ location }) => {
               rounds={rounds}
               currRound={currRound}
             />
-          )}
-        />
-        <Route
-          exact
-          path="/:roomId/race"
-          render={(props) => (
-            <Race
-              {...props}
-              socket={socket}
-              setSocket={setSocket}
-              text={text}
-              setText={setText}
-              players={players}
+            <Route
+              exact
+              path="/:roomId/race"
+              render={(props) => (
+                <Race
+                  {...props}
+                  socket={socket}
+                  setSocket={setSocket}
+                  text={text}
+                  setText={setText}
+                  players={players}
+                />
+              )}
             />
           )}
         />
@@ -138,13 +123,11 @@ const App: React.FC<AppProps> = ({ location }) => {
               currRound={currRound}
               setCurrRound={setCurrRound}
             />
-          )}
-        />
-        {/* </Switch> */}
-      </Router>
-      {/* </CSSTransition>
-      </TransitionGroup> */}
-    </div>
+          </Switch>
+          {/* </CSSTransition> */}
+        </TransitionGroup>
+      </div>
+    </Router>
   );
 };
 

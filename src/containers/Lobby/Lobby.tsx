@@ -1,12 +1,14 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { v4 as uuidv4 } from 'uuid';
 
 import IPlayer from '../../interfaces/IPlayer';
 import PlayersList from '../../components/PlayerList/PlayerList';
 
 import './styles/Lobby.scss';
 import powerCardsObj from '../../assets/icons/powerCardsObj';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 type LobbyProps = {
   socket: any;
@@ -31,12 +33,14 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   >([]);
   const [startBtnAnimationClass, setStartBtnAnimationClass] = useState('');
   const [isReady, setIsReady] = useState(false);
+  const [randomUuid, setRandomUuid] = useState<string>();
 
   useEffect(() => {
     //get players
     props.socket.current.on('playerInfo', (players: IPlayer[]) => {
       props.setPlayers(players);
     });
+    setRandomUuid(uuidv4());
     props.socket.current.on('gamestate', (gamestate: any) => {
       console.log('gamestate', gamestate);
     });
@@ -114,6 +118,14 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   }
 
   return (
+    <TransitionGroup>
+      <CSSTransition
+        key={randomUuid}
+        classNames={{ exit: 'slide-leave', exitActive: 'slide-leave-active' }}
+        timeout={1000}
+        appear
+        on
+      >
     <>
       <div className="lobby-container">
         <DragDropContext onDragEnd={onApplyPowerUp}>
@@ -176,9 +188,9 @@ const Lobby: React.FC<LobbyProps> = (props) => {
               </button>
             </div>
           </div>
-        </DragDropContext>
-      </div>
-    </>
+        </>
+      </CSSTransition>
+    </TransitionGroup>
   );
 };
 

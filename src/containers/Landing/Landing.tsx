@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { v4 as uuidv4 } from 'uuid';
 
 import Footer from '../../components/Footer/Footer';
 
@@ -14,6 +16,12 @@ const Landing: React.FC = () => {
   const [inputRoomId, setInputRoomId] = useState('');
   const [allTheStars, setAllTheStars] = useState([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [randomUuid, setRandomUuid] = useState<string>();
+
+  useEffect(() => {
+    setRandomUuid(uuidv4());
+  }, []);
+  // console.log(randomUuid);
 
   const history = useHistory();
   //generate random string
@@ -32,17 +40,13 @@ const Landing: React.FC = () => {
   function handleNewRaceClick(): void {
     setNewRaceBtnAnimationClass('btn-press');
     const roomId = makeString();
-    setTimeout(() => {
-      history.push(`/${roomId}`);
-    }, 400);
+    history.push(`/${roomId}`);
   }
 
   function handleJoinRaceClick(): void {
     if (inputRoomId.length === 6) {
       setJoinRaceBtnAnimationClass('btn-press');
-      setTimeout(() => {
-        history.push(`/${inputRoomId}`);
-      }, 400);
+      history.push(`/${inputRoomId}`);
     } else alert('Please enter a valid Race ID: e.g: q0yqdo');
   }
 
@@ -94,6 +98,14 @@ const Landing: React.FC = () => {
   // }, []);
 
   return (
+    <TransitionGroup>
+      <CSSTransition
+        key={randomUuid}
+        classNames={{ exit: 'slide-leave', exitActive: 'slide-leave-active' }}
+        timeout={1000}
+        appear
+        on
+      >
     <div className="landing-container">
       <div className="stars-layer"> </div>
       <div className="flying-rocket1">
@@ -137,6 +149,8 @@ const Landing: React.FC = () => {
       </div>
       <Footer></Footer>
     </div>
+      </CSSTransition>
+    </TransitionGroup>
   );
 };
 export default Landing;

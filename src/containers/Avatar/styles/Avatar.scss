@@ -268,3 +268,29 @@
     }
   }
 }
+
+.slide-enter {
+  opacity: 0;
+  // transform: translateX(200px);
+  transform: translateX(60px);
+  -webkit-transform: translateX(60px);
+  -moz-transform: translateX(60px);
+  -o-transform: translateX(60px);
+  -ms-transform: translateX(60px);
+}
+.slide-enter.slide-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -o-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transition: opacity 2s ease-in, transform 2s ease-in;
+}
+.slide-leave {
+  opacity: 1;
+}
+.slide-leave.slide-leave-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
