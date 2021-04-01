@@ -2,17 +2,19 @@ import React, { useRef, useEffect, useState, ReactNode } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import SocketIOCLient from 'socket.io-client';
 import { FaCopy } from 'react-icons/fa';
+import { GiCheckMark, GiCrossMark } from 'react-icons/gi';
 import Slider from 'react-slick';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { v4 as uuidv4 } from 'uuid';
 
-// const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/'; //TODO: keep in env
-const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
+const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/'; //TODO: keep in env
+// const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
 
 import rocketObj from '../../assets/icons/rocketObj';
+import checkMarker from '../../assets/icons/checkMarker.svg';
+import crossMarker from '../../assets/icons/crossMarker.svg';
 
 import IPlayer from '../../interfaces/IPlayer';
-import { isConstructorDeclaration } from 'typescript';
 
 import './styles/Avatar.scss';
 import 'slick-carousel/slick/slick.css';
@@ -26,6 +28,9 @@ type AvatarProps = {
   children?: ReactNode;
   players: any;
   setPlayers: any;
+  rounds: number;
+  setRounds: any;
+  setCurrRound: any;
 };
 
 interface colorState {
@@ -38,7 +43,6 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const socketRef = useRef<SocketIOClient.Socket>();
   const [userName, setUserName] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
-  const [rounds, setRounds] = useState<string>('');
   const [opacity, setOpacity] = useState<number>(0.5);
   const [readyBtnAnimationClass, setReadyBtnAnimationClass] = useState('');
   const [selectedColors, setSelectedColors] = useState<colorState>({
@@ -64,10 +68,6 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   const settings = {
     // dots: true,
     infinite: true,
-    // className: 'center',
-    // centerMode: true,
-    // centerPadding: '50px',
-    // fade: true,
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -98,7 +98,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       }
     }
     setSelectedColors((prevState) => {
-      console.log({ ...prevState, ...newSelectedColors });
+      console.log('NEW SELECTED COLOR', { ...prevState, ...newSelectedColors });
       return { ...prevState, ...newSelectedColors };
     });
   }, [props.players]);
@@ -109,8 +109,10 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     props.socket.current.emit('userInfo', {
       userName: userName,
       color: selectedColor,
-      rounds: rounds,
+      rounds: props.rounds,
     });
+
+    props.setCurrRound(1);
     //go to lobby
 
     setTimeout(() => {
@@ -122,6 +124,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
 
   const handleClick = (e: any) => {
     const id = e.target.id;
+
     setSelectedColor(id);
   };
 
@@ -164,68 +167,87 @@ const Avatar: React.FC<AvatarProps> = (props) => {
                   </button>
                 </div>
               </div>
-              <div className="name-field-input input">
-                <label htmlFor="" className="input-label">
-                  enter name
-                </label>
-                <input
-                  spellCheck="false"
-                  type="text"
-                  value={userName}
-                  maxLength={13}
-                  onChange={(e) => setUserName(e.target.value)}
-                  className="input-field"
-                />
-              </div>
-              <div className="name-field-input input">
-                <label htmlFor="" className="input-label">
-                  rounds
-                </label>
-                <input
-                  spellCheck="false"
-                  type="text"
-                  value={rounds}
-                  onChange={(e) => setRounds(e.target.value)}
-                  name=""
-                  id=""
-                  className="input-field"
-                />
-              </div>
-            </div>
-            <div className="avatar-select-container">
-              <h2 className="avatar-select-h1 ">select colour</h2>
-              <div className="avatar-list">
-                <Slider {...settings}>
-                  {Object.keys(selectedColors).map((color, idx) => {
-                    return (
-                      <img
-                        key={idx}
-                        id={color}
-                        src={rocketObj[`${color}Rocket`]}
-                        className={`avatar-images ${
-                          selectedColors[color]
-                            ? 'taken'
-                            : selectedColor === color
-                            ? 'selected'
-                            : ''
-                        }`}
-                        alt=""
-                        onClick={
-                          selectedColors[color] ? undefined : handleClick
-                        }
-                      />
-                    );
-                  })}
-                </Slider>
-              </div>
-              <button
-                className={`btn-ready ${readyBtnAnimationClass}`}
-                onClick={handleClickReady}
-              >
-                Ready
-              </button>
-            </div>
+          <div className="name-field-input input">
+            <label htmlFor="" className="input-label">
+              enter name
+            </label>
+            <input
+              spellCheck="false"
+              type="text"
+              value={userName}
+              maxLength={13}
+              onChange={(e) => setUserName(e.target.value)}
+              className="input-field"
+            />
           </div>
+          <div className="name-field-input input">
+            <label htmlFor="" className="input-label">
+              rounds
+            </label>
+            <input
+              spellCheck="false"
+              type="text"
+              value={props.rounds}
+              onChange={(e) => props.setRounds(e.target.value)}
+              name=""
+              id=""
+              className="input-field"
+            />
+          </div>
+        </div>
+        <div className="avatar-select-container">
+          <h2 className="avatar-select-h1 ">select colour</h2>
+          <div className="avatar-list">
+            <Slider {...settings}>
+              {Object.keys(selectedColors).map((color, idx) => {
+                return (
+                  <div key={idx} className="img-item-container">
+                    <img
+                      id={color}
+                      src={rocketObj[`${color}Rocket`]}
+                      className={`avatar-images ${
+                        selectedColors[color]
+                          ? 'taken'
+                          : selectedColor === color
+                          ? 'selected'
+                          : ''
+                      }`}
+                      alt=""
+                      onClick={selectedColors[color] ? undefined : handleClick}
+                    />
+                    <img
+                      src={checkMarker}
+                      className={`${
+                        selectedColor === color ? 'check-mark' : 'not-visible'
+                      }`}
+                    />
+                    {/* <GiCheckMark
+                      className={`${
+                        selectedColor === color ? 'check-mark' : 'not-visible'
+                      }`}
+                    /> */}
+                    <img
+                      src={crossMarker}
+                      className={`${
+                        selectedColors[color] ? 'cross-mark' : 'not-visible'
+                      }`}
+                    />
+                    {/* <GiCrossMark
+                      className={`${
+                        selectedColors[color] ? 'cross-mark' : 'not-visible'
+                      }`}
+                    /> */}
+                  </div>
+                );
+              })}
+            </Slider>
+          </div>
+          <button
+            className={`btn-ready ${readyBtnAnimationClass}`}
+            onClick={handleClickReady}
+          >
+            Ready
+          </button>
         </div>
       </CSSTransition>
     </TransitionGroup>

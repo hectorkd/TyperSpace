@@ -54,6 +54,7 @@ const Race: React.FC<RaceProps> = (props) => {
 
   const aheadRef = useRef<HTMLElement>(null);
   const behindRef = useRef<HTMLElement>(null);
+  const leaderRef = useRef<HTMLImageElement>(null);
 
   const {
     states: {
@@ -128,12 +129,6 @@ const Race: React.FC<RaceProps> = (props) => {
   props.socket.current.on('positions', (data: IPositionData) => {
     setAllPlayerCurrentIndex(data);
   });
-
-  //TODO: optimise font size to paragraph length
-  //TODO: style countdown
-
-  console.log(behindRef.current?.offsetLeft);
-  console.log(behindRef.current?.offsetTop);
 
   return (
     <div className="race-main-wrapper">
@@ -221,7 +216,7 @@ const Race: React.FC<RaceProps> = (props) => {
                   </div>
                 )}
 
-                {aheadRef?.current && (
+                {/* {aheadRef?.current && (
                   <svg
                     className="svg-vertical-ahead"
                     style={{
@@ -243,8 +238,8 @@ const Race: React.FC<RaceProps> = (props) => {
                       y2={aheadRef.current.offsetTop - 20}
                     ></line>
                   </svg>
-                )}
-                {behindRef.current && (
+                )} */}
+                {/* {behindRef.current && (
                   <svg
                     className="svg-vertical-behind"
                     style={{
@@ -266,7 +261,7 @@ const Race: React.FC<RaceProps> = (props) => {
                       y2={behindRef.current.offsetTop - 20}
                     ></line>
                   </svg>
-                )}
+                )} */}
 
                 {aheadRef?.current && (
                   <svg
@@ -286,7 +281,7 @@ const Race: React.FC<RaceProps> = (props) => {
                       }}
                       x1="0%"
                       y1="50%"
-                      x2={aheadRef.current.offsetLeft - 160}
+                      x2={aheadRef.current.offsetLeft - 180}
                       y2="50%"
                     ></line>
                   </svg>
@@ -296,7 +291,7 @@ const Race: React.FC<RaceProps> = (props) => {
                     className="svg-horizontal-behind"
                     style={{
                       top: behindRef.current.offsetTop - 95,
-                      left: '7.9vw',
+                      left: '8.8vw',
                       width: '100%',
                       zIndex: 3,
                     }}
@@ -361,13 +356,24 @@ const Race: React.FC<RaceProps> = (props) => {
                   <h2 className="right-race-info-title">1st place</h2>
                   <div className="race-leader-info">
                     <div className="race-leader-avatar-container">
-                      <img
-                        className="race-leader-icon"
-                        src={rocketObj[`${firstPlace?.color}Rocket`]}
-                      />
-                      <div className="race-leader-flame-container">
-                        <div className="race-leader-flame"></div>
-                      </div>
+                      <>
+                        <img
+                          className="race-leader-icon"
+                          src={rocketObj[`${firstPlace?.color}Rocket`]}
+                          ref={leaderRef}
+                        />
+                        {leaderRef?.current && (
+                          <div
+                            className="race-leader-flame-container"
+                            style={{
+                              top: leaderRef.current?.offsetTop + 100,
+                              left: leaderRef.current?.offsetLeft + 50,
+                            }}
+                          >
+                            <div className="race-leader-flame"></div>
+                          </div>
+                        )}
+                      </>
                     </div>
                     <h3
                       className="race-leader-name"

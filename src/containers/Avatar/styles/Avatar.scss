@@ -1,5 +1,6 @@
 @import '../../../globalStyles/globalVariables';
 @import '../../../globalStyles/globalMixins';
+@import './mixins';
 
 .avatar-bg-container {
   @include bg-container;
@@ -133,40 +134,110 @@
       // padding-top: 4vh;
       // padding-bottom: 4vh;
       height: 40vh;
-      width: 30vw;
+      width: 20vw;
+
+      .slick-slider.slick-initialized {
+        width: 20vw;
+      }
+
+      .slick-prev:before {
+        @include slider-arrows;
+        content: '<';
+
+        // unicode-bidi: bidi-override;
+        // direction: rtl;
+        // left: 0.1vw;
+        // z-index: 1;
+      }
+
+      .slick-next:before {
+        @include slider-arrows;
+        content: '>';
+        // left: 0.1vw;
+        // z-index: 1;
+      }
 
       .slick-arrow.slick-prev {
+        // content: '<';
         left: 0.1vw;
         z-index: 1;
       }
       .slick-arrow.slick-next {
         right: 0.1vw;
       }
-      .avatar-images {
+      .img-item-container {
         width: 20vw;
         height: 40vh;
-        // padding-top: 5vh;
-        margin-bottom: 0;
-        &::selection {
-          background-color: yellow;
+        // background-color: lightblue;
+        //display: flex;
+        position: relative;
+        border: none;
+        margin: 0;
+        outline: none;
+
+        .avatar-images {
+          width: 20vw;
+          height: 40vh;
+          // background-color: lightcoral;
+          // padding-top: 5vh;
+          margin-bottom: 0;
+          &::selection {
+            background-color: yellow;
+          }
+
+          &:hover {
+            // background-color: white;
+            // border: 0.5vw solid white;
+            // opacity: 0.5;
+            // background-color: rgba(255, 255, 255, 0.3);
+
+            cursor: pointer;
+          }
+          &:active {
+            // background-color: rgba(255, 0, 0, 0.9);
+          }
+
+          &.taken {
+            //background-color: rgba(0, 0, 50, 0.2);
+            filter: brightness(40%);
+            pointer-events: none;
+          }
+
+          &.selected {
+            // background-color: rgba(255, 255, 255, 0.5);
+            // transform: scale(1.05, 1.05);
+            // transition: transform(0.5s);
+          }
+        }
+
+        .check-mark {
+          position: absolute;
+          // font-size: 5vw;
+          // color: limegreen;
+          top: 28%;
+          right: 22%;
+          width: 10vw;
+          height: 12vh;
+          // top: 2%;
+          // transform: rotate(15deg);
+          // visibility: hidden;
+        }
+        .cross-mark {
+          position: absolute;
+          // font-size: 8vw;
+          // color: #ff2600;
+          top: 25%;
+          right: 28%;
+          width: 8vw;
+          height: 14vh;
+        }
+
+        .not-visible {
+          visibility: hidden;
         }
       }
-      .selected {
-        background-color: rgba(255, 255, 255, 0.5);
-      }
-
-      .avatar-images:hover {
-        background-color: white;
-        // border: 0.5vw solid white;
-        // opacity: 0.5;
-        background-color: rgba(255, 255, 255, 0.3);
-
-        cursor: pointer;
-      }
-      .avatar-images:active {
-        background-color: rgba(200, 200, 200, 0.3);
-      }
     }
+
     .btn-ready {
       -webkit-appearance: none;
       outline: none;

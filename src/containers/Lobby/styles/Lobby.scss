@@ -4,29 +4,15 @@
 @import './mixins';
 @import './variables';
 
-.lobby-bg-container {
-  @include bg-container;
-  background: url('../../../assets/backgrounds/2840x\ \ 1976blur.png');
-  position: absolute;
-  top: -90%;
-  left: -60%;
-  height: 1976px;
-  width: 2840px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  // animation-name: MOVEBG;
-  animation-duration: 150s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  margin: 0;
-  z-index: -1;
-}
+// .lobby-bg-container {
+//   // @include bg-container;
+//   // position: absolute;
+// }
 
 .lobby-container {
-  // @include bg-container;
-  // background: url('../../../assets/backgrounds/nightsky1.png');
-  // flex-direction: column;
   display: flex;
+  // flex-direction: row;
+  min-height: 80vh;
   justify-content: center;
   align-items: center;
 }
@@ -53,7 +39,7 @@
 .lobby-btn-start {
   @include btn-orange;
   width: 20vw;
-  height: 5vw;
+  // height: 5vw;
 }
 .lobby-btn-start:focus,
 .lobby-btn-start:active {
@@ -67,17 +53,30 @@
 .lobby-btn-start-disabled {
   @include btn-orange;
   width: 20vw;
-  height: 5vw;
+  height: 2vh;
   opacity: 0.5;
 }
 
+.card-and-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .my-power-ups {
-  padding: 20px;
-  margin-top: 10px;
-  margin-bottom: 50px;
-  width: 100px;
-  height: 100px;
+  display: flex;
+  justify-content: center;
+  min-height: fit-content;
+  min-width: 25vw;
+  width: fit-content;
+  height: fit-content;
   background-color: transparent;
+}
+
+.my-power-ups img {
+  min-width: 15vw;
+  padding: 2vw;
 }
 
 .btn-press {
