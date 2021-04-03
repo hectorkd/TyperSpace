@@ -17,10 +17,6 @@ const PlayerList: React.FC<PlayerListProps> = (props) => {
             key={idx}
             player={player}
             socket={props.socket}
-            // userName={player.userName}
-            // color={player.color}
-            // isReady={player.isReady}
-            // appliedPowerUps={player.appliedPUs}
           />
         );
       })}

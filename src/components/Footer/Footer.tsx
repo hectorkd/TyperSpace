@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 
 import './styles/Footer.scss';
 
-// &#169
 
 const Footer: React.FC = () => {
   const history = useHistory();

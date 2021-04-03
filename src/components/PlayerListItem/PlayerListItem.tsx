@@ -5,7 +5,6 @@ import powerCardsObj from '../../assets/icons/powerCardsObj';
 import './styles/PlayerListItem.scss';
 
 import IPlayer from '../../interfaces/IPlayer';
-// import rocket1 from '../../assets/icons/rocket1blue.png';
 
 import rocketObj from '../../assets/icons/rocketObj';
 
