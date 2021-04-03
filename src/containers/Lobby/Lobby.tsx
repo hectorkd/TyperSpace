@@ -41,9 +41,6 @@ const Lobby: React.FC<LobbyProps> = (props) => {
       props.setPlayers(players);
     });
     setRandomUuid(uuidv4());
-    props.socket.current.on('gamestate', (gamestate: any) => {
-      console.log('gamestate', gamestate);
-    });
   }, []); //don't add props to array
 
   useEffect(() => {
@@ -55,8 +52,6 @@ const Lobby: React.FC<LobbyProps> = (props) => {
     setPlayerAvailablePowerUps(player[0].availablePUs);
     setIsHost(player[0].isHost);
     props.setText(player[0].userParagraph);
-    // props.setText('test');
-    // 'This is 200 characters: amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec123 This is 200 characters: amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec123',
   }, [props.players]);
 
   //synchronise timestart for all players
@@ -78,11 +73,9 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   });
 
   function onApplyPowerUp(result: any) {
-    console.log(result);
     if (!result.destination) return;
     if (result.destination.droppableId === 'my-powerups') return;
     if (result.destination.droppableId === currPlayer?.userName) return;
-    console.log('you are here');
     opacity = '0%';
     props.socket.current.emit('applyPower', {
       power: result.draggableId,
@@ -94,7 +87,6 @@ const Lobby: React.FC<LobbyProps> = (props) => {
   let opacity = '100%';
 
   function getStyle(style: any, snapshot: any) {
-    console.log(snapshot);
     if (!snapshot.isDropAnimating) {
       return style;
     }

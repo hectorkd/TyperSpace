@@ -42,7 +42,6 @@ const Results: React.FC<Props> = (props) => {
 
   useEffect(() => {
     props.socket.current.on('results', (players: IPlayer[]) => {
-      console.log('received from server for room ', players);
       const sortedPlayers = sortResult(players, props.final);
       if (
         players.every((player) => {
@@ -51,7 +50,6 @@ const Results: React.FC<Props> = (props) => {
       ) {
         setIsAllFinished(true);
       }
-
       props.setPlayers(sortedPlayers);
     });
 
@@ -69,7 +67,6 @@ const Results: React.FC<Props> = (props) => {
     history.push({
       pathname: `/${roomId}/lobby`,
     });
-    // props.socket.current.emit('getParagraph');
   }
 
   function handleNextRoundClick() {
