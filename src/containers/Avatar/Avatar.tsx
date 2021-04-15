@@ -6,8 +6,8 @@ import Slider from 'react-slick';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { v4 as uuidv4 } from 'uuid';
 
-// const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/';
-const SOCKET_SERVER_URL = 'http://localhost:3001'; 
+const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/';
+// const SOCKET_SERVER_URL = 'http://localhost:3001';
 
 import rocketObj from '../../assets/icons/rocketObj';
 import checkMarker from '../../assets/icons/checkMarker.svg';
@@ -110,7 +110,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     });
 
     // props.setCurrRound(1);
-    
+
     //go to lobby
     setTimeout(() => {
       history.push({
@@ -233,7 +233,12 @@ const Avatar: React.FC<AvatarProps> = (props) => {
                 </Slider>
               </div>
               <button
-                className={`btn-ready ${readyBtnAnimationClass}`}
+                disabled={!selectedColor || !userName}
+                className={
+                  selectedColor && userName
+                    ? `btn-ready ${readyBtnAnimationClass}`
+                    : `lobby-btn-start-disabled`
+                }
                 onClick={handleClickReady}
               >
                 Ready
