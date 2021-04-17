@@ -10,6 +10,8 @@ const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/';
 // const SOCKET_SERVER_URL = 'http://localhost:3001';
 
 import rocketObj from '../../assets/icons/rocketObj';
+import arrowLeft from '../../assets/icons/arrowLeft.svg';
+import arrowRight from '../../assets/icons/arrowRight.svg';
 import checkMarker from '../../assets/icons/checkMarker.svg';
 import crossMarker from '../../assets/icons/crossMarker.svg';
 
@@ -180,15 +182,27 @@ const Avatar: React.FC<AvatarProps> = (props) => {
                 <label htmlFor="" className="input-label">
                   rounds
                 </label>
-                <input
-                  spellCheck="false"
-                  type="text"
-                  value={props.rounds}
-                  onChange={(e) => props.setRounds(e.target.value)}
-                  name=""
-                  id=""
-                  className="input-field"
-                />
+                <div className="rounds">
+                  <img
+                    src={arrowLeft}
+                    className="arrow copy-button"
+                    onClick={() =>
+                      props.setRounds((rounds: number) =>
+                        rounds > 1 ? rounds - 1 : rounds,
+                      )
+                    }
+                  />
+                  <h1>{props.rounds}</h1>
+                  <img
+                    src={arrowRight}
+                    className="arrow copy-button"
+                    onClick={() =>
+                      props.setRounds((rounds: number) =>
+                        rounds < 8 ? rounds + 1 : rounds,
+                      )
+                    }
+                  />
+                </div>
               </div>
             </div>
             <div className="avatar-select-container">
