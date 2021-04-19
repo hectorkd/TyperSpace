@@ -87,6 +87,30 @@
     }
   }
 
+  .rounds {
+    display: flex;
+    width: 25vw;
+    height: 8vh;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .arrow {
+    height: 8vh;
+    opacity: 0.7;
+  }
+
+  .arrow:hover {
+    opacity: 1;
+  }
+
+  h1 {
+    font-size: 5vh;
+    font-weight: 600;
+    font-family: $atariFont;
+    color: white;
+  }
+
   .input-field {
     @include box-white-border-transparent;
     width: 25vw;
