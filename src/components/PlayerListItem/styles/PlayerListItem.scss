@@ -62,3 +62,9 @@
   margin-left: 5px;
   flex: 1;
 }
+
+.applied-power-ups:hover {
+  position: relative;
+  z-index: 99;
+  width: 20vw;
+}
