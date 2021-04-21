@@ -28,4 +28,20 @@
     padding: 8px 30px;
     font-size: 3.5vh;
   }
+
+  .flash {
+    animation: blinker 2s linear infinite;
+  }
+
+  @keyframes blinker {
+    49% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    99% {
+      opacity: 0;
+    }
+  }
 }
