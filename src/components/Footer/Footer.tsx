@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 
 import './styles/Footer.scss';
 
-
 const Footer: React.FC = () => {
   const history = useHistory();
 
@@ -21,7 +20,7 @@ const Footer: React.FC = () => {
           <p className="item-name">help</p>
         </li>
         <li className="footer-list-item">
-          <p className="item-name">insert coin</p>
+          <p className="item-name flash">insert coin</p>
         </li>
         <li className="footer-list-item">
           <p className="item-name">contact</p>
