@@ -14,14 +14,12 @@ const Landing: React.FC = () => {
     '',
   );
   const [inputRoomId, setInputRoomId] = useState('');
-  const [allTheStars, setAllTheStars] = useState([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [randomUuid, setRandomUuid] = useState<string>();
 
   useEffect(() => {
     setRandomUuid(uuidv4());
   }, []);
-  // console.log(randomUuid);
 
   const history = useHistory();
   //generate random string
@@ -64,38 +62,6 @@ const Landing: React.FC = () => {
       return handleJoinRaceClick();
     }
   }
-  // const starGenerator = () => {
-  //   let starSize = `${Math.random() * 20 + 5}px`;
-  //   return (
-  //     <div
-  //       className="single-star"
-  //       style={{
-  //         width: starSize,
-  //         height: starSize,
-  //         top: `${Math.random() * 720}px`,
-  //         left: `${Math.random() * 1280}px`,
-  //         transform: `rotate(${Math.random() * 180}deg)`,
-  //         // animationDelay: `${Math.random() * 6}s`,
-  //         // animationDuration: `${Math.random() * 3 + 1}s`,
-  //       }}
-  //     ></div>
-  //   );
-  // };
-
-  // useEffect(() => {
-  //   let starArray: Array<number> = [];
-
-  //   for (let i = 0; i < 90; i++) {
-  //     starArray.push(i);
-  //   }
-
-  //   setAllTheStars(
-  //     starArray.map(() => {
-  //       return starGenerator();
-  //     })
-  //   );
-
-  // }, []);
 
   return (
     <TransitionGroup>
@@ -114,10 +80,6 @@ const Landing: React.FC = () => {
           <div className="flying-rocket1-flame"></div>
         </div>
       </div>
-      {/* {allTheStars.map((el) => {
-        console.log(allTheStars);
-        return <div className="single-star" style={el.props.style}></div>;
-      })} */}
       <h1 className="landing-main-title"> TyperSpace </h1>
       <div className="landing-buttons">
         <button

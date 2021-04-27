@@ -3,9 +3,8 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  useLocation,
 } from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { TransitionGroup } from 'react-transition-group';
 
 import Landing from './containers/Landing/Landing';
 import Lobby from './containers/Lobby/Lobby';
@@ -24,9 +23,7 @@ const App: React.FC<AppProps> = ({ location }) => {
   const [players, setPlayers] = useState<IPlayer[]>([]);
   const [final, setFinal] = useState(false);
   const [rounds, setRounds] = useState(1);
-  const [currRound, setCurrRound] = useState(0);
-  // const location = useLocation();
-  console.log('location', location);
+  const [currRound, setCurrRound] = useState(1);
 
   return (
     <Router>
@@ -126,7 +123,6 @@ const App: React.FC<AppProps> = ({ location }) => {
               )}
             />
           </Switch>
-          {/* </CSSTransition> */}
         </TransitionGroup>
       </div>
     </Router>

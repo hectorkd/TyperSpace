@@ -1,5 +1,5 @@
 // https://www.npmjs.com/package/react-typing-game-hook
-// going to modify this typing hook for our game
+// modified this typing hook for our game
 
 import { Reducer, useReducer } from 'react';
 
@@ -210,17 +210,7 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       }
 
       // last case: phase = 1 -> insert character
-      const newCharsState = [...charsState];
-      //first if checks if letter is space AND skipCurrentWordOnSpace mode -> goes to the next word; don't need it in our game
-      // if (
-      //   letter === ' ' &&
-      //   chars[currIndex + 1] !== ' '
-      //   // skipCurrentWordOnSpace
-      // ) {
-      //   const newIndex = chars.indexOf(letter, currIndex);
-      //   // currIndex = newIndex === -1 ? length - 1 : newIndex;
-      //   const newCurrIndex = newIndex === -1 ? length - 1 : newIndex;
-      // } else {
+      const newCharsState = [...charsState]
 
       if (letter !== null) {
         if (!hasError) {
@@ -239,19 +229,6 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
         }
       }
 
-      // } else {
-      //   // if letter is null just go to next letter
-      //   newCurrIndex += 1;
-      // }
-
-      // const errorIndex = charsState.indexOf(2);
-      // console.log('insert wrong letter with index', errorIndex);
-      // if (errorIndex !== -1 && currIndex - errorIndex < 2) {
-      //   console.log('errorIndex again', errorIndex);
-      //   newHasError = true;
-      // }
-
-      // newCurrIndex += 1;
       // if (currIndex === length - 2 && !charsState.some((el) => el === 2)) {
       if (currIndex === length - 2 && !newCharsState.some((el) => el === 2)) {
         // if text is finished
@@ -281,13 +258,6 @@ const reducer: Reducer<TypingStateType, ActionItemType> = (state, action) => {
       let newErrorChar = errorChar;
       let newCurrIndex = currIndex;
       let newHasError = hasError;
-      console.log('starting deleting...');
-
-      // const errorIndex = charsState.indexOf(2);
-      // if (errorIndex === -1) {
-      //   console.log('inside deleting, errorIndex=', errorIndex);
-      //   newHasError = false;
-      // }
 
       if (phase !== 1 || currIndex === -1) {
         //game is finished or never started, no changes for state

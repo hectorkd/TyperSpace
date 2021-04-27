@@ -42,7 +42,6 @@ const Results: React.FC<Props> = (props) => {
 
   useEffect(() => {
     props.socket.current.on('results', (players: IPlayer[]) => {
-      console.log('received from server for room ', players);
       const sortedPlayers = sortResult(players, props.final);
       if (
         players.every((player) => {
@@ -51,7 +50,6 @@ const Results: React.FC<Props> = (props) => {
       ) {
         setIsAllFinished(true);
       }
-
       props.setPlayers(sortedPlayers);
     });
 
@@ -69,7 +67,6 @@ const Results: React.FC<Props> = (props) => {
     history.push({
       pathname: `/${roomId}/lobby`,
     });
-    // props.socket.current.emit('getParagraph');
   }
 
   function handleNextRoundClick() {
@@ -124,26 +121,23 @@ const Results: React.FC<Props> = (props) => {
           <div className="results-display-box">
             {props.players.length > 0 ? (
               <div className="inside-results-display">
-                <div className="winner-info-container">
+                <div className="winner-container">
                   <div className="winner-picture">
-                    <div className="name-container">
+                    <div className="winner-info-container">
                       <h3 className="winner-text">Winner:</h3>
-                      <h3
-                        className="winner-name"
-                        style={{ color: props.players[0].color }}
-                      >
-                        {props.players[0].userName}
-                      </h3>
-                    </div>
-                    <div className="rocket-icon">
-                      <img
-                        src={rocketObj[`${props.players[0].color}Rocket`]}
-                        className="winner-icon"
-                      />
+                      <div className="winner-name">
+                        <h3 style={{ color: props.players[0].color }}>
+                          {props.players[0].userName}
+                        </h3>
+                        <img
+                          src={rocketObj[`${props.players[0].color}Rocket`]}
+                          className="winner-icon"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="winner-info">
-                    <div className="winner-wpm-container">
+                    <div className="winner-info-container">
                       <h1 className="wpm-title">WPM:</h1>
                       <div className="wpm-container">
                         <h1 className="wpm-value">
@@ -154,7 +148,7 @@ const Results: React.FC<Props> = (props) => {
                       </div>
                     </div>
                     {props.final ? null : (
-                      <div className="accuracy-container">
+                      <div className="winner-info-container">
                         <h1 className="accuracy-title">Accuracy:</h1>
                         <div className="accuracy-container-box">
                           <h1 className="accuracy-value">
@@ -164,7 +158,7 @@ const Results: React.FC<Props> = (props) => {
                       </div>
                     )}
                     {props.final ? null : (
-                      <div className="time-container">
+                      <div className="winner-info-container">
                         <h1 className="time-title">Time:</h1>
                         <div className="time-container-box">
                           <h1 className="time-value">

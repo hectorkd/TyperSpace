@@ -2,15 +2,16 @@ import React, { useRef, useEffect, useState, ReactNode } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import SocketIOCLient from 'socket.io-client';
 import { FaCopy } from 'react-icons/fa';
-import { GiCheckMark, GiCrossMark } from 'react-icons/gi';
 import Slider from 'react-slick';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { v4 as uuidv4 } from 'uuid';
 
-const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/'; //TODO: keep in env
-// const SOCKET_SERVER_URL = 'http://localhost:3001'; //TODO: keep in env
+const SOCKET_SERVER_URL = 'https://cryptic-fjord-92932.herokuapp.com/';
+// const SOCKET_SERVER_URL = 'http://localhost:3001';
 
 import rocketObj from '../../assets/icons/rocketObj';
+import arrowLeft from '../../assets/icons/arrowLeft.svg';
+import arrowRight from '../../assets/icons/arrowRight.svg';
 import checkMarker from '../../assets/icons/checkMarker.svg';
 import crossMarker from '../../assets/icons/crossMarker.svg';
 
@@ -60,13 +61,11 @@ const Avatar: React.FC<AvatarProps> = (props) => {
   useEffect(() => {
     setRandomUuid(uuidv4());
   }, []);
-  // console.log(randomUuid);
 
   const url = window.location.href;
 
   //Carousel selection options:
   const settings = {
-    // dots: true,
     infinite: true,
     speed: 1000,
     slidesToShow: 1,
@@ -112,9 +111,9 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       rounds: props.rounds,
     });
 
-    props.setCurrRound(1);
-    //go to lobby
+    // props.setCurrRound(1);
 
+    //go to lobby
     setTimeout(() => {
       history.push({
         pathname: `/${roomId}/lobby`,
@@ -139,7 +138,6 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       })
     : null;
 
-  //TODO: rocket selection: make it clear for user that he chose the rocket
   return (
     <TransitionGroup>
       <CSSTransition
@@ -184,15 +182,27 @@ const Avatar: React.FC<AvatarProps> = (props) => {
                 <label htmlFor="" className="input-label">
                   rounds
                 </label>
-                <input
-                  spellCheck="false"
-                  type="text"
-                  value={props.rounds}
-                  onChange={(e) => props.setRounds(e.target.value)}
-                  name=""
-                  id=""
-                  className="input-field"
-                />
+                <div className="rounds">
+                  <img
+                    src={arrowLeft}
+                    className="arrow copy-button"
+                    onClick={() =>
+                      props.setRounds((rounds: number) =>
+                        rounds > 1 ? rounds - 1 : rounds,
+                      )
+                    }
+                  />
+                  <h1>{props.rounds}</h1>
+                  <img
+                    src={arrowRight}
+                    className="arrow copy-button"
+                    onClick={() =>
+                      props.setRounds((rounds: number) =>
+                        rounds < 8 ? rounds + 1 : rounds,
+                      )
+                    }
+                  />
+                </div>
               </div>
             </div>
             <div className="avatar-select-container">
@@ -225,29 +235,24 @@ const Avatar: React.FC<AvatarProps> = (props) => {
                               : 'not-visible'
                           }`}
                         />
-                        {/* <GiCheckMark
-                      className={`${
-                        selectedColor === color ? 'check-mark' : 'not-visible'
-                      }`}
-                    /> */}
                         <img
                           src={crossMarker}
                           className={`${
                             selectedColors[color] ? 'cross-mark' : 'not-visible'
                           }`}
                         />
-                        {/* <GiCrossMark
-                      className={`${
-                        selectedColors[color] ? 'cross-mark' : 'not-visible'
-                      }`}
-                    /> */}
                       </div>
                     );
                   })}
                 </Slider>
               </div>
               <button
-                className={`btn-ready ${readyBtnAnimationClass}`}
+                disabled={!selectedColor || !userName}
+                className={
+                  selectedColor && userName
+                    ? `btn-ready ${readyBtnAnimationClass}`
+                    : `lobby-btn-start-disabled`
+                }
                 onClick={handleClickReady}
               >
                 Ready
